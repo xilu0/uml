@@ -1,0 +1,31 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+class "SimpleRemoteControl" as simpleRemoteControl {
+  -slot : Command
+  +SetCommand(command : Command)
+  +ButtonWasPressed()
+}
+interface "Command" as command {
+  +Execute()
+}
+class "LightOnCommand" as lightOnCommand {
+  -Light : Light
+  +Execute()
+}
+class "LightOffCommand" as lightOffCommand {
+  -Light : Light
+  +Execute()
+}
+class "Light" {
+  +On()
+  +Off()
+}
+
+simpleRemoteControl --> command : uses >-
+lightOnCommand ..|> command
+lightOffCommand ..|> command
+lightOnCommand --> Light : uses >-
+lightOffCommand --> Light : uses >-
+@enduml

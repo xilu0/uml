@@ -1,0 +1,16 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+skinparam BackgroundColor LightYellow
+skinparam ClassBackgroundColor PaleGreen
+skinparam ClassBorderColor Black
+skinparam ClassFontName Aapex
+
+class sync.Pool {
+    -store perP
+    +New func() interface{}
+    +Get() interface{}
+    +Put(x interface{})
+}
+
+@enduml

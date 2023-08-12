@@ -1,0 +1,30 @@
+@startuml
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+ParticipantBorderColor DeepSkyBlue
+ParticipantBackgroundColor DodgerBlue
+
+ActorBackgroundColor aqua
+}
+
+actor 用户 as user
+participant "根节点\n50" as root #LightBlue 
+participant "左子节点\n30" as left #LightBlue
+participant "右子节点\n70" as right #LightBlue
+participant "左子节点\n20" as leftleft #LightGreen
+participant "右子节点\n40" as leftright #LightGreen
+participant "左子节点\n60" as rightleft #LightGreen
+participant "右子节点\n80" as rightright #LightGreen
+
+user -> root** : 插入50
+root -> left** : 插入30 
+root -> right** : 插入70
+left -> leftleft** : 插入20
+left -> leftright** : 插入40
+right -> rightleft** : 插入60
+right -> rightright** : 插入80
+
+@enduml

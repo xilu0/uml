@@ -1,0 +1,20 @@
+@startuml
+
+skinparam activityBackgroundColor LightBlue
+skinparam activityBorderColor DarkBlue
+skinparam arrowColor DarkBlue
+
+start
+:知识工作者;
+if (自我管理) then (是)
+  :高效率;
+  :高工作满意度;
+  :推动创新;
+else (否)
+  :需要高度的自我驱动和纪律;
+  :可能导致过度工作和压力;
+  :团队协作的挑战;
+endif
+stop
+
+@enduml

@@ -1,0 +1,10 @@
+@startuml
+!define CLIENT_COLOR #ADD8E6
+actor 客户端 as Client
+database 服务器 as Server
+Client -> Server : 发送请求
+Server -> Client : 返回响应
+skinparam actor {
+  BackgroundColor CLIENT_COLOR
+}
+@enduml

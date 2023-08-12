@@ -1,0 +1,39 @@
+@startuml
+actor "企业架构师" as EA
+actor "业务架构师" as BA
+actor "军师" as Strategist
+actor "幕僚" as Aide
+actor "门客" as Attendant
+
+EA -- (现代军师)
+BA -- (现代幕僚)
+Strategist -- (战略规划)
+Aide -- (协助处理特定业务领域的事务)
+Attendant -- (为权贵提供智慧和建议)
+@enduml
+@startuml
+class "企业架构师" as EA {
+  负责企业战略架构规划和协调
+}
+
+class "业务架构师" as BA {
+  负责特定业务领域架构规划和实施
+}
+
+class "军师" as Strategist {
+  战略规划和指导
+}
+
+class "幕僚" as Aide {
+  协助处理特定业务领域的事务
+}
+
+class "门客" as Attendant {
+  为权贵提供智慧和建议
+}
+
+EA <|-- Strategist: 对应关系
+BA <|-- Aide: 对应关系
+EA <|-- Attendant: 对应关系
+BA <|-- Attendant: 对应关系
+@enduml

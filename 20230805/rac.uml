@@ -1,0 +1,19 @@
+@startuml
+skinparam backgroundColor #F0F0F0
+skinparam packageBackgroundColor #D5E8D4
+skinparam packageFontColor #333333
+skinparam packageBorderColor #82B366
+
+package "单实例版本" {
+  [简单性]
+  [成本效益]
+  [可扩展性限制]
+}
+package "RAC版本" {
+  [高可用性]
+  [可扩展性]
+  [负载均衡]
+  [成本]
+}
+
+@enduml

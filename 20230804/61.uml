@@ -1,0 +1,30 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+class "Context" as context {
+  strategy : Strategy
+  +ExecuteStrategy(num1 : int, num2 : int) : int
+}
+interface "Strategy" as strategy {
+  +DoOperation(num1 : int, num2 : int) : int
+}
+class "OperationAdd" as add {
+  +DoOperation(num1 : int, num2 : int) : int
+}
+class "OperationSubtract" as subtract {
+  +DoOperation(num1 : int, num2 : int) : int
+}
+class "OperationMultiply" as multiply {
+  +DoOperation(num1 : int, num2 : int) : int
+}
+class "OperationDivide" as divide {
+  +DoOperation(num1 : int, num2 : int) : int
+}
+
+context --> strategy : uses >-
+add ..|> strategy
+subtract ..|> strategy
+multiply ..|> strategy
+divide ..|> strategy
+@enduml

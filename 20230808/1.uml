@@ -1,0 +1,31 @@
+@startuml
+
+skinparam DefaultFontColor blue
+skinparam BackgroundColor #FAFAFA
+skinparam Shadowing false
+
+!define Fuchsia #FF00FF
+
+package "自我评估的重要性" {
+  ["自我评估的重要性"]
+}
+
+package "如何分析自己的长处" {
+  ["深入了解自身技能"]
+  ["反思工作经验"]
+  ["获取同事和领导的反馈"]
+  ["设立职业目标"]
+  ["利用工具和方法"]
+}
+
+package "如何运用自己的长处" {
+  [强化长处]
+  [寻找合适的角色]
+  [提高工作效率]
+  [与团队协同]
+}
+
+["自我评估的重要性"] --> "如何分析自己的长处"
+"如何分析自己的长处" --> "如何运用自己的长处"
+
+@enduml

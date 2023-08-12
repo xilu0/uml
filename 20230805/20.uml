@@ -1,0 +1,31 @@
+@startuml
+skinparam class {
+    BackgroundColor PaleGreen
+    ArrowColor Olive
+    BorderColor Gray
+    FontSize 18
+}
+
+class 整体 {
+}
+
+class 部分 {
+}
+
+整体 *-- 部分 : 组合（强关联）
+
+class 整体2 {
+}
+
+class 部分2 {
+}
+
+整体2 o-- 部分2 : 聚合（弱关联）
+
+note "在组合中，部分的生命周期与整体紧密相关。" as N1
+note "在聚合中，部分与整体有较弱的关联，各自的生命周期更独立。" as N2
+
+N1 .. 整体
+N2 .. 整体2
+
+@enduml

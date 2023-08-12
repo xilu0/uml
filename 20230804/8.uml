@@ -1,0 +1,21 @@
+@startuml
+skinparam rectangle {
+	BackgroundColor<<concept>> HoneyDew
+	BorderColor DarkSeaGreen
+	FontColor DarkSlateGray
+	BorderThickness 2
+}
+
+rectangle "正则表达式(Regular Expression)" as regex <<concept>> {
+	rectangle "捕获分组(Captured Group)" as capturedGroup <<concept>> {
+		rectangle "分组的结果会被储存供后续使用或显示\n例如：a(b)c" <<concept>>
+	}
+	rectangle "非捕获分组(Non-captured Group)" as noncapturedGroup <<concept>> {
+		rectangle "只进行匹配，不储存结果\n例如：a(?:b)c" <<concept>>
+	}
+}
+
+regex -down-> "Go语言的正则表达式库\n(regexp Package in Go)" : "支持"
+capturedGroup -right-> noncapturedGroup : "优化为"
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+actor "作者" as Author
+
+Author --> (定义业务架构师的角色)
+Author --> (分析CTO、CIO和CEO的职责)
+Author --> (比较业务架构师与三者的相似性和差异)
+Author --> (探讨业务架构师的定位)
+Author --> (总结并提出建议)
+@enduml
+@startuml
+class 业务架构师 {
+  +职责
+  +技能
+}
+
+class CTO {
+  +职责
+  +技能
+}
+
+class CIO {
+  +职责
+  +技能
+}
+
+class CEO {
+  +职责
+  +技能
+}
+
+业务架构师 -- CTO : 比较
+业务架构师 -- CIO : 比较
+业务架构师 -- CEO : 比较
+@enduml

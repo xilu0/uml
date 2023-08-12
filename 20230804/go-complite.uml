@@ -1,0 +1,75 @@
+@startuml
+
+start
+
+:源码(Source Code);
+
+:词法分析(Lexical Analysis);
+
+:语法分析(Syntax Analysis);
+
+:生成抽象语法树(AST Generation);
+
+:类型检查(Type Checking);
+
+:中间代码生成(Intermediate Code Generation);
+
+:代码优化(Code Optimization);
+
+:机器代码生成(Machine Code Generation);
+
+:可执行文件生成(Executable Generation);
+
+stop
+
+@enduml
+
+@startuml
+
+participant "源码(Source Code)" as A
+participant "词法分析器(Lexer)" as B
+participant "语法分析器(Parser)" as C
+participant "类型检查器(Type Checker)" as D
+participant "代码生成器(Code Generator)" as E
+participant "优化器(Optimizer)" as F
+participant "机器代码生成器(Machine Code Generator)" as G
+participant "可执行文件(Executable)" as H
+
+A -> B: 提供源码
+B -> C: 生成词法元素(Tokens)
+C -> D: 生成抽象语法树(AST)
+D -> E: 进行类型检查
+E -> F: 生成中间代码
+F -> G: 进行代码优化
+G -> H: 生成机器代码
+
+@enduml
+
+
+@startuml
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+ParticipantBorderColor DeepSkyBlue
+ParticipantBackgroundColor DodgerBlue
+
+ActorBackgroundColor aqua  
+}
+
+actor "用户" as user
+participant "词法分析器" as lexer
+participant "语法分析器" as parser
+participant "中间代码生成器" as irgen 
+participant "优化器" as optimizer
+participant "代码生成器" as codegen
+
+user -> lexer : Go源代码
+lexer -> parser : token
+parser -> irgen : AST
+irgen -> optimizer : IR
+optimizer -> codegen : 优化后的IR
+codegen -> user : 目标代码
+
+@enduml

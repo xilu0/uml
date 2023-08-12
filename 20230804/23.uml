@@ -1,0 +1,29 @@
+@startuml
+skinparam state {
+  BackgroundColor Gold
+  BorderColor Black
+}
+
+state "灾难因素" as issues {
+  state "需求不明确或频繁变更" as requirement_change
+  state "沟通效率低" as poor_communication
+  state "技术债务累积" as technical_debt
+  state "期限不合理" as unreasonable_deadline
+  state "忽视用户反馈" as ignore_feedback
+}
+
+state "解决策略" as solutions {
+  state "充分理解需求，引入敏捷开发方法" as agile
+  state "提升沟通效率，明确任务和目标" as communication
+  state "保持代码质量，定期重构" as refactoring
+  state "设定合理期限，确保协同沟通" as deadline
+  state "重视并分析用户反馈，调整项目方向" as feedback
+}
+
+requirement_change --> agile : 解决
+poor_communication --> communication : 解决
+technical_debt --> refactoring : 解决
+unreasonable_deadline --> deadline : 解决
+ignore_feedback --> feedback : 解决
+
+@enduml

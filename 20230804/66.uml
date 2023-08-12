@@ -1,0 +1,20 @@
+@startuml
+!define primaryColor #D5E1DD
+!define secondaryColor #F6B1C3
+
+package "主数据中心" {
+  [主数据库(MySQL)] #primaryColor
+  [主缓存(Redis)] #primaryColor
+}
+
+package "备份数据中心" {
+  [备份数据库(MySQL)] #secondaryColor
+  [备份缓存(Redis)] #secondaryColor
+}
+
+[应用服务器] - [主数据库(MySQL)]
+[应用服务器] - [主缓存(Redis)]
+[应用服务器] - [备份数据库(MySQL)]
+[应用服务器] - [备份缓存(Redis)]
+
+@enduml

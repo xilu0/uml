@@ -1,0 +1,28 @@
+@startuml
+
+skinparam {
+  DefaultFontName Microsoft YaHei
+  backgroundColor White
+  arrowColor DarkSlateGray
+  actorBackgroundColor FloralWhite
+  usecaseBackgroundColor PaleGreen
+  boundaryBackgroundColor LightSkyBlue
+}
+
+actor 用户 as "用户"
+boundary 正则表达式 as "正则表达式"
+database 字符串 as "字符串"
+usecase 找到匹配 as "FindStringSubmatchIndex\n找到匹配项"
+usecase 提取匹配 as "提取匹配项"
+usecase 替换匹配 as "替换匹配项"
+
+用户 --> 正则表达式 : 提供正则表达式
+用户 --> 字符串 : 提供字符串
+正则表达式 --> 找到匹配
+找到匹配 --> 提取匹配 : 返回匹配项索引
+提取匹配 --> 用户 : 返回匹配项
+用户 --> 替换匹配 : 提供新的子串
+替换匹配 --> 字符串 : 替换匹配项
+字符串 --> 用户 : 返回修改后的字符串
+
+@enduml

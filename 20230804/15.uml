@@ -1,0 +1,13 @@
+@startuml
+skinparam activityBackgroundColor #AED6F1
+skinparam activityBorderColor #3498DB
+skinparam activityFontColor #1B4F72
+start
+:需求分析;
+:系统设计;
+:实现;
+:测试;
+:部署;
+:维护;
+stop
+@enduml

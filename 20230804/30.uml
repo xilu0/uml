@@ -1,0 +1,25 @@
+@startuml
+skinparam class {
+  ArrowColor #F2711C
+  BorderColor #F2711C
+}
+
+class "SOAP消息" as SOAPMessage {
+  + 报头 (Header)
+  + 主体 (Body)
+}
+
+class "报头 (Header)" as Header {
+  + 安全
+  + 交易
+  + 路由
+}
+
+class "主体 (Body)" as Body {
+  + 请求/响应
+}
+
+SOAPMessage --> Header: 包含
+SOAPMessage --> Body: 包含
+
+@enduml

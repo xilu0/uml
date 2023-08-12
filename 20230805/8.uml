@@ -1,0 +1,39 @@
+@startuml
+skinparam defaultFontColor #000000
+skinparam defaultFontSize 16
+skinparam BackgroundColor #FAFAFA
+skinparam ArrowColor #2C3E50
+
+rectangle "技术发展方向" as tech_directions {
+    rectangle "Go开发专家" as go_expert {
+        rectangle "优点" as go_advantages #2ECC71
+        rectangle "挑战" as go_challenges #E74C3C
+    }
+    rectangle "人工智能" as ai {
+        rectangle "优点" as ai_advantages #2ECC71
+        rectangle "挑战" as ai_challenges #E74C3C
+    }
+    rectangle "架构师" as architect {
+        rectangle "优点" as architect_advantages #2ECC71
+        rectangle "挑战" as architect_challenges #E74C3C
+    }
+    rectangle "技术管理" as tech_management {
+        rectangle "优点" as management_advantages #2ECC71
+        rectangle "挑战" as management_challenges #E74C3C
+    }
+}
+
+rectangle "当前的担忧" as current_concerns {
+    rectangle "需求稀少" as lack_of_demand #E74C3C
+    rectangle "改变方向的代价" as cost_of_change #E74C3C
+}
+
+rectangle "解决策略" as solutions {
+    rectangle "适应市场需求" as market_adaptation #2ECC71
+    rectangle "定位自己的价值" as positioning #2ECC71
+    rectangle "持续学习" as continuous_learning #2ECC71
+}
+
+tech_directions -down-> current_concerns
+current_concerns -down-> solutions
+@enduml

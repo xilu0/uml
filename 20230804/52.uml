@@ -1,0 +1,29 @@
+@startuml
+skinparam class {
+  BackgroundColor PaleGreen
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+}
+
+class "软件设计策略" as SoftwareDesign {
+  "D-设计（Decomposition Design）"
+  "FP-设计（Family Pattern Design）"
+  "I-设计（Invention Design）"
+}
+
+class "D-设计（Decomposition Design）" as DDesign {
+  "将大型问题分解为小型问题"
+}
+
+class "FP-设计（Family Pattern Design）" as FPDesign {
+  "利用模式库中的模式解决问题"
+}
+
+class "I-设计（Invention Design）" as IDesign {
+  "针对新的、独特的问题发明解决方案"
+}
+
+SoftwareDesign -- DDesign : 包含
+SoftwareDesign -- FPDesign : 包含
+SoftwareDesign -- IDesign : 包含
+@enduml

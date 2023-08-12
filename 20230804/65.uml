@@ -1,0 +1,36 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+class "WeatherData" as weatherData {
+  -observers : []Observer
+  -temperature : float64
+  -humidity : float64
+  -pressure : float64
+  +RegisterObserver(o : Observer)
+  +RemoveObserver(o : Observer)
+  +NotifyObservers()
+  +measurementsChanged()
+  +SetMeasurements(temperature : float64, humidity : float64, pressure : float64)
+}
+interface "Observer" as observer {
+  +Update(temperature : float64, humidity : float64, pressure : float64)
+}
+interface "Subject" as subject {
+  +RegisterObserver(o : Observer)
+  +RemoveObserver(o : Observer)
+  +NotifyObservers()
+}
+class "CurrentConditionsDisplay" as currentConditionsDisplay {
+  -temperature : float64
+  -humidity : float64
+  -weatherData : Subject
+  +Update(temperature : float64, humidity : float64, pressure : float64)
+  +Display()
+}
+
+weatherData --> observer : uses >-
+weatherData --> subject : implements >-
+currentConditionsDisplay ..|> observer
+currentConditionsDisplay --> subject : uses >-
+@enduml

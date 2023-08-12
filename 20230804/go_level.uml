@@ -1,0 +1,26 @@
+@startuml
+
+class "Familiar_with_Go" {
+    Basic Go syntax
+    Some experience with simple Go programs
+    Understands basic concepts and structures in Go
+}
+
+class "Proficient_with_Go" {
+    Proficient in Go syntax
+    Can handle concurrent programming
+    Experience with Go's standard library and open-source libraries
+    Can maintain production-level Go services
+}
+
+class "Expert_in_Go" {
+    Deep knowledge of Go, understands underlying implementation
+    Can optimize Go code to improve efficiency
+    Contributes to open source projects
+    Can design and build complex Go systems
+}
+
+Familiar_with_Go -down-> Proficient_with_Go : Evolves to
+Proficient_with_Go -down-> Expert_in_Go : Evolves to
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam monochrome false
+skinparam backgroundColor #EEEBDC
+skinparam ArrowColor Black
+skinparam ArrowFontColor Black
+skinparam ActorBorderColor black
+skinparam ActorFontColor Black
+skinparam ActorBackgroundColor aqua
+
+actor "Java EE应用" as A
+rectangle "JNDI服务" as B {
+    rectangle "数据源" as B1
+    rectangle "EJB" as B2
+    rectangle "JMS" as B3
+}
+rectangle "服务实现" as C {
+    rectangle "数据源实现" as C1
+    rectangle "EJB实现" as C2
+    rectangle "JMS实现" as C3
+}
+
+A --> B : "通过名字查找服务"
+B --> C : "提供服务对象"
+@enduml

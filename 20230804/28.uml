@@ -1,0 +1,15 @@
+@startuml
+skinparam sequence {
+  ArrowColor #2185D0
+  LifeLineBorderColor #2185D0
+  LifeLineBackgroundColor #2185D0
+}
+
+actor 客户端 as client
+participant "SOAP\n服务器" as server
+
+client -> server: SOAP请求
+activate server
+server -->> client: SOAP响应
+deactivate server
+@enduml

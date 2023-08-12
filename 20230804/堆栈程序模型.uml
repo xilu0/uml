@@ -1,0 +1,57 @@
+@startuml
+skinparam monochrome false
+skinparam shadowing true
+skinparam nodesep 50
+skinparam ranksep 100
+skinparam node {
+  BackgroundColor<<Stack>> Yellow
+  BorderColor<<Stack>> Black
+  BackgroundColor<<Heap>> Pink
+  BorderColor<<Heap>> Black
+}
+
+node "Stack" as stack <<Stack>> {
+  rectangle "Stack Frame #1: Function Parameters, Local Variables, Return Address" as frame1
+  rectangle "Stack Frame #2: Function Parameters, Local Variables, Return Address" as frame2
+  rectangle "Stack Frame #3: Function Parameters, Local Variables, Return Address" as frame3
+  frame1 --> frame2
+  frame2 --> frame3
+}
+
+node "Heap" as heap <<Heap>> {
+  rectangle "Dynamically Allocated Data" as data1
+  rectangle "Dynamically Allocated Data" as data2
+}
+
+frame1 --> data1 : references
+frame2 --> data2 : references
+@enduml
+
+@startuml
+skinparam monochrome false
+skinparam shadowing true
+skinparam nodesep 50
+skinparam ranksep 100
+skinparam node {
+  BackgroundColor<<栈>> Yellow
+  BorderColor<<栈>> Black
+  BackgroundColor<<堆>> Pink
+  BorderColor<<堆>> Black
+}
+
+node "栈" as stack <<栈>> {
+  rectangle "栈帧 #1: 函数参数, 局部变量, 返回地址" as frame1
+  rectangle "栈帧 #2: 函数参数, 局部变量, 返回地址" as frame2
+  rectangle "栈帧 #3: 函数参数, 局部变量, 返回地址" as frame3
+  frame1 --> frame2
+  frame2 --> frame3
+}
+
+node "堆" as heap <<堆>> {
+  rectangle "动态分配的数据" as data1
+  rectangle "动态分配的数据" as data2
+}
+
+frame1 --> data1 : 引用
+frame2 --> data2 : 引用
+@enduml

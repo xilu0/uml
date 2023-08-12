@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome false
+skinparam shadowing false
+skinparam class {
+  BackgroundColor<<一般架构师>> LightYellow
+  BackgroundColor<<系统架构师>> LightBlue
+  BackgroundColor<<软件架构师>> LightPink
+  BackgroundColor<<企业架构师>> LightGreen
+  BackgroundColor<<解决方案架构师>> LightGray
+  BackgroundColor<<数据架构师>> LightCyan
+  BackgroundColor<<云架构师>> LightMagenta
+}
+class "架构师" as architect <<一般架构师>> {
+}
+class "系统架构师" as sysArch <<系统架构师>> {
+}
+class "软件架构师" as softArch <<软件架构师>> {
+}
+class "企业架构师" as entArch <<企业架构师>> {
+}
+class "解决方案架构师" as solArch <<解决方案架构师>> {
+}
+class "数据架构师" as dataArch <<数据架构师>> {
+}
+class "云架构师" as cloudArch <<云架构师>> {
+}
+architect --> sysArch : 扩展至
+architect --> softArch : 扩展至
+architect --> entArch : 扩展至
+architect --> solArch : 扩展至
+architect --> dataArch : 扩展至
+architect --> cloudArch : 扩展至
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+
+class Person {
+  +Id: int
+  +Name: string
+}
+
+class Company {
+  +Id: int
+  +Name: string
+}
+
+class PersonTable {
+  +Name: "person"
+  +Indexes: IndexSchema
+}
+
+class CompanyTable {
+  +Name: "company"
+  +Indexes: IndexSchema
+}
+
+class IndexSchema {
+  +Name: string
+  +Unique: bool
+  +Indexer: CompoundIndex
+}
+
+class CompoundIndex {
+  +Indexes: []Indexer
+}
+
+class Indexer {
+  +Field: string
+}
+
+Person -- PersonTable : Data
+Company -- CompanyTable : Data
+PersonTable ..> IndexSchema : Has
+CompanyTable ..> IndexSchema : Has
+IndexSchema ..> CompoundIndex : Has
+CompoundIndex ..> Indexer : Has
+
+@enduml

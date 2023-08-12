@@ -1,0 +1,32 @@
+@startuml
+
+title "软件开发的步骤和影响因素"
+
+skinparam monochrome true
+
+rectangle "需求分析" as Analysis
+rectangle "设计" as Design
+rectangle "编码" as Coding
+rectangle "测试" as Testing
+rectangle "维护" as Maintenance
+
+Analysis -down-> Design
+Design -down-> Coding
+Coding -down-> Testing
+Testing -down-> Maintenance
+
+note right of Analysis: "需求理解度\n功能性"
+note right of Design: "设计复杂性\n可维护性"
+note right of Coding: "编程技巧\n代码质量\n可读性"
+note right of Testing: "测试覆盖度\n功能稳定性"
+note right of Maintenance: "文档质量\n可扩展性"
+
+rectangle "工程素养" as Engineering
+
+Engineering -down-> Analysis
+Engineering -down-> Design
+Engineering -down-> Coding
+Engineering -down-> Testing
+Engineering -down-> Maintenance
+
+@enduml

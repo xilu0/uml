@@ -1,0 +1,19 @@
+@startuml
+
+skinparam defaultFontName Microsoft YaHei
+skinparam rectangle {
+  BackgroundColor<<原则>> LightBlue
+  BorderColor Black
+  FontColor Black
+}
+
+rectangle "DRY原则\n<color:#708090>Don't Repeat Yourself</color>\n-避免重复代码\n-提高代码可维护性" as DRY <<原则>>
+rectangle "YAGNI原则\n<color:#708090>You Aren't Gonna Need It</color>\n-避免过度设计\n-只做当前必要的功能" as YAGNI <<原则>>
+rectangle "三次法则\n<color:#708090>Rule of Three</color>\n-当同一逻辑出现3次，应考虑重构或抽象" as ROT <<原则>>
+
+DRY -d-> ROT: "具体应用"
+YAGNI -r-> ROT: "具体应用"
+ROT -u-> DRY: "提炼抽象"
+ROT -l-> YAGNI: "避免过度设计"
+
+@enduml

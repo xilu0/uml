@@ -1,0 +1,36 @@
+@startuml
+title Go语言中的slice、map、channel、函数和接口类型
+
+class slice {
+    -array: unsafe.Pointer
+    -len: int
+    -cap: int
+}
+
+class map {
+    -count: int
+    -B: uint8
+    -buckets: unsafe.Pointer
+}
+
+class channel {
+    -qcount: uint
+    -dataqsiz: uint
+    -buf: unsafe.Pointer
+    -elemsize: uint16
+    -closed: uint32
+    -elemtype: *_type
+    -sendx: uint
+    -recvx: uint
+    -recvq: waitq
+    -sendq: waitq
+    -lock: mutex
+}
+
+class function {
+}
+
+interface interfaceType {
+}
+
+@enduml

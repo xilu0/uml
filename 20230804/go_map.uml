@@ -1,0 +1,16 @@
+@startuml
+class Map {
+    KeyType
+    ValueType
+    MapContent : KeyType->ValueType
+}
+
+interface MapOperations {
+    + insert(key: KeyType, value: ValueType): void
+    + get(key: KeyType): ValueType
+    + delete(key: KeyType): void
+    + len(): int
+}
+
+Map "1" -- "1..*" MapOperations
+@enduml

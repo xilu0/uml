@@ -1,0 +1,25 @@
+@startuml
+
+start
+
+:程序运行（Run Program）;
+
+:并发标记开始（Concurrent Mark Start）;
+
+:检测写操作（Detect Write）;
+
+if (写到已标记对象？) then (是)
+    :启动写屏障（Trigger Write Barrier）;
+    note right: 如果一个已被标记的对象引用了\n一个未被标记的对象，写屏障\n会立即将这个对象标记。
+
+    :对象被标记（Object Marked）;
+else (否)
+end
+
+:并发标记结束（Concurrent Mark Finish）;
+
+:清除阶段（Sweep Phase）;
+
+stop
+
+@enduml

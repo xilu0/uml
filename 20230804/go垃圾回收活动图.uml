@@ -1,0 +1,19 @@
+@startuml
+
+start
+
+:标记开始（Mark Start）;
+note right: 所有对象标记为白色，\n并且暂停程序执行。
+
+:标记（Mark）;
+note right: 把从根对象开始可以达到的\n所有对象标记为灰色，\n然后将灰色对象标记为黑色，\n同时把这些黑色对象引用的\n所有白色对象标记为灰色。
+
+:标记结束（Mark Termination）;
+note right: 完成所有的标记工作，\n所有的存活对象都已被标记为黑色。
+
+:清除（Sweep）;
+note right: 清除所有还标记为白色的对象。
+
+stop
+
+@enduml

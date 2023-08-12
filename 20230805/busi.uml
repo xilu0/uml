@@ -1,0 +1,45 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+
+class 业务实体 {
+}
+
+class 业务流程 {
+}
+
+class 业务规则 {
+}
+
+业务实体 -- 业务流程 : 组成 >
+业务流程 -- 业务规则 : 受制于 >
+@enduml
+@startuml
+skinparam backgroundColor #F5F5F5
+
+class 系统结构 {
+}
+
+class 系统行为 {
+}
+
+class 功能要求 {
+}
+
+系统结构 -- 系统行为 : 定义 >
+系统行为 -- 功能要求 : 实现 >
+@enduml
+@startuml
+skinparam backgroundColor #E1E5ED
+
+class 类图 {
+}
+
+class 序列图 {
+}
+
+class 代码实现 {
+}
+
+类图 -- 序列图 : 描述 >
+序列图 -- 代码实现 : 实现 >
+@enduml

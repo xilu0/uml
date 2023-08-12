@@ -1,0 +1,49 @@
+@startuml
+class "业务架构师" as BusinessArchitect {
+  +职责: 定义和分析业务战略
+  +技能要求: 业务分析, 战略规划
+}
+
+class "系统架构师" as SystemArchitect {
+  +职责: 设计和整合系统结构
+  +技能要求: 系统分析, 技术整合
+}
+
+class "软件架构师" as SoftwareArchitect {
+  +职责: 设计和构建软件框架
+  +技能要求: 编程, 软件设计
+}
+@enduml
+@startuml
+actor "业务架构师" as BusinessArchitect
+actor "系统架构师" as SystemArchitect
+actor "软件架构师" as SoftwareArchitect
+
+BusinessArchitect --> (定义业务战略)
+BusinessArchitect --> (分析市场需求)
+SystemArchitect --> (设计系统结构)
+SystemArchitect --> (整合技术资源)
+SoftwareArchitect --> (设计软件框架)
+SoftwareArchitect --> (构建软件解决方案)
+@enduml
+@startuml
+start
+partition 业务架构师 {
+  :分析业务需求;
+  :定义业务战略;
+  :沟通战略目标;
+}
+
+partition 系统架构师 {
+  :分析系统需求;
+  :设计系统结构;
+  :整合技术资源;
+}
+
+partition 软件架构师 {
+  :分析软件需求;
+  :设计软件框架;
+  :构建软件解决方案;
+}
+stop
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+skinparam monochrome false
+skinparam defaultFontColor #333333
+skinparam defaultFontSize 14
+skinparam backgroundcolor #F7F9FB
+
+class 定位 {
+  - 确定目标受众
+  - 深入特定领域
+  - 提供独到见解
+}
+@enduml
+@startuml
+skinparam monochrome false
+skinparam defaultFontColor #333333
+skinparam defaultFontSize 14
+skinparam backgroundcolor #F7F9FB
+
+class 内容形式 {
+  - 技术动画解说
+  - 互动问答
+  - 在线实战教程
+}
+@enduml

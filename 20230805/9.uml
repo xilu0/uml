@@ -1,0 +1,32 @@
+@startuml
+skinparam defaultFontColor #000000
+skinparam defaultFontSize 16
+skinparam BackgroundColor #FAFAFA
+skinparam ArrowColor #2C3E50
+
+rectangle "专业深度 vs 专业广度" as depth_vs_breadth {
+    rectangle "专业深度" as depth {
+        rectangle "优势" as depth_advantages #2ECC71
+        rectangle "挑战" as depth_challenges #E74C3C
+    }
+    rectangle "专业广度" as breadth {
+        rectangle "优势" as breadth_advantages #2ECC71
+        rectangle "挑战" as breadth_challenges #E74C3C
+    }
+}
+
+rectangle "面临的担忧" as concerns {
+    rectangle "举棋不定" as concern1 #E74C3C
+    rectangle "改变代价" as concern2 #E74C3C
+}
+
+rectangle "应对之策" as strategies {
+    rectangle "明确长期目标" as strategy1 #2ECC71
+    rectangle "合理规划转型" as strategy2 #2ECC71
+    rectangle "平衡深度和广度" as strategy3 #2ECC71
+    rectangle "持续学习和反思" as strategy4 #2ECC71
+}
+
+depth_vs_breadth -down-> concerns
+concerns -down-> strategies
+@enduml

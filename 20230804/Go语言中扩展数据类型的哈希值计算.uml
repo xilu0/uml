@@ -1,0 +1,29 @@
+@startuml
+skinparam class {
+  BackgroundColor PaleGreen
+  ArrowColor SeaGreen
+  BorderColor SpringGreen
+}
+
+class "哈希函数" as Hash {
+  +计算哈希值(input: 任意类型) : uint64
+}
+
+class "基本数据类型" as BasicTypes {
+  +int
+  +float64
+  +string
+}
+
+class "扩展数据类型" as ExtendedTypes {
+  +结构体
+  +数组
+  +切片
+}
+
+BasicTypes --> Hash : 使用内置哈希函数
+ExtendedTypes --> Hash : 使用内置哈希函数
+
+note "对于所有类型的key，map使用内置哈希函数" as N1
+Hash .. N1
+@enduml

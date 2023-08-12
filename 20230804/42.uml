@@ -1,0 +1,43 @@
+@startuml
+
+skinparam backgroundColor #EEEBDC
+skinparam stereotypeCBackgroundColor #A9DCDF
+
+class "Go语言中的sync/atomic包详解" as Article {
+  + sync/atomic包概述
+  + 常用原子操作函数
+  + 使用示例
+  + 使用注意事项
+}
+
+class "sync/atomic包概述" as Overview << (O, #ADD8E6) >> {
+  + 原子操作
+  + 并发编程工具
+  + 低级并发应用
+}
+
+class "常用原子操作函数" as Functions << (F, #ADD8E6) >> {
+  + AddInt32/AddInt64
+  + CompareAndSwapInt32/CompareAndSwapInt64
+  + LoadInt32/LoadInt64
+  + StoreInt32/StoreInt64
+  + SwapInt32/SwapInt64
+}
+
+class "使用示例" as Examples << (E, #ADD8E6) >> {
+  + 原子加操作示例
+  + Compare And Swap操作示例
+}
+
+class "使用注意事项" as Notes << (N, #ADD8E6) >> {
+  + 变量类型限制
+  + 硬件原因注意
+  + 操作对象为指针
+}
+
+Article -- Overview : 包含
+Article -- Functions : 包含
+Article -- Examples : 包含
+Article -- Notes : 包含
+
+@enduml

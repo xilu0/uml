@@ -1,0 +1,23 @@
+@startuml
+
+skinparam class {
+    BackgroundColor PaleGreen
+    ArrowColor SeaGreen
+    BorderColor SpringGreen
+}
+class 哈希表 {
+  +增加元素(键, 值)
+  +删除元素(键)
+  +查找元素(键)
+  -哈希函数(键)
+  -处理冲突(键, 哈希值)
+  -动态扩容()
+}
+class 元素 {
+  +键
+  +值
+}
+
+哈希表 "1" *-- "*" 元素: 存储
+
+@enduml

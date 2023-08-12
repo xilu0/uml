@@ -1,0 +1,40 @@
+@startuml
+skinparam backgroundColor #FAFAFA
+!$color1 = "#FFD700"
+!$color2 = "#ADFF2F"
+class "Postgres" as PG << (PG, $color1) >> {
+  对象关系数据模型
+  Quel查询语言
+}
+
+class "Postgres95" as PG95 << (PG95, $color2) >> {
+  SQL语言支持
+}
+
+class "PostgreSQL 6.0" as V6 << (V6, $color1) >> {
+  多线程
+  面向对象特性
+}
+
+class "PostgreSQL 6.5" as V65 << (V65, $color2) >> {
+  事务
+  触发器
+  存储过程
+}
+
+class "PostgreSQL 7.0" as V70 << (V70, $color1) >> {
+  Write-Ahead Logging
+  全文索引
+}
+
+class "PostgreSQL 13" as V13 << (V13, $color2) >> {
+  增强的索引
+  分区功能
+  并行处理效率
+}
+PG --> PG95
+PG95 --> V6
+V6 --> V65
+V65 --> V70
+V12 --> V13
+@enduml

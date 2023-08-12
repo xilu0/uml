@@ -1,0 +1,22 @@
+@startuml
+
+title 编程语言的发展史
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam backgroundColor white
+
+rectangle "初期编程语言（机器语言，汇编语言)" as early #ADD8E6
+rectangle "高级编程语言的兴起（FORTRAN，ALGOL，COBOL等)" as high #90EE90
+rectangle "结构化编程的发展（C语言）" as structured #FFB6C1
+rectangle "面向对象编程的发展（Smalltalk，C++，Java等)" as objectOriented #FFD700
+rectangle "脚本语言的流行（Python，JavaScript等)" as scripting #B0C4DE
+rectangle "现代编程语言的崛起（Go，Rust，Swift等)" as modern #F08080
+
+early -down-> high
+high -down-> structured
+structured -down-> objectOriented
+objectOriented -down-> scripting
+scripting -down-> modern
+
+@enduml

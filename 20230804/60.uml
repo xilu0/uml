@@ -1,0 +1,17 @@
+@startuml
+
+class User {
+  +Register()
+  +Login()
+  +SearchProduct()
+  +AddToCart()
+  +Checkout()
+}
+
+class "Database" as DB
+
+User --> DB : interacts
+
+note "End-to-End Testing (E2E)\nThis diagram represents the user's interaction\nwith the database in an end-to-end testing scenario." as E2E
+
+@enduml

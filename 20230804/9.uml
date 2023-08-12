@@ -1,0 +1,42 @@
+@startuml
+skinparam activity {
+    BackgroundColor gold
+    BorderColor black
+    FontName Courier
+}
+
+skinparam activityArrow {
+    Color black
+}
+
+start
+
+:引入 "regexp" 和 "strings" 包;
+
+partition "基本正则表达式匹配" {
+    :定义待匹配的字符串;
+    :定义正则表达式模式;
+    :编译正则表达式模式;
+    :使用 FindStringSubmatch 方法找到匹配项;
+    :打印出匹配到的子字符串;
+}
+
+partition "在匹配中进行替换操作" {
+    :定义待替换的字符串;
+    :定义正则表达式模式;
+    :编译正则表达式模式;
+    :使用 ReplaceAllStringFunc 方法替换匹配到的子字符串;
+    :打印出结果;
+}
+
+partition "多行匹配" {
+    :定义多行字符串;
+    :定义包含 "(?s)" 标记的正则表达式模式;
+    :编译正则表达式模式;
+    :使用 FindAllString 方法找到所有匹配项;
+    :打印出所有匹配项;
+}
+
+stop
+
+@enduml

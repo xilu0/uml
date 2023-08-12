@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam backgroundColor #EAF2F5
+!$color1 = "#ADD8E6"
+!$color2 = "#FFB6C1"
+
+class "DB2 V1.0" as V1 << (V1, $color1) >> {
+  初始发布
+  SQL查询
+  事务管理
+}
+
+class "DB2 V2.1" as V2 << (V2, $color2) >> {
+  分布式数据
+  存储过程
+}
+
+class "DB2 V2.3" as V3 << (V3, $color1) >> {
+  集群
+  并行处理
+}
+
+
+class "DB2 V12" as V12 << (V12, $color2) >> {
+  深度学习
+  人工智能
+  性能改进
+}
+
+V1 --> V2
+V2 --> V3
+V11 --> V12
+@enduml

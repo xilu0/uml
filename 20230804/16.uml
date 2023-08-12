@@ -1,0 +1,11 @@
+@startuml
+skinparam classBackgroundColor #F9E79F
+skinparam classBorderColor #F1C40F
+skinparam classFontColor #7D3C98
+class "测试驱动开发 (TDD)" as TDD
+class "行为驱动开发 (BDD)" as BDD
+class "领域驱动设计 (DDD)" as DDD
+TDD --|> "驱动开发"
+BDD --|> "驱动开发"
+DDD --|> "驱动开发"
+@enduml

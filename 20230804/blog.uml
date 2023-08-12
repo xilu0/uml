@@ -1,0 +1,35 @@
+@startuml
+skinparam component {
+  BackgroundColor<<公众号>> Cyan
+  BackgroundColor<<AI助手>> Lime
+  BackgroundColor<<交流群>> Yellow
+}
+
+package "我的公众号" <<公众号>> {
+  [文章更新]
+  [读者交流]
+  [解答疑问]
+}
+
+cloud "AI 助手 ChatGPT" <<AI助手>> {
+  [生成高质量草稿]
+  [提供深入技术分析]
+  [创建复杂建模]
+  [处理读者留言]
+}
+
+database "技术交流群" <<交流群>> {
+  [讨论技术话题]
+  [分享学习心得]
+  [互答疑问]
+}
+
+[文章更新] --> [生成高质量草稿]
+[文章更新] --> [提供深入技术分析]
+[文章更新] --> [创建复杂建模]
+[读者交流] --> [处理读者留言]
+[解答疑问] --> [互答疑问]
+
+"我的技术公众号" -up- "AI 助手 ChatGPT" : 强化\n更新质量和频率
+"我的技术公众号" -right- "技术交流群" : 邀请\n读者参与
+@enduml

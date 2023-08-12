@@ -1,0 +1,22 @@
+@startuml
+
+start
+
+:程序开始运行（Run Program）;
+
+:进行垃圾回收（Perform GC）;
+
+:计算新的内存分配（Calculate New Allocation）;
+
+if (内存使用超过新的分配？) then (是)
+    :启动新的垃圾回收（Trigger New GC）;
+    note right: 一旦程序的内存使用超过了\n新的内存分配，就会触发新的垃圾回收。
+    :进行垃圾回收（Perform GC）;
+    :计算新的内存分配（Calculate New Allocation）;
+else (否)
+    :继续程序运行（Continue Program Execution）;
+endif
+
+stop
+
+@enduml

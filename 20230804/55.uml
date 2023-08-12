@@ -1,0 +1,24 @@
+@startuml
+participant 进程 as P
+participant 文件 as F
+
+== 同步阻塞IO ==
+P -> F: 发起读操作
+note right: 进程阻塞，等待数据
+F -> P: 返回数据
+
+== 同步非阻塞IO ==
+P -> F: 发起读操作
+note right: 进程继续运行，不等待数据
+F -> P: 返回数据
+
+== 异步阻塞IO ==
+P -> F: 发起读操作
+note right: 进程阻塞，等待数据
+F -> P: 返回数据
+
+== 异步非阻塞IO ==
+P -> F: 发起读操作
+note right: 进程继续运行，不等待数据
+F -> P: 数据准备好，通知进程
+@enduml

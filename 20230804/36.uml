@@ -1,0 +1,33 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam package {
+  BackgroundColor #ADD8E6
+  BorderColor Black
+  FontColor Black
+}
+package "定位问题" as A1
+package "单元测试" as B1
+package "集成测试" as C1
+package "日志输出" as D1
+package "Debug" as E1
+A1 --> B1 : "使用"
+A1 --> C1 : "使用"
+A1 --> D1 : "使用"
+A1 --> E1 : "未使用"
+@enduml
+
+@startuml
+skinparam packageStyle rectangle
+skinparam package {
+  BackgroundColor #90EE90
+  BorderColor Black
+  FontColor Black
+}
+package "VSCode Debug" as A2
+package "调试概念" as B2
+package "调试作用" as C2
+package "调试知识点" as D2
+A2 --> B2 : "包含"
+A2 --> C2 : "包含"
+A2 --> D2 : "包含"
+@enduml

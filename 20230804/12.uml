@@ -1,0 +1,20 @@
+@startuml
+
+skinparam ActivityBackgroundColor LightSkyBlue
+skinparam ActivityBorderColor DeepSkyBlue
+skinparam ActivityFontColor Black
+skinparam ArrowColor SeaGreen
+
+start
+
+:管理员身份运行PowerShell;
+:输入命令\nImport-Module ActiveDirectory;
+:查看密码策略\nGet-ADDefaultDomainPasswordPolicy;
+if (需要修改密码策略?) then (是)
+    :设定新的密码策略\nSet-ADDefaultDomainPasswordPolicy -Identity AD域名称 -新策略;
+endif
+:强制更新组策略\ngpupdate /force;
+
+stop
+
+@enduml

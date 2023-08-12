@@ -1,0 +1,44 @@
+@startuml
+title 从结构化过程式编程到面向对象编程：一个平稳的过渡
+
+skinparam style strict
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+skinparam monochrome false
+skinparam usecase {
+BackgroundColor<<理论>> DodgerBlue
+FontColor<<理论>> White
+BorderColor<<理论>> Black
+BackgroundColor<<编程习惯>> PaleGreen
+FontColor<<编程习惯>> Black
+BorderColor<<编程习惯>> Black
+BackgroundColor<<编程语言>> Gold
+FontColor<<编程语言>> Black
+BorderColor<<编程语言>> Black
+BackgroundColor<<文章>> Pink
+FontColor<<文章>> Black
+BorderColor<<文章>> Black
+}
+
+usecase Structured_Programming as "结构化编程" <<理论>>
+usecase Procedural_Programming as "过程式编程" <<理论>>
+usecase OOP as "面向对象编程" <<理论>>
+usecase Habits as "编程习惯" <<编程习惯>>
+usecase Shell as "Shell" <<编程语言>>
+usecase C as "C语言" <<编程语言>>
+usecase Go as "Go语言" <<编程语言>>
+usecase Article as "从结构化过程式编程到面向对象编程：一个平稳的过渡"
+
+Structured_Programming --> Procedural_Programming : "进化"
+Procedural_Programming --> OOP : "进化"
+Habits --> Shell : "影响"
+Habits --> C : "影响"
+Habits --> Go : "影响"
+Structured_Programming -- Article : "论述"
+Procedural_Programming -- Article : "论述"
+OOP -- Article : "论述"
+Habits -- Article : "论述"
+Shell -- Article : "论述"
+C -- Article : "论述"
+Go -- Article : "论述"
+@enduml

@@ -1,0 +1,2807 @@
+@startuml
+scale 2.0
+namespace analytics {
+    class Analytics << (S,Aquamarine) >> {
+        - store storage.AnalyticsHandler
+        - poolSize int
+        - recordsChan <font color=blue>chan</font> *AnalyticsRecord
+        - workerBufferSize uint64
+        - recordsBufferFlushInterval uint64
+        - shouldStop uint32
+        - poolWg sync.WaitGroup
+
+        - recordWorker() 
+
+        + Start() 
+        + Stop() 
+        + RecordHit(record *AnalyticsRecord) error
+
+    }
+    class AnalyticsFilters << (S,Aquamarine) >> {
+        + Usernames []string
+        + SkippedUsernames []string
+
+        + ShouldFilter(record AnalyticsRecord) bool
+        + HasFilter() bool
+
+    }
+    class AnalyticsOptions << (S,Aquamarine) >> {
+        + PoolSize int
+        + RecordsBufferSize uint64
+        + FlushInterval uint64
+        + StorageExpirationTime time.Duration
+        + Enable bool
+        + EnableDetailedRecording bool
+        + RecordsBufferSize uint64
+        + Enable bool
+        + EnableDetailedRecording bool
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class AnalyticsRecord << (S,Aquamarine) >> {
+        + TimeStamp int64
+        + Username string
+        + Effect string
+        + Conclusion string
+        + Request string
+        + Policies string
+        + Deciders string
+        + ExpireAt time.Time
+        + TimeStamp int64
+        + Username string
+        + Effect string
+        + Conclusion string
+        + Request string
+        + Policies string
+        + Deciders string
+        + ExpireAt time.Time
+
+        + SetExpiry(expiresInSeconds int64) 
+        + GetFieldNames() []string
+        + GetLineValues() []string
+
+    }
+}
+
+
+namespace apiserver {
+    class ExtraConfig << (S,Aquamarine) >> {
+        - mysqlOptions *options.MySQLOptions
+
+        + Addr string
+        + MaxMsgSize int
+        + ServerCert options.GeneratableKeyCert
+
+        - complete() *completedExtraConfig
+
+    }
+    class apiServer << (S,Aquamarine) >> {
+        - gs *shutdown.GracefulShutdown
+        - redisOptions *options.RedisOptions
+        - gRPCAPIServer *grpcAPIServer
+        - genericAPIServer *server.GenericAPIServer
+
+        - initRedisStore() 
+
+        + PrepareRun() preparedAPIServer
+
+    }
+    class completedExtraConfig << (S,Aquamarine) >> {
+        + New() (*grpcAPIServer, error)
+
+    }
+    class datastore << (S,Aquamarine) >> {
+        - cli v1.CacheClient
+
+        + Secrets() store.SecretStore
+        + Policies() store.PolicyStore
+
+    }
+    class grpcAPIServer << (S,Aquamarine) >> {
+        - address string
+
+        + Run() 
+        + Close() 
+
+    }
+    class loginInfo << (S,Aquamarine) >> {
+        + Username string
+        + Password string
+
+    }
+    class policies << (S,Aquamarine) >> {
+        - cli v1.CacheClient
+
+        + List() (<font color=blue>map</font>[string][]*ladon.DefaultPolicy, error)
+
+    }
+    class preparedAPIServer << (S,Aquamarine) >> {
+        + Run() error
+
+    }
+    class secrets << (S,Aquamarine) >> {
+        - cli v1.CacheClient
+
+        + List() (<font color=blue>map</font>[string]*v1.SecretInfo, error)
+
+    }
+}
+"apiserver.ExtraConfig" *-- "apiserver.completedExtraConfig"
+"grpc.Server" *-- "apiserver.grpcAPIServer"
+"apiserver.apiServer" *-- "apiserver.preparedAPIServer"
+
+
+namespace app {
+    class App << (S,Aquamarine) >> {
+        - basename string
+        - name string
+        - description string
+        - options CliOptions
+        - runFunc RunFunc
+        - silence bool
+        - noVersion bool
+        - noConfig bool
+        - commands []*Command
+        - args cobra.PositionalArgs
+        - cmd *cobra.Command
+
+        - buildCommand() 
+        - runCommand(cmd *cobra.Command, args []string) error
+        - applyOptionRules() error
+
+        + Run() 
+        + Command() *cobra.Command
+        + AddCommand(cmd *Command) 
+        + AddCommands(cmds ...*Command) 
+
+    }
+    interface CliOptions  {
+        + Flags() flag.NamedFlagSets
+        + Validate() []error
+
+    }
+    class Command << (S,Aquamarine) >> {
+        - usage string
+        - desc string
+        - options CliOptions
+        - commands []*Command
+        - runFunc RunCommandFunc
+
+        - cobraCommand() *cobra.Command
+        - runCommand(cmd *cobra.Command, args []string) 
+
+        + AddCommand(cmd *Command) 
+        + AddCommands(cmds ...*Command) 
+
+    }
+    interface CompleteableOptions  {
+        + Complete() error
+
+    }
+    interface ConfigurableOptions  {
+        + ApplyFlags() []error
+
+    }
+    interface PrintableOptions  {
+        + String() string
+
+    }
+    class app.CommandOption << (T, #FF7700) >>  {
+    }
+    class app.Option << (T, #FF7700) >>  {
+    }
+    class app.RunCommandFunc << (T, #FF7700) >>  {
+    }
+    class app.RunFunc << (T, #FF7700) >>  {
+    }
+}
+
+
+namespace auth {
+    class AutoStrategy << (S,Aquamarine) >> {
+        - basic middleware.AuthStrategy
+        - jwt middleware.AuthStrategy
+
+        + AuthFunc() gin.HandlerFunc
+
+    }
+    class BasicStrategy << (S,Aquamarine) >> {
+        - compare <font color=blue>func</font>(string, string) bool
+
+        + AuthFunc() gin.HandlerFunc
+
+    }
+    class CacheStrategy << (S,Aquamarine) >> {
+        - get <font color=blue>func</font>(string) (Secret, error)
+
+        + AuthFunc() gin.HandlerFunc
+
+    }
+    class JWTStrategy << (S,Aquamarine) >> {
+        + AuthFunc() gin.HandlerFunc
+
+    }
+    class Secret << (S,Aquamarine) >> {
+        + Username string
+        + ID string
+        + Key string
+        + Expires int64
+
+    }
+}
+"v2.GinJWTMiddleware" *-- "auth.JWTStrategy"
+
+"middleware.AuthStrategy" <|-- "auth.AutoStrategy"
+"middleware.AuthStrategy" <|-- "auth.BasicStrategy"
+"middleware.AuthStrategy" <|-- "auth.CacheStrategy"
+"middleware.AuthStrategy" <|-- "auth.JWTStrategy"
+
+namespace authorization {
+    class AuditLogger << (S,Aquamarine) >> {
+        - client AuthorizationInterface
+
+        + LogRejectedAccessRequest(r *ladon.Request, p ladon.Policies, d ladon.Policies) 
+        + LogGrantedAccessRequest(r *ladon.Request, p ladon.Policies, d ladon.Policies) 
+
+    }
+    interface AuthorizationInterface  {
+        + Create( *ladon.DefaultPolicy) error
+        + Update( *ladon.DefaultPolicy) error
+        + Delete(id string) error
+        + DeleteCollection(idList []string) error
+        + Get(id string) (*ladon.DefaultPolicy, error)
+        + List(username string) ([]*ladon.DefaultPolicy, error)
+        + LogRejectedAccessRequest(request *ladon.Request, pool ladon.Policies, deciders ladon.Policies) 
+        + LogGrantedAccessRequest(request *ladon.Request, pool ladon.Policies, deciders ladon.Policies) 
+
+    }
+    class Authorizer << (S,Aquamarine) >> {
+        - warden ladon.Warden
+
+        + Authorize(request *ladon.Request) *v1.Response
+
+    }
+    class MockAuthorizationInterface << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockAuthorizationInterfaceMockRecorder
+
+        + EXPECT() *MockAuthorizationInterfaceMockRecorder
+        + Create(arg0 *ladon.DefaultPolicy) error
+        + Delete(arg0 string) error
+        + DeleteCollection(arg0 []string) error
+        + Get(arg0 string) (*ladon.DefaultPolicy, error)
+        + List(arg0 string) ([]*ladon.DefaultPolicy, error)
+        + LogGrantedAccessRequest(arg0 *ladon.Request, arg1 ladon.Policies, arg2 ladon.Policies) 
+        + LogRejectedAccessRequest(arg0 *ladon.Request, arg1 ladon.Policies, arg2 ladon.Policies) 
+        + Update(arg0 *ladon.DefaultPolicy) error
+
+    }
+    class MockAuthorizationInterfaceMockRecorder << (S,Aquamarine) >> {
+        - mock *MockAuthorizationInterface
+
+        + Create(arg0 <font color=blue>interface</font>{}) *gomock.Call
+        + Delete(arg0 <font color=blue>interface</font>{}) *gomock.Call
+        + DeleteCollection(arg0 <font color=blue>interface</font>{}) *gomock.Call
+        + Get(arg0 <font color=blue>interface</font>{}) *gomock.Call
+        + List(arg0 <font color=blue>interface</font>{}) *gomock.Call
+        + LogGrantedAccessRequest(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + LogRejectedAccessRequest(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Update(arg0 <font color=blue>interface</font>{}) *gomock.Call
+
+    }
+    class PolicyManager << (S,Aquamarine) >> {
+        - client AuthorizationInterface
+
+        + Create(policy ladon.Policy) error
+        + Update(policy ladon.Policy) error
+        + Get(id string) (ladon.Policy, error)
+        + Delete(id string) error
+        + GetAll(limit int64, offset int64) (ladon.Policies, error)
+        + FindRequestCandidates(r *ladon.Request) (ladon.Policies, error)
+        + FindPoliciesForSubject(subject string) (ladon.Policies, error)
+        + FindPoliciesForResource(resource string) (ladon.Policies, error)
+
+    }
+}
+
+"authorization.AuthorizationInterface" <|-- "authorization.MockAuthorizationInterface"
+
+namespace authorize {
+    class AuthzController << (S,Aquamarine) >> {
+        - store authorizer.PolicyGetter
+
+        + Authorize(c *gin.Context) 
+
+    }
+}
+
+
+namespace authorizer {
+    class Authorization << (S,Aquamarine) >> {
+        - getter PolicyGetter
+
+        + Create(policy *ladon.DefaultPolicy) error
+        + Update(policy *ladon.DefaultPolicy) error
+        + Delete(id string) error
+        + DeleteCollection(idList []string) error
+        + Get(id string) (*ladon.DefaultPolicy, error)
+        + List(username string) ([]*ladon.DefaultPolicy, error)
+        + LogRejectedAccessRequest(r *ladon.Request, p ladon.Policies, d ladon.Policies) 
+        + LogGrantedAccessRequest(r *ladon.Request, p ladon.Policies, d ladon.Policies) 
+
+    }
+    interface PolicyGetter  {
+        + GetPolicy(key string) ([]*ladon.DefaultPolicy, error)
+
+    }
+}
+
+"authorization.AuthorizationInterface" <|-- "authorizer.Authorization"
+
+namespace authzserver {
+    class authzServer << (S,Aquamarine) >> {
+        - gs *shutdown.GracefulShutdown
+        - rpcServer string
+        - clientCA string
+        - redisOptions *options.RedisOptions
+        - genericAPIServer *server.GenericAPIServer
+        - analyticsOptions *analytics.AnalyticsOptions
+        - redisCancelFunc context.CancelFunc
+
+        - buildStorageConfig() *storage.Config
+        - initialize() error
+
+        + PrepareRun() preparedAuthzServer
+
+    }
+    class preparedAuthzServer << (S,Aquamarine) >> {
+        + Run() error
+
+    }
+}
+"authzserver.authzServer" *-- "authzserver.preparedAuthzServer"
+
+
+namespace cache {
+    class Cache << (S,Aquamarine) >> {
+        - store store.Factory
+        - lock *sync.RWMutex
+        - cli store.Factory
+        - secrets *ristretto.Cache
+        - policies *ristretto.Cache
+
+        + ListSecrets(ctx context.Context, r *v1.ListSecretsRequest) (*v1.ListSecretsResponse, error)
+        + ListPolicies(ctx context.Context, r *v1.ListPoliciesRequest) (*v1.ListPoliciesResponse, error)
+        + GetSecret(key string) (*v1.SecretInfo, error)
+        + GetPolicy(key string) ([]*ladon.DefaultPolicy, error)
+        + Reload() error
+
+    }
+}
+
+"authorizer.PolicyGetter" <|-- "cache.Cache"
+"load.Loader" <|-- "cache.Cache"
+
+namespace clean {
+    class cleanWatcher << (S,Aquamarine) >> {
+        - ctx context.Context
+        - mutex *redsync.Mutex
+        - maxReserveDays int
+
+        + Run() 
+        + Spec() string
+        + Init(ctx context.Context, rs *redsync.Mutex, config <font color=blue>interface</font>{}) error
+
+    }
+}
+
+"watcher.IWatcher" <|-- "clean.cleanWatcher"
+
+namespace code {
+    class ErrCode << (S,Aquamarine) >> {
+        + C int
+        + HTTP int
+        + Ext string
+        + Ref string
+
+        + Code() int
+        + String() string
+        + Reference() string
+        + HTTPStatus() int
+
+    }
+}
+
+"app.PrintableOptions" <|-- "code.ErrCode"
+
+namespace color {
+    class ColorOptions << (S,Aquamarine) >> {
+        + Type []string
+        + Example bool
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+}
+"genericclioptions.IOStreams" *-- "color.ColorOptions"
+
+
+namespace config {
+    class Config << (S,Aquamarine) >> {
+    }
+}
+"options.Options" *-- "config.Config"
+
+
+namespace cronlog {
+    class logger << (S,Aquamarine) >> {
+        - zapLogger *zap.SugaredLogger
+
+        + Info(msg string, args ...<font color=blue>interface</font>{}) 
+        + Error(err error, msg string, args ...<font color=blue>interface</font>{}) 
+        + Flush() 
+
+    }
+}
+
+
+namespace db {
+    class Options << (S,Aquamarine) >> {
+        + Host string
+        + Username string
+        + Password string
+        + Database string
+        + MaxIdleConnections int
+        + MaxOpenConnections int
+        + MaxConnectionLifeTime time.Duration
+        + LogLevel int
+        + Logger logger.Interface
+
+    }
+    class TracePlugin << (S,Aquamarine) >> {
+        + Name() string
+        + Initialize(db *gorm.DB) error
+
+    }
+}
+
+
+namespace distribution {
+    class Logger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+        - logrusLogger *logrus.Logger
+
+        + Print(args ...<font color=blue>interface</font>{}) 
+        + Println(args ...<font color=blue>interface</font>{}) 
+        + Printf(format string, args ...<font color=blue>interface</font>{}) 
+        + Trace(args ...<font color=blue>interface</font>{}) 
+        + Traceln(args ...<font color=blue>interface</font>{}) 
+        + Tracef(format string, args ...<font color=blue>interface</font>{}) 
+        + Debug(args ...<font color=blue>interface</font>{}) 
+        + Debugln(args ...<font color=blue>interface</font>{}) 
+        + Debugf(format string, args ...<font color=blue>interface</font>{}) 
+        + Info(args ...<font color=blue>interface</font>{}) 
+        + Infoln(args ...<font color=blue>interface</font>{}) 
+        + Infof(format string, args ...<font color=blue>interface</font>{}) 
+        + Warn(args ...<font color=blue>interface</font>{}) 
+        + Warnln(args ...<font color=blue>interface</font>{}) 
+        + Warnf(format string, args ...<font color=blue>interface</font>{}) 
+        + Warning(args ...<font color=blue>interface</font>{}) 
+        + Warningln(args ...<font color=blue>interface</font>{}) 
+        + Warningf(format string, args ...<font color=blue>interface</font>{}) 
+        + Error(args ...<font color=blue>interface</font>{}) 
+        + Errorln(args ...<font color=blue>interface</font>{}) 
+        + Errorf(format string, args ...<font color=blue>interface</font>{}) 
+        + Fatal(args ...<font color=blue>interface</font>{}) 
+        + Fatalln(args ...<font color=blue>interface</font>{}) 
+        + Fatalf(format string, args ...<font color=blue>interface</font>{}) 
+        + Panic(args ...<font color=blue>interface</font>{}) 
+        + Panicln(args ...<font color=blue>interface</font>{}) 
+        + Panicf(format string, args ...<font color=blue>interface</font>{}) 
+        + WithError(err error) *logrus.Entry
+
+    }
+}
+
+"logger.Writer" <|-- "distribution.Logger"
+
+namespace etcd {
+    class EtcdKeyValue << (S,Aquamarine) >> {
+        + Key string
+        + Value []byte
+
+    }
+    class EtcdWatcher << (S,Aquamarine) >> {
+        - watcher v3.Watcher
+        - cancel context.CancelFunc
+
+        + Cancel() 
+
+    }
+    class datastore << (S,Aquamarine) >> {
+        - cli *v3.Client
+        - requestTimeout time.Duration
+        - leaseTTLTimeout int
+        - leaseID v3.LeaseID
+        - onKeepaliveFailure <font color=blue>func</font>() 
+        - leaseLiving bool
+        - watchers <font color=blue>map</font>[string]*EtcdWatcher
+        - namespace string
+
+        - startSession() error
+        - getKey(key string) string
+        - grantLease(ctx context.Context, ttlSeconds int64) (*v3.LeaseGrantResponse, error)
+        - put(ctx context.Context, key string, val string, session bool) error
+
+        + Users() store.UserStore
+        + Secrets() store.SecretStore
+        + Policies() store.PolicyStore
+        + PolicyAudits() store.PolicyAuditStore
+        + Close() error
+        + Client() *v3.Client
+        + SessionLiving() bool
+        + RestartSession() error
+        + Put(ctx context.Context, key string, val string) error
+        + PutSession(ctx context.Context, key string, val string) error
+        + PutWithLease(ctx context.Context, key string, val string, ttlSeconds int64) error
+        + Get(ctx context.Context, key string) ([]byte, error)
+        + List(ctx context.Context, prefix string) ([]EtcdKeyValue, error)
+        + Watch(ctx context.Context, prefix string, onCreate EtcdCreateEventFunc, onModify EtcdModifyEventFunc, onDelete EtcdDeleteEventFunc) error
+        + Unwatch(prefix string) 
+        + Delete(ctx context.Context, key string) ([]byte, error)
+
+    }
+    class etcd.EtcdCreateEventFunc << (T, #FF7700) >>  {
+    }
+    class etcd.EtcdDeleteEventFunc << (T, #FF7700) >>  {
+    }
+    class etcd.EtcdModifyEventFunc << (T, #FF7700) >>  {
+    }
+    class policies << (S,Aquamarine) >> {
+        - ds *datastore
+
+        - getKey(username string, name string) string
+
+        + Create(ctx context.Context, policy *v1.Policy, opts v1.CreateOptions) error
+        + Update(ctx context.Context, policy *v1.Policy, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteByUser(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + DeleteCollectionByUser(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Policy, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.PolicyList, error)
+
+    }
+    class policyAudit << (S,Aquamarine) >> {
+        - ds *datastore
+
+        + ClearOutdated(ctx context.Context, maxReserveDays int) (int64, error)
+
+    }
+    class secrets << (S,Aquamarine) >> {
+        - ds *datastore
+
+        - getKey(username string, secretID string) string
+
+        + Create(ctx context.Context, secret *v1.Secret, opts v1.CreateOptions) error
+        + Update(ctx context.Context, secret *v1.Secret, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, secretID string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, secretIDs []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, secretID string, opts v1.GetOptions) (*v1.Secret, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.SecretList, error)
+
+    }
+    class users << (S,Aquamarine) >> {
+        - ds *datastore
+
+        - getKey(name string) string
+
+        + Create(ctx context.Context, user *v1.User, opts v1.CreateOptions) error
+        + Update(ctx context.Context, user *v1.User, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, opts v1.GetOptions) (*v1.User, error)
+        + List(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+
+    }
+    class "<font color=blue>func</font>(context.Context, []byte) " as fontcolorbluefuncfontcontextContextbyte {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+    class "<font color=blue>func</font>(context.Context, []byte, []byte) " as fontcolorbluefuncfontcontextContextbytebyte {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+    class "<font color=blue>func</font>(context.Context, []byte, []byte, []byte) " as fontcolorbluefuncfontcontextContextbytebytebyte {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+
+"store.Factory" <|-- "etcd.datastore"
+"v1.PolicySrv" <|-- "etcd.policies"
+"store.PolicyAuditStore" <|-- "etcd.policyAudit"
+"v1.SecretSrv" <|-- "etcd.secrets"
+"store.UserStore" <|-- "etcd.users"
+
+namespace fake {
+    class datastore << (S,Aquamarine) >> {
+        - users []*v1.User
+        - secrets []*v1.Secret
+        - policies []*v1.Policy
+
+        + Users() store.UserStore
+        + Secrets() store.SecretStore
+        + Policies() store.PolicyStore
+        + PolicyAudits() store.PolicyAuditStore
+        + Close() error
+
+    }
+    class policies << (S,Aquamarine) >> {
+        - ds *datastore
+
+        + Create(ctx context.Context, policy *v1.Policy, opts v1.CreateOptions) error
+        + Update(ctx context.Context, policy *v1.Policy, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + DeleteByUser(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollectionByUser(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Policy, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.PolicyList, error)
+
+    }
+    class policyAudit << (S,Aquamarine) >> {
+        - ds *datastore
+
+        + ClearOutdated(ctx context.Context, maxReserveDays int) (int64, error)
+
+    }
+    class secrets << (S,Aquamarine) >> {
+        - ds *datastore
+
+        + Create(ctx context.Context, secret *v1.Secret, opts v1.CreateOptions) error
+        + Update(ctx context.Context, secret *v1.Secret, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Secret, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.SecretList, error)
+
+    }
+    class users << (S,Aquamarine) >> {
+        - ds *datastore
+
+        + Create(ctx context.Context, user *v1.User, opts v1.CreateOptions) error
+        + Update(ctx context.Context, user *v1.User, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, opts v1.GetOptions) (*v1.User, error)
+        + List(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+
+    }
+}
+"sync.RWMutex" *-- "fake.datastore"
+
+"store.Factory" <|-- "fake.datastore"
+"v1.PolicySrv" <|-- "fake.policies"
+"store.PolicyAuditStore" <|-- "fake.policyAudit"
+"v1.SecretSrv" <|-- "fake.secrets"
+"store.UserStore" <|-- "fake.users"
+
+namespace genericclioptions {
+    class ConfigFlags << (S,Aquamarine) >> {
+        - clientConfig clientcmd.ClientConfig
+        - lock sync.Mutex
+        - usePersistentConfig bool
+
+        + IAMConfig *string
+        + BearerToken *string
+        + Username *string
+        + Password *string
+        + SecretID *string
+        + SecretKey *string
+        + Insecure *bool
+        + TLSServerName *string
+        + CertFile *string
+        + KeyFile *string
+        + CAFile *string
+        + APIServer *string
+        + Timeout *time.Duration
+        + MaxRetries *int
+        + RetryInterval *time.Duration
+
+        - toRawIAMConfigLoader() clientcmd.ClientConfig
+        - toRawIAMPersistentConfigLoader() clientcmd.ClientConfig
+
+        + ToRESTConfig() (*rest.Config, error)
+        + ToRawIAMConfigLoader() clientcmd.ClientConfig
+        + AddFlags(flags *pflag.FlagSet) 
+        + WithDeprecatedPasswordFlag() *ConfigFlags
+        + WithDeprecatedSecretFlag() *ConfigFlags
+
+    }
+    class IOStreams << (S,Aquamarine) >> {
+        + In io.Reader
+        + Out io.Writer
+        + ErrOut io.Writer
+
+    }
+    interface RESTClientGetter  {
+        + ToRESTConfig() (*rest.Config, error)
+        + ToRawIAMConfigLoader() clientcmd.ClientConfig
+
+    }
+}
+
+"genericclioptions.RESTClientGetter" <|-- "genericclioptions.ConfigFlags"
+
+namespace gormutil {
+    class LimitAndOffset << (S,Aquamarine) >> {
+        + Offset int
+        + Limit int
+
+    }
+}
+
+
+namespace info {
+    class Info << (S,Aquamarine) >> {
+        + HostName string
+        + IPAddress string
+        + OSRelease string
+        + CPUCore uint64
+        + MemTotal string
+        + MemFree string
+
+    }
+    class InfoOptions << (S,Aquamarine) >> {
+        + Run(args []string) error
+
+    }
+}
+"genericclioptions.IOStreams" *-- "info.InfoOptions"
+
+
+namespace interrupt {
+    class Handler << (S,Aquamarine) >> {
+        - notify []<font color=blue>func</font>() 
+        - final <font color=blue>func</font>(os.Signal) 
+        - once sync.Once
+
+        + Close() 
+        + Signal(s os.Signal) 
+        + Run(fn <font color=blue>func</font>() error) error
+
+    }
+}
+
+
+namespace jwt {
+    class ArgList << (S,Aquamarine) >> {
+        + String() string
+        + Set(arg string) error
+        + Type() string
+
+    }
+    class ShowOptions << (S,Aquamarine) >> {
+        + Compact bool
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class SignOptions << (S,Aquamarine) >> {
+        + Timeout time.Duration
+        + NotBefore time.Duration
+        + Algorithm string
+        + Audience string
+        + Issuer string
+        + Claims ArgList
+        + Head ArgList
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class VerifyOptions << (S,Aquamarine) >> {
+        + Compact bool
+        + Debug bool
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class jwt.ArgList << (T, #FF7700) >>  {
+    }
+}
+"genericclioptions.IOStreams" *-- "jwt.ShowOptions"
+"genericclioptions.IOStreams" *-- "jwt.SignOptions"
+"genericclioptions.IOStreams" *-- "jwt.VerifyOptions"
+
+"app.PrintableOptions" <|-- "jwt.ArgList"
+
+namespace klog {
+    class errorLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+    class fatalLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+    class infoLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+    class warnLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+}
+
+
+namespace load {
+    class Load << (S,Aquamarine) >> {
+        - ctx context.Context
+        - lock *sync.RWMutex
+        - loader Loader
+
+        - reloadLoop(complete ...<font color=blue>func</font>() ) 
+        - reloadQueueLoop(cb ...<font color=blue>func</font>() ) 
+
+        + Start() 
+        + DoReload() 
+
+    }
+    interface Loader  {
+        + Reload() error
+
+    }
+    class Notification << (S,Aquamarine) >> {
+        + Command NotificationCommand
+        + Payload string
+        + Signature string
+        + SignatureAlgo crypto.Hash
+
+        + Sign() 
+
+    }
+    class RedisNotifier << (S,Aquamarine) >> {
+        - store *storage.RedisCluster
+        - channel string
+
+        + Notify(notif <font color=blue>interface</font>{}) bool
+
+    }
+    class load.NotificationCommand << (T, #FF7700) >>  {
+    }
+}
+
+
+namespace log {
+    interface InfoLogger  {
+        + Info(msg string, fields ...Field) 
+        + Infof(format string, v ...<font color=blue>interface</font>{}) 
+        + Infow(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Enabled() bool
+
+    }
+    interface Logger  {
+        + Debug(msg string, fields ...Field) 
+        + Debugf(format string, v ...<font color=blue>interface</font>{}) 
+        + Debugw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Warn(msg string, fields ...Field) 
+        + Warnf(format string, v ...<font color=blue>interface</font>{}) 
+        + Warnw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Error(msg string, fields ...Field) 
+        + Errorf(format string, v ...<font color=blue>interface</font>{}) 
+        + Errorw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Panic(msg string, fields ...Field) 
+        + Panicf(format string, v ...<font color=blue>interface</font>{}) 
+        + Panicw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Fatal(msg string, fields ...Field) 
+        + Fatalf(format string, v ...<font color=blue>interface</font>{}) 
+        + Fatalw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + V(level Level) InfoLogger
+        + Write(p []byte) (int, error)
+        + WithValues(keysAndValues ...<font color=blue>interface</font>{}) Logger
+        + WithName(name string) Logger
+        + WithContext(ctx context.Context) context.Context
+        + Flush() 
+
+    }
+    class Options << (S,Aquamarine) >> {
+        + OutputPaths []string
+        + ErrorOutputPaths []string
+        + Level string
+        + Format string
+        + DisableCaller bool
+        + DisableStacktrace bool
+        + EnableColor bool
+        + Development bool
+        + Name string
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+        + String() string
+        + Build() error
+
+    }
+    class infoLogger << (S,Aquamarine) >> {
+        - level zapcore.Level
+        - log *zap.Logger
+
+        + Enabled() bool
+        + Info(msg string, fields ...Field) 
+        + Infof(format string, args ...<font color=blue>interface</font>{}) 
+        + Infow(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+
+    }
+    class log.Field << (T, #FF7700) >>  {
+    }
+    class log.Level << (T, #FF7700) >>  {
+    }
+    class log.key << (T, #FF7700) >>  {
+    }
+    class noopInfoLogger << (S,Aquamarine) >> {
+        + Enabled() bool
+        + Info(_ string, _ ...Field) 
+        + Infof(_ string, _ ...<font color=blue>interface</font>{}) 
+        + Infow(_ string, _ ...<font color=blue>interface</font>{}) 
+
+    }
+    class zapLogger << (S,Aquamarine) >> {
+        - zapLogger *zap.Logger
+
+        - clone() *zapLogger
+
+        + WithContext(ctx context.Context) context.Context
+        + V(level Level) InfoLogger
+        + Write(p []byte) (int, error)
+        + WithValues(keysAndValues ...<font color=blue>interface</font>{}) Logger
+        + WithName(name string) Logger
+        + Flush() 
+        + Debug(msg string, fields ...Field) 
+        + Debugf(format string, v ...<font color=blue>interface</font>{}) 
+        + Debugw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Info(msg string, fields ...Field) 
+        + Infof(format string, v ...<font color=blue>interface</font>{}) 
+        + Infow(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Warn(msg string, fields ...Field) 
+        + Warnf(format string, v ...<font color=blue>interface</font>{}) 
+        + Warnw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Error(msg string, fields ...Field) 
+        + Errorf(format string, v ...<font color=blue>interface</font>{}) 
+        + Errorw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Panic(msg string, fields ...Field) 
+        + Panicf(format string, v ...<font color=blue>interface</font>{}) 
+        + Panicw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Fatal(msg string, fields ...Field) 
+        + Fatalf(format string, v ...<font color=blue>interface</font>{}) 
+        + Fatalw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + L(ctx context.Context) *zapLogger
+
+    }
+    class "zapcore.Field" as zapcoreField {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+    class "zapcore.Level" as zapcoreLevel {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+"log.InfoLogger" *-- "log.Logger"
+"log.infoLogger" *-- "log.zapLogger"
+
+"app.PrintableOptions" <|-- "log.Options"
+"log.InfoLogger" <|-- "log.infoLogger"
+"log.InfoLogger" <|-- "log.noopInfoLogger"
+"log.Logger" <|-- "log.zapLogger"
+
+namespace logger {
+    class Config << (S,Aquamarine) >> {
+        + SlowThreshold time.Duration
+        + Colorful bool
+        + LogLevel logger.LogLevel
+
+    }
+    interface Writer  {
+        + Printf( string,  ...<font color=blue>interface</font>{}) 
+
+    }
+    class logger << (S,Aquamarine) >> {
+        - infoStr string
+        - traceStr string
+
+        + LogMode(level logger.LogLevel) logger.Interface
+        + Info(ctx context.Context, msg string, data ...<font color=blue>interface</font>{}) 
+        + Warn(ctx context.Context, msg string, data ...<font color=blue>interface</font>{}) 
+        + Error(ctx context.Context, msg string, data ...<font color=blue>interface</font>{}) 
+        + Trace(ctx context.Context, begin time.Time, fc <font color=blue>func</font>() (string, int64), err error) 
+
+    }
+}
+"logger.Config" *-- "logger.logger"
+"logger.Writer" *-- "logger.logger"
+
+
+namespace logrus {
+    class hook << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Levels() []logrus.Level
+        + Fire(entry *logrus.Entry) error
+        + Write(lvl zapcore.Level, msg string, fields []zap.Field, caller *runtime.Frame) 
+
+    }
+}
+
+
+namespace middleware {
+    class AuthOperator << (S,Aquamarine) >> {
+        - strategy AuthStrategy
+
+        + SetStrategy(strategy AuthStrategy) 
+        + AuthFunc() gin.HandlerFunc
+
+    }
+    interface AuthStrategy  {
+        + AuthFunc() gin.HandlerFunc
+
+    }
+}
+
+"middleware.AuthStrategy" <|-- "middleware.AuthOperator"
+
+namespace mysql {
+    class datastore << (S,Aquamarine) >> {
+        - db *gorm.DB
+
+        + Users() store.UserStore
+        + Secrets() store.SecretStore
+        + Policies() store.PolicyStore
+        + PolicyAudits() store.PolicyAuditStore
+        + Close() error
+
+    }
+    class policies << (S,Aquamarine) >> {
+        - db *gorm.DB
+
+        + Create(ctx context.Context, policy *v1.Policy, opts v1.CreateOptions) error
+        + Update(ctx context.Context, policy *v1.Policy, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteByUser(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + DeleteCollectionByUser(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Policy, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.PolicyList, error)
+
+    }
+    class policyAudit << (S,Aquamarine) >> {
+        - db *gorm.DB
+
+        + ClearOutdated(ctx context.Context, maxReserveDays int) (int64, error)
+
+    }
+    class secrets << (S,Aquamarine) >> {
+        - db *gorm.DB
+
+        + Create(ctx context.Context, secret *v1.Secret, opts v1.CreateOptions) error
+        + Update(ctx context.Context, secret *v1.Secret, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Secret, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.SecretList, error)
+
+    }
+    class users << (S,Aquamarine) >> {
+        - db *gorm.DB
+
+        + Create(ctx context.Context, user *v1.User, opts v1.CreateOptions) error
+        + Update(ctx context.Context, user *v1.User, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, opts v1.GetOptions) (*v1.User, error)
+        + List(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+        + ListOptional(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+
+    }
+}
+
+"store.Factory" <|-- "mysql.datastore"
+"v1.PolicySrv" <|-- "mysql.policies"
+"store.PolicyAuditStore" <|-- "mysql.policyAudit"
+"v1.SecretSrv" <|-- "mysql.secrets"
+"store.UserStore" <|-- "mysql.users"
+
+namespace new {
+    class NewOptions << (S,Aquamarine) >> {
+        + Group bool
+        + Outdir string
+        + CommandName string
+        + CommandDescription string
+        + CommandFunctionName string
+        + Dot string
+
+        + Complete(cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command) error
+        + Run(args []string) error
+        + CreateCommand() error
+        + CreateCommandWithSubCommands() error
+        + GenerateGoCode(name string, codeTemplate string) error
+
+    }
+}
+"genericclioptions.IOStreams" *-- "new.NewOptions"
+
+
+namespace options {
+    class CertKey << (S,Aquamarine) >> {
+        + CertFile string
+        + KeyFile string
+
+    }
+    class CleanOptions << (S,Aquamarine) >> {
+        + MaxReserveDays int
+
+    }
+    class ClientCertAuthenticationOptions << (S,Aquamarine) >> {
+        + ClientCA string
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class EtcdOptions << (S,Aquamarine) >> {
+        + Endpoints []string
+        + Timeout int
+        + RequestTimeout int
+        + LeaseExpire int
+        + Username string
+        + Password string
+        + UseTLS bool
+        + CaCert string
+        + Cert string
+        + Key string
+        + HealthBeatPathPrefix string
+        + HealthBeatIFaceName string
+        + Namespace string
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+        + GetEtcdTLSConfig() (*tls.Config, error)
+
+    }
+    class FeatureOptions << (S,Aquamarine) >> {
+        + EnableProfiling bool
+        + EnableMetrics bool
+
+        + ApplyTo(c *server.Config) error
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class GRPCOptions << (S,Aquamarine) >> {
+        + BindAddress string
+        + BindPort int
+        + MaxMsgSize int
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class GeneratableKeyCert << (S,Aquamarine) >> {
+        + CertKey CertKey
+        + CertDirectory string
+        + PairName string
+
+    }
+    class InsecureServingOptions << (S,Aquamarine) >> {
+        + BindAddress string
+        + BindPort int
+
+        + ApplyTo(c *server.Config) error
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class JwtOptions << (S,Aquamarine) >> {
+        + Realm string
+        + Key string
+        + Timeout time.Duration
+        + MaxRefresh time.Duration
+
+        + ApplyTo(c *server.Config) error
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class MySQLOptions << (S,Aquamarine) >> {
+        + Host string
+        + Username string
+        + Password string
+        + Database string
+        + MaxIdleConnections int
+        + MaxOpenConnections int
+        + MaxConnectionLifeTime time.Duration
+        + LogLevel int
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+        + NewClient() (*gorm.DB, error)
+
+    }
+    class Options << (S,Aquamarine) >> {
+        + GenericServerRunOptions *options.ServerRunOptions
+        + GRPCOptions *options.GRPCOptions
+        + InsecureServing *options.InsecureServingOptions
+        + SecureServing *options.SecureServingOptions
+        + MySQLOptions *options.MySQLOptions
+        + RedisOptions *options.RedisOptions
+        + JwtOptions *options.JwtOptions
+        + Log *log.Options
+        + FeatureOptions *options.FeatureOptions
+        + RPCServer string
+        + ClientCA string
+        + GenericServerRunOptions *options.ServerRunOptions
+        + InsecureServing *options.InsecureServingOptions
+        + SecureServing *options.SecureServingOptions
+        + RedisOptions *options.RedisOptions
+        + FeatureOptions *options.FeatureOptions
+        + Log *log.Options
+        + AnalyticsOptions *analytics.AnalyticsOptions
+        + PurgeDelay int
+        + Pumps <font color=blue>map</font>[string]PumpConfig
+        + HealthCheckPath string
+        + HealthCheckAddress string
+        + OmitDetailedRecording bool
+        + RedisOptions *options.RedisOptions
+        + Log *log.Options
+        + HealthCheckPath string
+        + HealthCheckAddress string
+        + MySQLOptions *options.MySQLOptions
+        + RedisOptions *options.RedisOptions
+        + WatcherOptions *WatcherOptions
+        + Log *log.Options
+
+        + ApplyTo(c *server.Config) error
+        + Flags() flag.NamedFlagSets
+        + String() string
+        + Complete() error
+        + Validate() []error
+        + ApplyTo(c *server.Config) error
+        + Flags() flag.NamedFlagSets
+        + String() string
+        + Complete() error
+        + Validate() []error
+        + Flags() flag.NamedFlagSets
+        + String() string
+        + Validate() []error
+        + Flags() flag.NamedFlagSets
+        + String() string
+        + Validate() []error
+
+    }
+    class PumpConfig << (S,Aquamarine) >> {
+        + Type string
+        + Filters analytics.AnalyticsFilters
+        + Timeout int
+        + OmitDetailedRecording bool
+        + Meta <font color=blue>map</font>[string]<font color=blue>interface</font>{}
+
+    }
+    class RedisOptions << (S,Aquamarine) >> {
+        + Host string
+        + Port int
+        + Addrs []string
+        + Username string
+        + Password string
+        + Database int
+        + MasterName string
+        + MaxIdle int
+        + MaxActive int
+        + Timeout int
+        + EnableCluster bool
+        + UseSSL bool
+        + SSLInsecureSkipVerify bool
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class SecureServingOptions << (S,Aquamarine) >> {
+        + BindAddress string
+        + BindPort int
+        + Required bool
+        + ServerCert GeneratableKeyCert
+
+        + ApplyTo(c *server.Config) error
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+        + Complete() error
+
+    }
+    class ServerRunOptions << (S,Aquamarine) >> {
+        + Mode string
+        + Healthz bool
+        + Middlewares []string
+
+        + ApplyTo(c *server.Config) error
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+
+    }
+    class TaskOptions << (S,Aquamarine) >> {
+        + MaxInactiveDays int
+
+    }
+    class WatcherOptions << (S,Aquamarine) >> {
+        + Clean CleanOptions
+        + Task TaskOptions
+
+    }
+}
+
+"app.CliOptions" <|-- "options.Options"
+"app.CompleteableOptions" <|-- "options.Options"
+"app.PrintableOptions" <|-- "options.Options"
+"app.CompleteableOptions" <|-- "options.SecureServingOptions"
+
+namespace policy {
+    class CreateOptions << (S,Aquamarine) >> {
+        + Policy *v1.Policy
+        + Client v1.APIV1Interface
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class DeleteOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Name string
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run() error
+
+    }
+    class GetOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Name string
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class ListOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Offset int64
+        + Limit int64
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class PolicyController << (S,Aquamarine) >> {
+        - srv v1.Service
+
+        + Create(c *gin.Context) 
+        + Delete(c *gin.Context) 
+        + DeleteCollection(c *gin.Context) 
+        + Get(c *gin.Context) 
+        + List(c *gin.Context) 
+        + Update(c *gin.Context) 
+
+    }
+    class UpdateOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Policy *v1.Policy
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+}
+"genericclioptions.IOStreams" *-- "policy.CreateOptions"
+"genericclioptions.IOStreams" *-- "policy.DeleteOptions"
+"genericclioptions.IOStreams" *-- "policy.GetOptions"
+"genericclioptions.IOStreams" *-- "policy.ListOptions"
+"genericclioptions.IOStreams" *-- "policy.UpdateOptions"
+
+
+namespace posixsignal {
+    class PosixSignalManager << (S,Aquamarine) >> {
+        - signals []os.Signal
+
+        + GetName() string
+        + Start(gs shutdown.GSInterface) error
+        + ShutdownStart() error
+        + ShutdownFinish() error
+
+    }
+}
+
+"shutdown.ShutdownManager" <|-- "posixsignal.PosixSignalManager"
+
+namespace pump {
+    class preparedPumpServer << (S,Aquamarine) >> {
+        + Run(stopCh <font color=blue>chan</font> <font color=blue>struct</font>{}) error
+
+    }
+    class pumpServer << (S,Aquamarine) >> {
+        - secInterval int
+        - omitDetails bool
+        - mutex *redsync.Mutex
+        - analyticsStore storage.AnalyticsStorage
+        - pumps <font color=blue>map</font>[string]options.PumpConfig
+
+        - pump() 
+        - initialize() 
+
+        + PrepareRun() preparedPumpServer
+
+    }
+}
+"pump.pumpServer" *-- "pump.preparedPumpServer"
+
+
+namespace pumps {
+    class APIKeyTransport << (S,Aquamarine) >> {
+        + APIKey string
+        + APIKeyID string
+
+        + RoundTrip(r *http.Request) (*http.Response, error)
+
+    }
+    class BaseMongoConf << (S,Aquamarine) >> {
+        + MongoURL string
+        + MongoUseSSL bool
+        + MongoSSLInsecureSkipVerify bool
+        + MongoSSLAllowInvalidHostnames bool
+        + MongoSSLCAFile string
+        + MongoSSLPEMKeyfile string
+        + MongoDBType MongoType
+
+    }
+    class CSVConf << (S,Aquamarine) >> {
+        + CSVDir string
+
+    }
+    class CSVPump << (S,Aquamarine) >> {
+        - csvConf *CSVConf
+
+        + New() Pump
+        + GetName() string
+        + Init(conf <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+
+    }
+    class CommonPumpConfig << (S,Aquamarine) >> {
+        - filters analytics.AnalyticsFilters
+        - timeout int
+
+        + OmitDetailedRecording bool
+
+        + SetFilters(filters analytics.AnalyticsFilters) 
+        + GetFilters() analytics.AnalyticsFilters
+        + SetTimeout(timeout int) 
+        + GetTimeout() int
+        + SetOmitDetailedRecording(omitDetailedRecording bool) 
+        + GetOmitDetailedRecording() bool
+
+    }
+    class DummyPump << (S,Aquamarine) >> {
+        + New() Pump
+        + GetName() string
+        + Init(conf <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+
+    }
+    class Elasticsearch7Operator << (S,Aquamarine) >> {
+        - esClient *v7.Client
+        - bulkProcessor *v7.BulkProcessor
+
+        - processData(ctx context.Context, data []<font color=blue>interface</font>{}, esConf *ElasticsearchConf) error
+
+    }
+    class ElasticsearchBulkConfig << (S,Aquamarine) >> {
+        + Workers int
+        + FlushInterval int
+        + BulkActions int
+        + BulkSize int
+
+    }
+    class ElasticsearchConf << (S,Aquamarine) >> {
+        + BulkConfig ElasticsearchBulkConfig
+        + IndexName string
+        + ElasticsearchURL string
+        + DocumentType string
+        + AuthAPIKeyID string
+        + AuthAPIKey string
+        + Username string
+        + Password string
+        + EnableSniffing bool
+        + RollingIndex bool
+        + DisableBulk bool
+
+    }
+    interface ElasticsearchOperator  {
+        - processData(ctx context.Context, data []<font color=blue>interface</font>{}, esConf *ElasticsearchConf) error
+
+    }
+    class ElasticsearchPump << (S,Aquamarine) >> {
+        - operator ElasticsearchOperator
+        - esConf *ElasticsearchConf
+
+        - connect(ctx context.Context) 
+
+        + New() Pump
+        + GetName() string
+        + Init(config <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+
+    }
+    class InfluxConf << (S,Aquamarine) >> {
+        + DatabaseName string
+        + Addr string
+        + Username string
+        + Password string
+        + Fields []string
+        + Tags []string
+
+    }
+    class InfluxPump << (S,Aquamarine) >> {
+        - dbConf *InfluxConf
+
+        - connect() client.Client
+
+        + New() Pump
+        + GetName() string
+        + Init(config <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+
+    }
+    class KafkaConf << (S,Aquamarine) >> {
+        + Broker []string
+        + ClientID string
+        + Topic string
+        + SSLCertFile string
+        + SSLKeyFile string
+        + SASLMechanism string
+        + Username string
+        + Password string
+        + Algorithm string
+        + Timeout time.Duration
+        + MetaData <font color=blue>map</font>[string]string
+        + Compressed bool
+        + UseSSL bool
+        + SSLInsecureSkipVerify bool
+
+    }
+    class KafkaPump << (S,Aquamarine) >> {
+        - kafkaConf *KafkaConf
+        - writerConfig kafka.WriterConfig
+
+        - write(ctx context.Context, messages []kafka.Message) error
+
+        + New() Pump
+        + GetName() string
+        + Init(config <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+
+    }
+    class MongoConf << (S,Aquamarine) >> {
+        + CollectionName string
+        + MaxInsertBatchSizeBytes int
+        + MaxDocumentSizeBytes int
+        + CollectionCapMaxSizeBytes int
+        + CollectionCapEnable bool
+
+    }
+    class MongoPump << (S,Aquamarine) >> {
+        - dbSession *mgo.Session
+        - dbConf *MongoConf
+
+        - capCollection() bool
+        - collectionExists(name string) (bool, error)
+        - ensureIndexes() error
+        - connect() 
+
+        + New() Pump
+        + GetName() string
+        + Init(config <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+        + AccumulateSet(data []<font color=blue>interface</font>{}) [][]<font color=blue>interface</font>{}
+
+    }
+    class PrometheusConf << (S,Aquamarine) >> {
+        + Addr string
+        + Path string
+
+    }
+    class PrometheusPump << (S,Aquamarine) >> {
+        - conf *PrometheusConf
+
+        + TotalStatusMetrics *prometheus.CounterVec
+
+        + New() Pump
+        + GetName() string
+        + Init(conf <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+
+    }
+    interface Pump  {
+        + GetName() string
+        + New() Pump
+        + Init( <font color=blue>interface</font>{}) error
+        + WriteData( context.Context,  []<font color=blue>interface</font>{}) error
+        + SetFilters( analytics.AnalyticsFilters) 
+        + GetFilters() analytics.AnalyticsFilters
+        + SetTimeout(timeout int) 
+        + GetTimeout() int
+        + SetOmitDetailedRecording( bool) 
+        + GetOmitDetailedRecording() bool
+
+    }
+    class SyslogConf << (S,Aquamarine) >> {
+        + Transport string
+        + NetworkAddr string
+        + LogLevel int
+        + Tag string
+
+    }
+    class SyslogPump << (S,Aquamarine) >> {
+        - syslogConf *SyslogConf
+        - writer *syslog.Writer
+        - filters analytics.AnalyticsFilters
+        - timeout int
+
+        + New() Pump
+        + GetName() string
+        + Init(config <font color=blue>interface</font>{}) error
+        + WriteData(ctx context.Context, data []<font color=blue>interface</font>{}) error
+        + SetTimeout(timeout int) 
+        + GetTimeout() int
+        + SetFilters(filters analytics.AnalyticsFilters) 
+        + GetFilters() analytics.AnalyticsFilters
+
+    }
+    class pumps.Message << (T, #FF7700) >>  {
+    }
+    class pumps.MongoType << (T, #FF7700) >>  {
+    }
+}
+"pumps.CommonPumpConfig" *-- "pumps.CSVPump"
+"pumps.CommonPumpConfig" *-- "pumps.DummyPump"
+"pumps.CommonPumpConfig" *-- "pumps.ElasticsearchPump"
+"pumps.CommonPumpConfig" *-- "pumps.InfluxPump"
+"pumps.CommonPumpConfig" *-- "pumps.KafkaPump"
+"pumps.BaseMongoConf" *-- "pumps.MongoConf"
+"pumps.CommonPumpConfig" *-- "pumps.MongoPump"
+"pumps.CommonPumpConfig" *-- "pumps.PrometheusPump"
+"pumps.CommonPumpConfig" *-- "pumps.SyslogPump"
+
+"pumps.ElasticsearchOperator" <|-- "pumps.Elasticsearch7Operator"
+
+namespace redis {
+    class RedisClusterStorageManager << (S,Aquamarine) >> {
+        - db v7.UniversalClient
+
+        + KeyPrefix string
+        + HashKeys bool
+        + Config options.RedisOptions
+
+        - hashKey(in string) string
+        - fixKey(keyName string) string
+        - ensureConnection() 
+
+        + GetName() string
+        + Init(config <font color=blue>interface</font>{}) error
+        + Connect() bool
+        + GetAndDeleteSet(keyName string) []<font color=blue>interface</font>{}
+        + SetKey(keyName string, session string, timeout int64) error
+        + SetExp(keyName string, timeout int64) error
+
+    }
+    class RedisOpts << (S,Aquamarine) >> {
+        - cluster() *v7.ClusterOptions
+        - simple() *v7.Options
+        - failover() *v7.FailoverOptions
+
+    }
+    class redis.RedisOpts << (T, #FF7700) >>  {
+    }
+    class "v7.UniversalOptions" as v7UniversalOptions {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+
+"storage.AnalyticsStorage" <|-- "redis.RedisClusterStorageManager"
+
+namespace secret {
+    class CreateOptions << (S,Aquamarine) >> {
+        + Description string
+        + Expires int64
+        + Secret *v1.Secret
+        + Client v1.APIV1Interface
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class DeleteOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Name string
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run() error
+
+    }
+    class GetOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Name string
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class ListOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Offset int64
+        + Limit int64
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class SecretController << (S,Aquamarine) >> {
+        - srv v1.Service
+
+        + Create(c *gin.Context) 
+        + Delete(c *gin.Context) 
+        + DeleteCollection(c *gin.Context) 
+        + Get(c *gin.Context) 
+        + List(c *gin.Context) 
+        + Update(c *gin.Context) 
+
+    }
+    class UpdateOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Description string
+        + Expires int64
+        + Secret *v1.Secret
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+}
+"genericclioptions.IOStreams" *-- "secret.CreateOptions"
+"genericclioptions.IOStreams" *-- "secret.DeleteOptions"
+"genericclioptions.IOStreams" *-- "secret.GetOptions"
+"genericclioptions.IOStreams" *-- "secret.ListOptions"
+"genericclioptions.IOStreams" *-- "secret.UpdateOptions"
+
+
+namespace server {
+    class CertKey << (S,Aquamarine) >> {
+        + CertFile string
+        + KeyFile string
+
+    }
+    class CompletedConfig << (S,Aquamarine) >> {
+        + New() (*GenericAPIServer, error)
+
+    }
+    class Config << (S,Aquamarine) >> {
+        + SecureServing *SecureServingInfo
+        + InsecureServing *InsecureServingInfo
+        + Jwt *JwtInfo
+        + Mode string
+        + Middlewares []string
+        + Healthz bool
+        + EnableProfiling bool
+        + EnableMetrics bool
+
+        + Complete() CompletedConfig
+
+    }
+    class GenericAPIServer << (S,Aquamarine) >> {
+        - middlewares []string
+        - healthz bool
+        - enableMetrics bool
+        - enableProfiling bool
+        - insecureServer *http.Server
+
+        + SecureServingInfo *SecureServingInfo
+        + InsecureServingInfo *InsecureServingInfo
+        + ShutdownTimeout time.Duration
+
+        - ping(ctx context.Context) error
+
+        + InstallAPIs() 
+        + Setup() 
+        + InstallMiddlewares() 
+        + Run() error
+        + Close() 
+
+    }
+    class InsecureServingInfo << (S,Aquamarine) >> {
+        + Address string
+
+    }
+    class JwtInfo << (S,Aquamarine) >> {
+        + Realm string
+        + Key string
+        + Timeout time.Duration
+        + MaxRefresh time.Duration
+
+    }
+    class SecureServingInfo << (S,Aquamarine) >> {
+        + BindAddress string
+        + BindPort int
+        + CertKey CertKey
+
+        + Address() string
+
+    }
+}
+"server.Config" *-- "server.CompletedConfig"
+"gin.Engine" *-- "server.GenericAPIServer"
+
+
+namespace set {
+    class DBOptions << (S,Aquamarine) >> {
+        - host string
+        - username string
+        - password string
+        - drop bool
+        - admin bool
+
+        + Database string
+
+        - ensureSchema() error
+        - insertAdministrator(db *gorm.DB) error
+
+        + Complete() error
+        + Validate() error
+        + Run() error
+
+    }
+}
+"genericclioptions.IOStreams" *-- "set.DBOptions"
+
+"app.CompleteableOptions" <|-- "set.DBOptions"
+
+namespace shutdown {
+    class ErrorFunc << (S,Aquamarine) >> {
+        + OnError(err error) 
+
+    }
+    interface ErrorHandler  {
+        + OnError(err error) 
+
+    }
+    interface GSInterface  {
+        + StartShutdown(sm ShutdownManager) 
+        + ReportError(err error) 
+        + AddShutdownCallback(shutdownCallback ShutdownCallback) 
+
+    }
+    class GracefulShutdown << (S,Aquamarine) >> {
+        - callbacks []ShutdownCallback
+        - managers []ShutdownManager
+        - errorHandler ErrorHandler
+
+        + Start() error
+        + AddShutdownManager(manager ShutdownManager) 
+        + AddShutdownCallback(shutdownCallback ShutdownCallback) 
+        + SetErrorHandler(errorHandler ErrorHandler) 
+        + StartShutdown(sm ShutdownManager) 
+        + ReportError(err error) 
+
+    }
+    interface ShutdownCallback  {
+        + OnShutdown( string) error
+
+    }
+    class ShutdownFunc << (S,Aquamarine) >> {
+        + OnShutdown(shutdownManager string) error
+
+    }
+    interface ShutdownManager  {
+        + GetName() string
+        + Start(gs GSInterface) error
+        + ShutdownStart() error
+        + ShutdownFinish() error
+
+    }
+    class shutdown.ErrorFunc << (T, #FF7700) >>  {
+    }
+    class shutdown.ShutdownFunc << (T, #FF7700) >>  {
+    }
+}
+
+"shutdown.ErrorHandler" <|-- "shutdown.ErrorFunc"
+"shutdown.GSInterface" <|-- "shutdown.GracefulShutdown"
+"shutdown.ShutdownCallback" <|-- "shutdown.ShutdownFunc"
+
+namespace storage {
+    interface AnalyticsHandler  {
+        + Connect() bool
+        + AppendToSetPipelined( string,  [][]byte) 
+        + GetAndDeleteSet( string) []<font color=blue>interface</font>{}
+        + SetExp( string,  time.Duration) error
+        + GetExp( string) (int64, error)
+
+    }
+    interface AnalyticsStorage  {
+        + Init(config <font color=blue>interface</font>{}) error
+        + GetName() string
+        + Connect() bool
+        + GetAndDeleteSet( string) []<font color=blue>interface</font>{}
+
+    }
+    class Config << (S,Aquamarine) >> {
+        + Host string
+        + Port int
+        + Addrs []string
+        + MasterName string
+        + Username string
+        + Password string
+        + Database int
+        + MaxIdle int
+        + MaxActive int
+        + Timeout int
+        + EnableCluster bool
+        + UseSSL bool
+        + SSLInsecureSkipVerify bool
+
+    }
+    interface Handler  {
+        + GetKey( string) (string, error)
+        + GetMultiKey( []string) ([]string, error)
+        + GetRawKey( string) (string, error)
+        + SetKey( string,  string,  int64) error
+        + SetRawKey( string,  string,  int64) error
+        + SetExp( string,  int64) error
+        + GetExp( string) (int64, error)
+        + GetKeys( string) []string
+        + DeleteKey( string) bool
+        + DeleteAllKeys() bool
+        + DeleteRawKey( string) bool
+        + Connect() bool
+        + GetKeysAndValues() <font color=blue>map</font>[string]string
+        + GetKeysAndValuesWithFilter( string) <font color=blue>map</font>[string]string
+        + DeleteKeys( []string) bool
+        + Decrement( string) 
+        + IncrememntWithExpire( string,  int64) int64
+        + SetRollingWindow(key string, per int64, val string, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetRollingWindow(key string, per int64, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetSet( string) (<font color=blue>map</font>[string]string, error)
+        + AddToSet( string,  string) 
+        + GetAndDeleteSet( string) []<font color=blue>interface</font>{}
+        + RemoveFromSet( string,  string) 
+        + DeleteScanMatch( string) bool
+        + GetKeyPrefix() string
+        + AddToSortedSet( string,  string,  float64) 
+        + GetSortedSetRange( string,  string,  string) ([]string, []float64, error)
+        + RemoveSortedSetRange( string,  string,  string) error
+        + GetListRange( string,  int64,  int64) ([]string, error)
+        + RemoveFromList( string,  string) error
+        + AppendToSet( string,  string) 
+        + Exists( string) (bool, error)
+
+    }
+    class RedisCluster << (S,Aquamarine) >> {
+        + KeyPrefix string
+        + HashKeys bool
+        + IsCache bool
+
+        - singleton() v7.UniversalClient
+        - hashKey(in string) string
+        - fixKey(keyName string) string
+        - cleanKey(keyName string) string
+        - up() error
+
+        + Connect() bool
+        + GetKey(keyName string) (string, error)
+        + GetMultiKey(keys []string) ([]string, error)
+        + GetKeyTTL(keyName string) (int64, error)
+        + GetRawKey(keyName string) (string, error)
+        + GetExp(keyName string) (int64, error)
+        + SetExp(keyName string, timeout time.Duration) error
+        + SetKey(keyName string, session string, timeout time.Duration) error
+        + SetRawKey(keyName string, session string, timeout time.Duration) error
+        + Decrement(keyName string) 
+        + IncrememntWithExpire(keyName string, expire int64) int64
+        + GetKeys(filter string) []string
+        + GetKeysAndValuesWithFilter(filter string) <font color=blue>map</font>[string]string
+        + GetKeysAndValues() <font color=blue>map</font>[string]string
+        + DeleteKey(keyName string) bool
+        + DeleteAllKeys() bool
+        + DeleteRawKey(keyName string) bool
+        + DeleteScanMatch(pattern string) bool
+        + DeleteKeys(keys []string) bool
+        + StartPubSubHandler(channel string, callback <font color=blue>func</font>(<font color=blue>interface</font>{}) ) error
+        + Publish(channel string, message string) error
+        + GetAndDeleteSet(keyName string) []<font color=blue>interface</font>{}
+        + AppendToSet(keyName string, value string) 
+        + Exists(keyName string) (bool, error)
+        + RemoveFromList(keyName string, value string) error
+        + GetListRange(keyName string, from int64, to int64) ([]string, error)
+        + AppendToSetPipelined(key string, values [][]byte) 
+        + GetSet(keyName string) (<font color=blue>map</font>[string]string, error)
+        + AddToSet(keyName string, value string) 
+        + RemoveFromSet(keyName string, value string) 
+        + IsMemberOfSet(keyName string, value string) bool
+        + SetRollingWindow(keyName string, per int64, valueOverride string, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetRollingWindow(keyName string, per int64, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetKeyPrefix() string
+        + AddToSortedSet(keyName string, value string, score float64) 
+        + GetSortedSetRange(keyName string, scoreFrom string, scoreTo string) ([]string, []float64, error)
+        + RemoveSortedSetRange(keyName string, scoreFrom string, scoreTo string) error
+
+    }
+    class RedisOpts << (S,Aquamarine) >> {
+        - cluster() *v7.ClusterOptions
+        - simple() *v7.Options
+        - failover() *v7.FailoverOptions
+
+    }
+    class storage.RedisOpts << (T, #FF7700) >>  {
+    }
+    class "v7.UniversalOptions" as v7UniversalOptions {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+
+"storage.AnalyticsHandler" <|-- "storage.RedisCluster"
+
+namespace store {
+    interface Factory  {
+        + Users() UserStore
+        + Secrets() SecretStore
+        + Policies() PolicyStore
+        + PolicyAudits() PolicyAuditStore
+        + Close() error
+        + Policies() PolicyStore
+        + Secrets() SecretStore
+
+    }
+    class MockFactory << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockFactoryMockRecorder
+        - ctrl *gomock.Controller
+        - recorder *MockFactoryMockRecorder
+
+        + EXPECT() *MockFactoryMockRecorder
+        + Close() error
+        + Policies() PolicyStore
+        + PolicyAudits() PolicyAuditStore
+        + Secrets() SecretStore
+        + Users() UserStore
+        + EXPECT() *MockFactoryMockRecorder
+        + Policies() PolicyStore
+        + Secrets() SecretStore
+
+    }
+    class MockFactoryMockRecorder << (S,Aquamarine) >> {
+        - mock *MockFactory
+        - mock *MockFactory
+
+        + Close() *gomock.Call
+        + Policies() *gomock.Call
+        + PolicyAudits() *gomock.Call
+        + Secrets() *gomock.Call
+        + Users() *gomock.Call
+        + Policies() *gomock.Call
+        + Secrets() *gomock.Call
+
+    }
+    class MockPolicyStore << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockPolicyStoreMockRecorder
+        - ctrl *gomock.Controller
+        - recorder *MockPolicyStoreMockRecorder
+
+        + EXPECT() *MockPolicyStoreMockRecorder
+        + Create(arg0 context.Context, arg1 *v1.Policy, arg2 v1.CreateOptions) error
+        + Delete(arg0 context.Context, arg1 string, arg2 string, arg3 v1.DeleteOptions) error
+        + DeleteCollection(arg0 context.Context, arg1 string, arg2 []string, arg3 v1.DeleteOptions) error
+        + Get(arg0 context.Context, arg1 string, arg2 string, arg3 v1.GetOptions) (*v1.Policy, error)
+        + List(arg0 context.Context, arg1 string, arg2 v1.ListOptions) (*v1.PolicyList, error)
+        + Update(arg0 context.Context, arg1 *v1.Policy, arg2 v1.UpdateOptions) error
+        + EXPECT() *MockPolicyStoreMockRecorder
+        + List() (<font color=blue>map</font>[string][]*ladon.DefaultPolicy, error)
+
+    }
+    class MockPolicyStoreMockRecorder << (S,Aquamarine) >> {
+        - mock *MockPolicyStore
+        - mock *MockPolicyStore
+
+        + Create(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Delete(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + DeleteCollection(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + Get(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + List(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Update(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + List() *gomock.Call
+
+    }
+    class MockSecretStore << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockSecretStoreMockRecorder
+        - ctrl *gomock.Controller
+        - recorder *MockSecretStoreMockRecorder
+
+        + EXPECT() *MockSecretStoreMockRecorder
+        + Create(arg0 context.Context, arg1 *v1.Secret, arg2 v1.CreateOptions) error
+        + Delete(arg0 context.Context, arg1 string, arg2 string, arg3 v1.DeleteOptions) error
+        + DeleteCollection(arg0 context.Context, arg1 string, arg2 []string, arg3 v1.DeleteOptions) error
+        + Get(arg0 context.Context, arg1 string, arg2 string, arg3 v1.GetOptions) (*v1.Secret, error)
+        + List(arg0 context.Context, arg1 string, arg2 v1.ListOptions) (*v1.SecretList, error)
+        + Update(arg0 context.Context, arg1 *v1.Secret, arg2 v1.UpdateOptions) error
+        + EXPECT() *MockSecretStoreMockRecorder
+        + List() (<font color=blue>map</font>[string]*v1.SecretInfo, error)
+
+    }
+    class MockSecretStoreMockRecorder << (S,Aquamarine) >> {
+        - mock *MockSecretStore
+        - mock *MockSecretStore
+
+        + Create(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Delete(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + DeleteCollection(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + Get(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + List(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Update(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + List() *gomock.Call
+
+    }
+    class MockUserStore << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockUserStoreMockRecorder
+
+        + EXPECT() *MockUserStoreMockRecorder
+        + Create(arg0 context.Context, arg1 *v1.User, arg2 v1.CreateOptions) error
+        + Delete(arg0 context.Context, arg1 string, arg2 v1.DeleteOptions) error
+        + DeleteCollection(arg0 context.Context, arg1 []string, arg2 v1.DeleteOptions) error
+        + Get(arg0 context.Context, arg1 string, arg2 v1.GetOptions) (*v1.User, error)
+        + List(arg0 context.Context, arg1 v1.ListOptions) (*v1.UserList, error)
+        + Update(arg0 context.Context, arg1 *v1.User, arg2 v1.UpdateOptions) error
+
+    }
+    class MockUserStoreMockRecorder << (S,Aquamarine) >> {
+        - mock *MockUserStore
+
+        + Create(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Delete(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + DeleteCollection(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Get(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + List(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}) *gomock.Call
+        + Update(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+
+    }
+    interface PolicyAuditStore  {
+        + ClearOutdated(ctx context.Context, maxReserveDays int) (int64, error)
+
+    }
+    interface PolicyStore  {
+        + Create(ctx context.Context, policy *v1.Policy, opts v1.CreateOptions) error
+        + Update(ctx context.Context, policy *v1.Policy, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Policy, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.PolicyList, error)
+        + List() (<font color=blue>map</font>[string][]*ladon.DefaultPolicy, error)
+
+    }
+    interface SecretStore  {
+        + Create(ctx context.Context, secret *v1.Secret, opts v1.CreateOptions) error
+        + Update(ctx context.Context, secret *v1.Secret, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, secretID string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, secretIDs []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, secretID string, opts v1.GetOptions) (*v1.Secret, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.SecretList, error)
+        + List() (<font color=blue>map</font>[string]*v1.SecretInfo, error)
+
+    }
+    interface UserStore  {
+        + Create(ctx context.Context, user *v1.User, opts v1.CreateOptions) error
+        + Update(ctx context.Context, user *v1.User, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, opts v1.GetOptions) (*v1.User, error)
+        + List(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+
+    }
+}
+
+"store.Factory" <|-- "store.MockFactory"
+"store.PolicyStore" <|-- "store.MockPolicyStore"
+"v1.PolicySrv" <|-- "store.MockPolicyStore"
+"store.SecretStore" <|-- "store.MockSecretStore"
+"v1.SecretSrv" <|-- "store.MockSecretStore"
+"store.UserStore" <|-- "store.MockUserStore"
+
+namespace task {
+    class taskWatcher << (S,Aquamarine) >> {
+        - ctx context.Context
+        - mutex *redsync.Mutex
+        - maxInactiveDays int
+
+        + Run() 
+        + Spec() string
+        + Init(ctx context.Context, rs *redsync.Mutex, config <font color=blue>interface</font>{}) error
+
+    }
+}
+
+"watcher.IWatcher" <|-- "task.taskWatcher"
+
+namespace templates {
+    class ASCIIRenderer << (S,Aquamarine) >> {
+        - listItemCount uint
+        - listLevel uint
+
+        + Indentation string
+
+        - fw(out io.Writer, text ...[]byte) 
+
+        + NormalText(out *bytes.Buffer, text []byte) 
+        + List(out *bytes.Buffer, text <font color=blue>func</font>() bool, flags int) 
+        + ListItem(out *bytes.Buffer, text []byte, flags int) 
+        + Paragraph(out *bytes.Buffer, text <font color=blue>func</font>() bool) 
+        + BlockCode(out *bytes.Buffer, text []byte, lang string) 
+        + GetFlags() int
+        + HRule(out *bytes.Buffer) 
+        + LineBreak(out *bytes.Buffer) 
+        + TitleBlock(out *bytes.Buffer, text []byte) 
+        + Header(out *bytes.Buffer, text <font color=blue>func</font>() bool, level int, id string) 
+        + BlockHtml(out *bytes.Buffer, text []byte) 
+        + BlockQuote(out *bytes.Buffer, text []byte) 
+        + TableRow(out *bytes.Buffer, text []byte) 
+        + TableHeaderCell(out *bytes.Buffer, text []byte, align int) 
+        + TableCell(out *bytes.Buffer, text []byte, align int) 
+        + Footnotes(out *bytes.Buffer, text <font color=blue>func</font>() bool) 
+        + FootnoteItem(out *bytes.Buffer, name []byte, text []byte, flags int) 
+        + AutoLink(out *bytes.Buffer, link []byte, kind int) 
+        + CodeSpan(out *bytes.Buffer, text []byte) 
+        + DoubleEmphasis(out *bytes.Buffer, text []byte) 
+        + Emphasis(out *bytes.Buffer, text []byte) 
+        + RawHtmlTag(out *bytes.Buffer, text []byte) 
+        + TripleEmphasis(out *bytes.Buffer, text []byte) 
+        + StrikeThrough(out *bytes.Buffer, text []byte) 
+        + FootnoteRef(out *bytes.Buffer, ref []byte, id int) 
+        + Entity(out *bytes.Buffer, entity []byte) 
+        + Smartypants(out *bytes.Buffer, text []byte) 
+        + DocumentHeader(out *bytes.Buffer) 
+        + DocumentFooter(out *bytes.Buffer) 
+        + TocHeaderWithAnchor(text []byte, level int, anchor string) 
+        + TocHeader(text []byte, level int) 
+        + TocFinalize() 
+        + Table(out *bytes.Buffer, header []byte, body []byte, columnData []int) 
+        + Link(out *bytes.Buffer, link []byte, title []byte, content []byte) 
+        + Image(out *bytes.Buffer, link []byte, title []byte, alt []byte) 
+
+    }
+    class CommandGroup << (S,Aquamarine) >> {
+        + Message string
+        + Commands []*cobra.Command
+
+    }
+    class CommandGroups << (S,Aquamarine) >> {
+        + Add(c *cobra.Command) 
+        + Has(c *cobra.Command) bool
+
+    }
+    interface FlagExposer  {
+        + ExposeFlags(cmd *cobra.Command, flags ...string) FlagExposer
+
+    }
+    class normalizer << (S,Aquamarine) >> {
+        - markdown() normalizer
+        - heredoc() normalizer
+        - trim() normalizer
+        - indent() normalizer
+
+    }
+    class templater << (S,Aquamarine) >> {
+        + UsageTemplate string
+        + HelpTemplate string
+        + RootCmd *cobra.Command
+        + Filtered []string
+
+        - templateFuncs(exposedFlags ...string) template.FuncMap
+        - cmdGroups(c *cobra.Command, all []*cobra.Command) []CommandGroup
+        - cmdGroupsString(c *cobra.Command) string
+        - rootCmdName(c *cobra.Command) string
+        - isRootCmd(c *cobra.Command) bool
+        - parents(c *cobra.Command) []*cobra.Command
+        - rootCmd(c *cobra.Command) *cobra.Command
+        - optionsCmdFor(c *cobra.Command) string
+        - usageLine(c *cobra.Command) string
+
+        + FlagErrorFunc(exposedFlags ...string) <font color=blue>func</font>(*cobra.Command, error) error
+        + ExposeFlags(cmd *cobra.Command, flags ...string) FlagExposer
+        + HelpFunc() <font color=blue>func</font>(*cobra.Command, []string) 
+        + UsageFunc(exposedFlags ...string) <font color=blue>func</font>(*cobra.Command) error
+
+    }
+    class templates.CommandGroups << (T, #FF7700) >>  {
+    }
+}
+"__builtin__.string" *-- "templates.normalizer"
+"templates.CommandGroups" *-- "templates.templater"
+
+"templates.FlagExposer" <|-- "templates.templater"
+
+namespace term {
+    class TTY << (S,Aquamarine) >> {
+        + In io.Reader
+        + Out io.Writer
+        + Raw bool
+        + TryDev bool
+
+        + GetSize() *TerminalSize
+
+    }
+    class TerminalSize << (S,Aquamarine) >> {
+        + Width uint16
+        + Height uint16
+
+    }
+    interface TerminalSizeQueue  {
+        + Next() *TerminalSize
+
+    }
+    class maxWidthWriter << (S,Aquamarine) >> {
+        - maxWidth uint
+        - currentWidth uint
+        - written uint
+        - writer io.Writer
+
+        + Write(p []byte) (int, error)
+
+    }
+    class wordWrapWriter << (S,Aquamarine) >> {
+        - limit uint
+        - writer io.Writer
+
+        + Write(p []byte) (int, error)
+
+    }
+}
+
+
+namespace user {
+    class ChangePasswordRequest << (S,Aquamarine) >> {
+        + OldPassword string
+        + NewPassword string
+
+    }
+    class CreateOptions << (S,Aquamarine) >> {
+        + Nickname string
+        + Phone string
+        + User *v1.User
+        + Client v1.APIV1Interface
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class DeleteOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Name string
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run() error
+
+    }
+    class GetOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Name string
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class ListOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Offset int64
+        + Limit int64
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class UpdateOptions << (S,Aquamarine) >> {
+        - iamclient iam.IamInterface
+
+        + Name string
+        + Nickname string
+        + Email string
+        + Phone string
+
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+    class UserController << (S,Aquamarine) >> {
+        - srv v1.Service
+
+        + ChangePassword(c *gin.Context) 
+        + Create(c *gin.Context) 
+        + Delete(c *gin.Context) 
+        + DeleteCollection(c *gin.Context) 
+        + Get(c *gin.Context) 
+        + List(c *gin.Context) 
+        + Update(c *gin.Context) 
+
+    }
+}
+"genericclioptions.IOStreams" *-- "user.CreateOptions"
+"genericclioptions.IOStreams" *-- "user.DeleteOptions"
+"genericclioptions.IOStreams" *-- "user.GetOptions"
+"genericclioptions.IOStreams" *-- "user.ListOptions"
+"genericclioptions.IOStreams" *-- "user.UpdateOptions"
+
+
+namespace util {
+    interface Factory  {
+        + IAMClient() (*iam.IamClient, error)
+        + RESTClient() (*rest.RESTClient, error)
+
+    }
+    class MatchVersionFlags << (S,Aquamarine) >> {
+        - checkServerVersion sync.Once
+        - matchesServerVersionErr error
+
+        + Delegate genericclioptions.RESTClientGetter
+        + RequireMatchedServerVersion bool
+
+        - checkMatchingServerVersion() error
+
+        + ToRESTConfig() (*rest.Config, error)
+        + ToRawIAMConfigLoader() clientcmd.ClientConfig
+        + AddFlags(flags *pflag.FlagSet) 
+
+    }
+    class ValidateOptions << (S,Aquamarine) >> {
+        + EnableValidation bool
+
+    }
+    interface debugError  {
+        + DebugError() (string, []<font color=blue>interface</font>{})
+
+    }
+    class factoryImpl << (S,Aquamarine) >> {
+        - clientGetter genericclioptions.RESTClientGetter
+
+        + ToRESTConfig() (*rest.Config, error)
+        + ToRawIAMConfigLoader() clientcmd.ClientConfig
+        + IAMClient() (*iam.IamClient, error)
+        + RESTClient() (*rest.RESTClient, error)
+
+    }
+}
+
+"genericclioptions.RESTClientGetter" <|-- "util.MatchVersionFlags"
+"genericclioptions.RESTClientGetter" <|-- "util.factoryImpl"
+"util.Factory" <|-- "util.factoryImpl"
+
+namespace v1 {
+    class MockPolicySrv << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockPolicySrvMockRecorder
+
+        + EXPECT() *MockPolicySrvMockRecorder
+        + Create(arg0 context.Context, arg1 *v1.Policy, arg2 v1.CreateOptions) error
+        + Delete(arg0 context.Context, arg1 string, arg2 string, arg3 v1.DeleteOptions) error
+        + DeleteCollection(arg0 context.Context, arg1 string, arg2 []string, arg3 v1.DeleteOptions) error
+        + Get(arg0 context.Context, arg1 string, arg2 string, arg3 v1.GetOptions) (*v1.Policy, error)
+        + List(arg0 context.Context, arg1 string, arg2 v1.ListOptions) (*v1.PolicyList, error)
+        + Update(arg0 context.Context, arg1 *v1.Policy, arg2 v1.UpdateOptions) error
+
+    }
+    class MockPolicySrvMockRecorder << (S,Aquamarine) >> {
+        - mock *MockPolicySrv
+
+        + Create(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Delete(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + DeleteCollection(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + Get(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + List(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Update(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+
+    }
+    class MockSecretSrv << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockSecretSrvMockRecorder
+
+        + EXPECT() *MockSecretSrvMockRecorder
+        + Create(arg0 context.Context, arg1 *v1.Secret, arg2 v1.CreateOptions) error
+        + Delete(arg0 context.Context, arg1 string, arg2 string, arg3 v1.DeleteOptions) error
+        + DeleteCollection(arg0 context.Context, arg1 string, arg2 []string, arg3 v1.DeleteOptions) error
+        + Get(arg0 context.Context, arg1 string, arg2 string, arg3 v1.GetOptions) (*v1.Secret, error)
+        + List(arg0 context.Context, arg1 string, arg2 v1.ListOptions) (*v1.SecretList, error)
+        + Update(arg0 context.Context, arg1 *v1.Secret, arg2 v1.UpdateOptions) error
+
+    }
+    class MockSecretSrvMockRecorder << (S,Aquamarine) >> {
+        - mock *MockSecretSrv
+
+        + Create(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Delete(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + DeleteCollection(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + Get(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}, arg3 <font color=blue>interface</font>{}) *gomock.Call
+        + List(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Update(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+
+    }
+    class MockService << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockServiceMockRecorder
+
+        + EXPECT() *MockServiceMockRecorder
+        + Policies() PolicySrv
+        + Secrets() SecretSrv
+        + Users() UserSrv
+
+    }
+    class MockServiceMockRecorder << (S,Aquamarine) >> {
+        - mock *MockService
+
+        + Policies() *gomock.Call
+        + Secrets() *gomock.Call
+        + Users() *gomock.Call
+
+    }
+    class MockUserSrv << (S,Aquamarine) >> {
+        - ctrl *gomock.Controller
+        - recorder *MockUserSrvMockRecorder
+
+        + EXPECT() *MockUserSrvMockRecorder
+        + ChangePassword(arg0 context.Context, arg1 *v1.User) error
+        + Create(arg0 context.Context, arg1 *v1.User, arg2 v1.CreateOptions) error
+        + Delete(arg0 context.Context, arg1 string, arg2 v1.DeleteOptions) error
+        + DeleteCollection(arg0 context.Context, arg1 []string, arg2 v1.DeleteOptions) error
+        + Get(arg0 context.Context, arg1 string, arg2 v1.GetOptions) (*v1.User, error)
+        + List(arg0 context.Context, arg1 v1.ListOptions) (*v1.UserList, error)
+        + ListWithBadPerformance(arg0 context.Context, arg1 v1.ListOptions) (*v1.UserList, error)
+        + Update(arg0 context.Context, arg1 *v1.User, arg2 v1.UpdateOptions) error
+
+    }
+    class MockUserSrvMockRecorder << (S,Aquamarine) >> {
+        - mock *MockUserSrv
+
+        + ChangePassword(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}) *gomock.Call
+        + Create(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Delete(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + DeleteCollection(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + Get(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+        + List(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}) *gomock.Call
+        + ListWithBadPerformance(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}) *gomock.Call
+        + Update(arg0 <font color=blue>interface</font>{}, arg1 <font color=blue>interface</font>{}, arg2 <font color=blue>interface</font>{}) *gomock.Call
+
+    }
+    interface PolicySrv  {
+        + Create(ctx context.Context, policy *v1.Policy, opts v1.CreateOptions) error
+        + Update(ctx context.Context, policy *v1.Policy, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Policy, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.PolicyList, error)
+
+    }
+    interface SecretSrv  {
+        + Create(ctx context.Context, secret *v1.Secret, opts v1.CreateOptions) error
+        + Update(ctx context.Context, secret *v1.Secret, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, secretID string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, secretIDs []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, secretID string, opts v1.GetOptions) (*v1.Secret, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.SecretList, error)
+
+    }
+    interface Service  {
+        + Users() UserSrv
+        + Secrets() SecretSrv
+        + Policies() PolicySrv
+
+    }
+    interface UserSrv  {
+        + Create(ctx context.Context, user *v1.User, opts v1.CreateOptions) error
+        + Update(ctx context.Context, user *v1.User, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, opts v1.GetOptions) (*v1.User, error)
+        + List(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+        + ListWithBadPerformance(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+        + ChangePassword(ctx context.Context, user *v1.User) error
+
+    }
+    class policyService << (S,Aquamarine) >> {
+        - store store.Factory
+
+        + Create(ctx context.Context, policy *v1.Policy, opts v1.CreateOptions) error
+        + Update(ctx context.Context, policy *v1.Policy, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, name string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, names []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, name string, opts v1.GetOptions) (*v1.Policy, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.PolicyList, error)
+
+    }
+    class secretService << (S,Aquamarine) >> {
+        - store store.Factory
+
+        + Create(ctx context.Context, secret *v1.Secret, opts v1.CreateOptions) error
+        + Update(ctx context.Context, secret *v1.Secret, opts v1.UpdateOptions) error
+        + Delete(ctx context.Context, username string, secretID string, opts v1.DeleteOptions) error
+        + DeleteCollection(ctx context.Context, username string, secretIDs []string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, secretID string, opts v1.GetOptions) (*v1.Secret, error)
+        + List(ctx context.Context, username string, opts v1.ListOptions) (*v1.SecretList, error)
+
+    }
+    class service << (S,Aquamarine) >> {
+        - store store.Factory
+
+        + Users() UserSrv
+        + Secrets() SecretSrv
+        + Policies() PolicySrv
+
+    }
+    class userService << (S,Aquamarine) >> {
+        - store store.Factory
+
+        + List(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+        + ListWithBadPerformance(ctx context.Context, opts v1.ListOptions) (*v1.UserList, error)
+        + Create(ctx context.Context, user *v1.User, opts v1.CreateOptions) error
+        + DeleteCollection(ctx context.Context, usernames []string, opts v1.DeleteOptions) error
+        + Delete(ctx context.Context, username string, opts v1.DeleteOptions) error
+        + Get(ctx context.Context, username string, opts v1.GetOptions) (*v1.User, error)
+        + Update(ctx context.Context, user *v1.User, opts v1.UpdateOptions) error
+        + ChangePassword(ctx context.Context, user *v1.User) error
+
+    }
+}
+
+"v1.PolicySrv" <|-- "v1.MockPolicySrv"
+"v1.SecretSrv" <|-- "v1.MockSecretSrv"
+"v1.Service" <|-- "v1.MockService"
+"store.UserStore" <|-- "v1.MockUserSrv"
+"v1.UserSrv" <|-- "v1.MockUserSrv"
+"v1.PolicySrv" <|-- "v1.policyService"
+"v1.SecretSrv" <|-- "v1.secretService"
+"v1.Service" <|-- "v1.service"
+"store.UserStore" <|-- "v1.userService"
+"v1.UserSrv" <|-- "v1.userService"
+
+namespace validate {
+    class ValidateInfo << (S,Aquamarine) >> {
+        + ItemName string
+        + Status string
+        + Message string
+
+    }
+    class ValidateOptions << (S,Aquamarine) >> {
+        + Complete(f util.Factory, cmd *cobra.Command, args []string) error
+        + Validate(cmd *cobra.Command, args []string) error
+        + Run(args []string) error
+
+    }
+}
+"genericclioptions.IOStreams" *-- "validate.ValidateOptions"
+
+
+namespace version {
+    class Options << (S,Aquamarine) >> {
+        - client *rest.RESTClient
+
+        + ClientOnly bool
+        + Short bool
+        + Output string
+
+        + Complete(f util.Factory, cmd *cobra.Command) error
+        + Validate() error
+        + Run() error
+
+    }
+    class Version << (S,Aquamarine) >> {
+        + ClientVersion *version.Info
+        + ServerVersion *version.Info
+
+    }
+}
+"genericclioptions.IOStreams" *-- "version.Options"
+
+
+namespace watcher {
+    interface IWatcher  {
+        + Init(ctx context.Context, rs *redsync.Mutex, config <font color=blue>interface</font>{}) error
+        + Spec() string
+
+    }
+    class preparedWatcherServer << (S,Aquamarine) >> {
+        + Run() error
+
+    }
+    class watchJob << (S,Aquamarine) >> {
+        - config *options.WatcherOptions
+        - rs *redsync.Redsync
+
+        - addWatchers() *watchJob
+
+    }
+    class watcherServer << (S,Aquamarine) >> {
+        - gs *shutdown.GracefulShutdown
+        - cron *watchJob
+        - redisOptions *options.RedisOptions
+        - mysqlOptions *options.MySQLOptions
+        - watcherOptions *options.WatcherOptions
+
+        + PrepareRun() preparedWatcherServer
+
+    }
+}
+"watcher.watcherServer" *-- "watcher.preparedWatcherServer"
+"cron.Cron" *-- "watcher.watchJob"
+
+
+"__builtin__.<font color=blue>map</font>[string]string" #.. "jwt.ArgList"
+"__builtin__.int" #.. "log.key"
+"__builtin__.int" #.. "pumps.MongoType"
+"__builtin__.string" #.. "load.NotificationCommand"
+"app.<font color=blue>func</font>(*App) " #.. "app.Option"
+"app.<font color=blue>func</font>(*Command) " #.. "app.CommandOption"
+"app.<font color=blue>func</font>([]string) error" #.. "app.RunCommandFunc"
+"app.<font color=blue>func</font>(string) error" #.. "app.RunFunc"
+"etcd.fontcolorbluefuncfontcontextContextbyte" #.. "etcd.EtcdDeleteEventFunc"
+"etcd.fontcolorbluefuncfontcontextContextbytebyte" #.. "etcd.EtcdCreateEventFunc"
+"etcd.fontcolorbluefuncfontcontextContextbytebytebyte" #.. "etcd.EtcdModifyEventFunc"
+"log.zapcoreField" #.. "log.Field"
+"log.zapcoreLevel" #.. "log.Level"
+"pumps.<font color=blue>map</font>[string]<font color=blue>interface</font>{}" #.. "pumps.Message"
+"redis.v7UniversalOptions" #.. "redis.RedisOpts"
+"shutdown.<font color=blue>func</font>(error) " #.. "shutdown.ErrorFunc"
+"shutdown.<font color=blue>func</font>(string) error" #.. "shutdown.ShutdownFunc"
+"storage.v7UniversalOptions" #.. "storage.RedisOpts"
+"templates.[]CommandGroup" #.. "templates.CommandGroups"
+@enduml

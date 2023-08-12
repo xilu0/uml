@@ -1,0 +1,74 @@
+@startuml
+skinparam class {
+  BackgroundColor LightBlue
+  BorderColor DarkBlue
+}
+
+class "单元测试" as UnitTest {
+  单元测试的重要性
+  单元测试的优势
+}
+
+class "代码质量" as CodeQuality {
+  提升代码质量
+  降低出错率
+}
+
+class "开发效率" as Efficiency {
+  提高开发效率
+  提高代码维护性
+}
+
+UnitTest --> CodeQuality : 提升
+UnitTest --> Efficiency : 提高
+@enduml
+
+@startuml
+skinparam class {
+  BackgroundColor LightGreen
+  BorderColor DarkGreen
+}
+
+class "代码" as Code {
+  代码的作用
+  代码的形式
+}
+
+class "文档" as Documentation {
+  文档的作用
+  文档的形式
+}
+
+class "代码即文档" as CodeIsDoc {
+  概念介绍
+  实践方法
+}
+
+Code --> CodeIsDoc : 构成
+Documentation --> CodeIsDoc : 构成
+@enduml
+
+@startuml
+skinparam class {
+  BackgroundColor LightPink
+  BorderColor DarkRed
+}
+
+class "简洁代码" as CleanCode {
+  简洁代码的重要性
+  简洁代码的优点
+}
+
+class "个人风格" as PersonalStyle {
+  个人风格的价值
+  个人风格的表现
+}
+
+class "平衡" as Balance {
+  寻找平衡点
+  简洁与风格并存
+}
+
+CleanCode --> Balance : 影响
+PersonalStyle --> Balance : 影响
+@enduml

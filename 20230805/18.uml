@@ -1,0 +1,39 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #AED6F1
+  borderColor #000000
+  fontColor #000000
+}
+
+skinparam class {
+  backgroundColor #F5B7B1
+  borderColor #D35400
+  fontColor #000000
+}
+
+package "脚手架教学策略" {
+
+  class "任务模型化" as TaskModeling
+  class "提示与反馈" as HintsFeedback
+  class "逐步撤销支持" as GradualRelease
+  
+  TaskModeling -down-> HintsFeedback : "逐步指导"
+  HintsFeedback -down-> GradualRelease : "随着技能增长"
+  
+  note left of TaskModeling
+    通过示范或讲解，
+    向学生展示如何完成任务。
+  end note
+  
+  note right of HintsFeedback
+    在学生尝试时，提供
+    关键性的建议或反馈。
+  end note
+
+  note bottom of GradualRelease
+    随着学生技能的增长和
+    对任务的掌握，逐渐减少支持。
+  end note
+}
+@enduml

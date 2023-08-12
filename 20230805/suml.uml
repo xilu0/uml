@@ -1,0 +1,45 @@
+@startuml
+actor "软件架构师" as SoftwareArchitect
+
+SoftwareArchitect --> (创建软件模型)
+SoftwareArchitect --> (验证软件模型)
+SoftwareArchitect --> (维护软件模型)
+@enduml
+@startuml
+start
+:定义需求;
+:创建类图;
+:创建活动图;
+:创建序列图;
+:创建状态图;
+:验证和优化模型;
+stop
+@enduml
+@startuml
+class "软件模型" as SoftwareModel {
+  +定义需求()
+  +创建结构()
+  +描述动态行为()
+}
+
+class "类图" as ClassDiagram
+class "活动图" as ActivityDiagram
+class "序列图" as SequenceDiagram
+class "状态图" as StateDiagram
+
+SoftwareModel o-- ClassDiagram
+SoftwareModel o-- ActivityDiagram
+SoftwareModel o-- SequenceDiagram
+SoftwareModel o-- StateDiagram
+@enduml
+@startuml
+participant "软件架构师" as SoftwareArchitect
+participant "软件模型" as SoftwareModel
+participant "验证工具" as ValidationTool
+
+SoftwareArchitect -> SoftwareModel : 创建()
+SoftwareModel -> ClassDiagram : 添加结构()
+SoftwareModel -> SequenceDiagram : 添加交互()
+SoftwareModel -> ValidationTool : 验证()
+ValidationTool -> SoftwareArchitect : 反馈结果()
+@enduml

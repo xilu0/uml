@@ -1,0 +1,12 @@
+@startuml
+
+[Goroutine] --> [Scheduler]
+[Scheduler] --> [CPU]
+
+[CPU] --> [Memory]
+
+[Memory] --> [Garbage Collector]
+
+[Garbage Collector] --> [Goroutine]
+
+@enduml

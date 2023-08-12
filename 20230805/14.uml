@@ -1,0 +1,12 @@
+@startuml
+skinparam monochrome false
+skinparam defaultFontColor #333333
+skinparam defaultFontSize 14
+skinparam backgroundcolor #F7F9FB
+
+class 职业定位 {
+  - 问题解决者
+  - 技术咨询师
+  - 产品创新者
+}
+@enduml

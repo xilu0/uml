@@ -1,0 +1,46 @@
+@startuml
+start
+
+:创建和初始化Channel;
+note right
+使用make关键字
+可以创建带缓冲或无缓冲Channel
+end note
+
+:向Channel发送数据;
+note right
+使用 <- 运算符
+可能阻塞，直到数据被接收
+end note
+
+:从Channel接收数据;
+note right
+使用 <- 运算符
+可能阻塞，直到有数据发送
+end note
+
+:关闭Channel;
+note right
+应由发送数据的Goroutine关闭Channel
+使用close函数
+end note
+
+:使用range循环接收数据;
+note right
+直到Channel被关闭
+end note
+
+:检测Channel是否被关闭;
+note right
+通过接收操作的第二个返回值
+end note
+
+:避免Goroutine泄漏;
+note right
+使用select语句和default子句
+实现非阻塞的发送
+end note
+
+stop
+
+@enduml

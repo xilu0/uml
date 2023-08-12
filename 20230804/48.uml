@@ -1,0 +1,13 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam shadowing false
+
+start
+:代码审查和收集信息;
+:静态代码分析;
+:创建模型视图;
+:创建设计文档;
+:验证和修正;
+stop
+@enduml

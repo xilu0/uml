@@ -1,0 +1,41 @@
+@startsalt
+{
+{T
+  [myapp|
+    {T
+      [#app| {+
+        [#handler]
+        [#middleware]
+        [#router]
+      }]
+      [#bin]
+      [#cmd| {+
+        [#myapp]
+      }]
+      [#internal| {+
+        [#pkg1]
+        [#pkg2]
+      }]
+      [#pkg| {+
+        [#pkg1]
+        [#pkg2]
+      }]
+      [#api| {+
+        [#proto (如果你使用了gRPC)]
+      }]
+      [#scripts]
+      [#web (如果你的应用有前端部分)| {+
+        [#static]
+        [#templates]
+      }]
+      [#test| {+
+        [#handler]
+        [#middleware]
+        [#router]
+      }]
+      [#vendor]
+    }
+  ]
+}
+}
+@endsalt

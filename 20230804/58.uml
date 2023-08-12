@@ -1,0 +1,58 @@
+@startuml
+class UserManagement {
+    +Register()
+    +Login()
+}
+
+class ProductManagement {
+    +AddProduct()
+    +SearchProduct()
+}
+
+class OrderManagement {
+    +AddToCart()
+    +Checkout()
+}
+
+UserManagement --> ProductManagement : uses
+UserManagement --> OrderManagement : uses
+ProductManagement --> OrderManagement : uses
+@enduml
+
+
+@startuml
+rectangle "Integration Testing" as IT {
+  class UserManagement {
+      +Register()
+      +Login()
+  }
+
+  class ProductManagement {
+      +AddProduct()
+      +SearchProduct()
+  }
+
+  class OrderManagement {
+      +AddToCart()
+      +Checkout()
+  }
+
+  UserManagement --> ProductManagement : uses
+  UserManagement --> OrderManagement : uses
+  ProductManagement --> OrderManagement : uses
+}
+@enduml
+
+@startuml
+rectangle "End-to-End Testing" as E2ET {
+  class User {
+    +Register()
+    +Login()
+    +SearchProduct()
+    +AddToCart()
+    +Checkout()
+  }
+  database "Database" as DB
+  User --> DB : interacts
+}
+@enduml

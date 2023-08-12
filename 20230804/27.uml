@@ -1,0 +1,31 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam sequence {
+    ArrowColor DeepSkyBlue
+    ActorBorderColor DeepSkyBlue
+    LifeLineBorderColor blue
+    LifeLineBackgroundColor #A9DCDF
+
+    ParticipantBorderColor DeepSkyBlue
+    ParticipantBackgroundColor DodgerBlue
+    ParticipantFontName Impact
+    ParticipantFontSize 17
+    ParticipantFontColor #A9DCDF
+
+    ActorBackgroundColor aqua
+    ActorFontColor DeepSkyBlue
+    ActorFontSize 17
+    ActorFontName Aapex
+}
+
+actor "链表操作者" as A
+participant "链表" as L
+
+A -> L : 创建链表
+activate L
+A -> L : 插入节点
+A -> L : 删除节点
+A -> L : 查找节点
+A -> L : 遍历链表
+deactivate L
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor Black
+  ActorBorderColor Black
+  LifeLineBorderColor black
+  LifeLineBackgroundColor Black
+  
+  ParticipantBorderColor Black
+  ParticipantBackgroundColor Yellow
+  ParticipantFontName Helvetica
+  
+  ActorFontColor black
+  ActorFontSize 17
+  ActorFontName Aapex
+}
+actor "数值A" as A
+actor "数值B" as B
+participant "异或运算" as XOR
+
+A -> XOR : A的二进制值
+B -> XOR : B的二进制值
+XOR -> A : A XOR B的结果
+@enduml

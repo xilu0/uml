@@ -1,0 +1,38 @@
+@startuml
+skinparam ActivityBackgroundColor LightBlue
+skinparam ActivityBorderColor Black
+skinparam ActivityFontColor Black
+skinparam ActivityFontSize 16
+skinparam ActivityFontName Avenir
+skinparam ArrowColor Olive
+start
+:开始;
+partition "介绍" {
+  :代码评审的重要性和目的;
+}
+partition "最佳实践" {
+  :理解目标;
+  :保持尊重;
+  :时间限制;
+  :有明确的标准和指导方针;
+  :参与全团队;
+}
+partition "工具推荐" {
+  :GitHub;
+  :GitLab;
+  :Bitbucket;
+  :Phabricator;
+  :Review Board;
+}
+partition "Kubernetes项目的代码评审实践" {
+  :符合设计原则和API约定;
+  :包含适当的测试;
+  :文档清晰;
+  :符合编码和风格规范;
+  :已经过适当的审查;
+  :不引入不必要的复杂性;
+  :与社区协调;
+}
+:结束;
+stop
+@enduml

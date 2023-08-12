@@ -1,0 +1,20 @@
+@startuml
+
+title IAM Project Architecture
+
+package iam-api {
+  [IAM Service API]
+}
+
+package iam-core {
+  [IAM Service Business Logic]
+}
+
+package iam-db {
+  [IAM Service Database]
+}
+
+iam-api -> iam-core
+iam-core -> iam-db
+
+@enduml

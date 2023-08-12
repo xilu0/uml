@@ -1,0 +1,47 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #EAF2F8
+  borderColor #000000
+  fontColor #000000
+}
+
+skinparam class {
+  backgroundColor #FAD7A0
+  borderColor #B7950B
+  fontColor #000000
+}
+
+package "工作中的实践学习" {
+
+  class "具体经验" as ConcreteExperience
+  class "反思观察" as ReflectiveObservation
+  class "形成抽象概念" as AbstractConceptualization
+  class "实践应用" as ActiveExperimentation
+
+  ConcreteExperience --> ReflectiveObservation : "经验反思"
+  ReflectiveObservation --> AbstractConceptualization : "总结概念"
+  AbstractConceptualization --> ActiveExperimentation : "运用知识"
+  ActiveExperimentation --> ConcreteExperience : "获取新经验"
+
+  note left of ConcreteExperience
+    通过工作任务和
+    挑战获得的实践经验。
+  end note
+  
+  note top of ReflectiveObservation
+    对工作经验进行
+    思考和分析。
+  end note
+  
+  note right of AbstractConceptualization
+    基于反思得出的
+    知识或策略。
+  end note
+  
+  note bottom of ActiveExperimentation
+    将新知识或策略
+    应用于实际工作中。
+  end note
+}
+@enduml

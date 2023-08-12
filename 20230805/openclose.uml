@@ -1,0 +1,19 @@
+@startuml
+!$colorOpen = "#AADB32"
+!$colorClosed = "#FFB5B5"
+
+class "Open表(队列)" as Open {
+  +入队
+  +出队
+}
+class "Closed表(集合)" as Closed {
+  +加入
+}
+
+Open : -节点集合
+Closed : -节点集合
+
+Open -down-> Closed : 移动节点
+Open : #color: $colorOpen
+Closed : #color: $colorClosed
+@enduml

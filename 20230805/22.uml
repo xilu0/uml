@@ -1,0 +1,53 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #EAF2F8
+  borderColor #000000
+  fontColor #000000
+}
+
+skinparam class {
+  backgroundColor #F7DC6F
+  borderColor #B7950B
+  fontColor #000000
+}
+
+package "合作学习策略" {
+
+  class "小组合作" as GroupCooperation
+  class "面对面互动" as FaceToFaceInteraction
+  class "互助互惠" as MutualAid
+  class "个体与集体责任" as IndividualAndGroupResponsibility
+  class "团队技能培养" as TeamSkillTraining
+
+  GroupCooperation --> FaceToFaceInteraction : "推进"
+  FaceToFaceInteraction --> MutualAid : "促进"
+  MutualAid <.. IndividualAndGroupResponsibility : "共同支持"
+  GroupCooperation --> TeamSkillTraining : "产生"
+  
+  note right of GroupCooperation
+    学生以小组形式
+    共同完成任务。
+  end note
+  
+  note top of FaceToFaceInteraction
+    学生进行直接的
+    讨论和知识交流。
+  end note
+  
+  note left of MutualAid
+    学生之间相互教导，
+    互补知识与能力。
+  end note
+  
+  note bottom of IndividualAndGroupResponsibility
+    学生对自己和团队
+    的学习成果负责。
+  end note
+  
+  note right of TeamSkillTraining
+    强调沟通、合作
+    和解决冲突的能力。
+  end note
+}
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam ArrowColor Black
+skinparam ArrowFontColor Black
+skinparam ArrowFontSize 16
+skinparam ArrowFontName "微软雅黑"
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+skinparam shadowing false
+
+class "节点Node" as Node {
+  -左子节点 left
+  -右子节点 right
+  -值 value
+  -高度 height
+}
+
+Node <|-- "左子节点\nleft"
+Node <|-- "右子节点\nright"
+
+class "平衡树\nAVL Tree" as AVL {
+  +插入节点 insert(value)
+  +删除节点 delete(value)
+  +查找节点 find(value)
+  +旋转 rotate()
+}
+
+AVL o-- Node: 维护\nmaintain
+
+note right of Node
+  一个节点包含左子节点、右子节点、
+  节点的值以及节点的高度。
+  在插入和删除时，会更新节点的高度。
+end note
+
+note bottom of AVL
+  平衡树维护一组节点。插入、删除和查找
+  操作会更新节点的高度并保持树的平衡。
+  如果树失去平衡，会通过旋转操作重新平衡。
+end note
+
+@enduml

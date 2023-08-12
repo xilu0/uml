@@ -1,0 +1,36 @@
+@startuml
+skinparam monochrome true
+skinparam backgroundColor #EEEEFF
+
+title 滑动窗口模式的处理过程
+
+participant 请求 as R
+participant 滑动窗口限制器 as L
+
+R -> L: 请求到达
+activate L
+L -> L: 锁定互斥锁
+note right: 保证对窗口的操作是线程安全的
+
+L -> L: 获取当前时间
+note right: 当前时间就是请求的时间戳
+
+L -> L: 计算时间窗口开始的时间
+note right: 当前时间减去窗口的长度
+
+L -> L: 移除队列中超出窗口的元素
+note right: 保证队列中只有窗口内的请求
+
+L -> L: 检查队列长度是否超过TPS限制
+note right: 队列长度就是窗口内的请求数量
+
+alt 队列长度超过TPS限制
+    L --> R: 拒绝请求
+    deactivate L
+else 队列长度未超过TPS限制
+    L -> L: 将当前时间添加到队列
+    L --> R: 允许请求
+    deactivate L
+end
+
+@enduml

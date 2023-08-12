@@ -1,0 +1,39 @@
+@startuml
+
+skinparam BackgroundColor FloralWhite
+skinparam Shadowing false
+
+title Go-MemDB的基本构架
+
+class 数据库 {
+   +表1
+   +表2
+   +...
+   +表N
+}
+
+class 表1 {
+  -索引1
+  -索引2
+  ...
+  -索引N
+}
+
+class 表2 {
+  -索引1
+  -索引2
+  ...
+  -索引N
+}
+
+class 表N {
+  -索引1
+  -索引2
+  ...
+  -索引N
+}
+
+数据库 -- 表1
+数据库 -- 表2
+数据库 -- 表N
+@enduml

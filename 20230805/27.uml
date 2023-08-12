@@ -1,0 +1,60 @@
+@startuml
+!define Awesome #ADD8E6
+package "客户端" as Client {
+  [用户界面] #Awesome
+  [业务逻辑] #Awesome
+}
+cloud "服务器" {
+  database "数据存储" #LightPink
+  [数据处理] #LightPink
+}
+Client -> 服务器 : 请求/响应
+@enduml
+@startuml
+!define Awesome #87CEFA
+layer "数据层" #Awesome
+layer "业务层" #Awesome
+layer "表现层" #Awesome
+@enduml
+@startuml
+!define Awesome #FFA07A
+class 模型 #Awesome
+class 视图 #Awesome
+class 控制器 #Awesome
+控制器 -> 模型 : 更新数据
+控制器 -> 视图 : 更新视图
+模型 -> 视图 : 显示数据
+@enduml
+
+@startuml
+!define Awesome #98FB98
+package "服务1" as Service1 #Awesome
+package "服务2" as Service2 #Awesome
+Service1 -> Service2 : 通信
+@enduml
+
+@startuml
+!define Awesome #ADD8E6
+cloud "微服务架构" {
+  package "服务1" as Service1 #Awesome
+  package "服务2" as Service2 #Awesome
+  database "数据库1" #Awesome
+  database "数据库2" #Awesome
+}
+Service1 -> 服务2 : 协作通信
+服务1 --> 数据库1 : 数据访问
+服务2 --> 数据库2 : 数据访问
+@enduml
+
+@startuml
+!define Awesome #87CEFA
+package "服务1" as Service1 #Awesome {
+  [业务逻辑1]
+  [数据访问1]
+}
+package "服务2" as Service2 #Awesome {
+  [业务逻辑2]
+  [数据访问2]
+}
+Service1 -> Service2 : 协作通信
+@enduml

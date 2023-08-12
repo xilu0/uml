@@ -1,0 +1,49 @@
+@startuml
+
+skinparam linetype ortho
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultTextAlignment center
+
+actor Client
+
+box "Gorilla Mux Router" #LightYellow
+participant "Route /v1/accounts/check-out" as Route
+participant "LoggingMiddleware" as LogM
+participant "TPSLimitMiddleware" as TPSM
+participant "YourHandler (Business Logic)" as Handler
+end box
+
+Client -> Route : HTTP Request
+Route -> LogM : Pass request to LoggingMiddleware
+LogM -> TPSM : Pass request to TPSLimitMiddleware
+TPSM -> Handler : Pass request to YourHandler
+Handler -> Client : HTTP Response
+
+note over LogM : Logs the incoming request
+note over TPSM : Wait for available limit
+note over Handler : Executes the business logic
+
+@enduml
+@startuml
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultTextAlignment center
+
+start
+:定义 ticker;
+:定义 t;
+
+repeat
+  :等待 ticker 发出信号并赋值给 t;
+  if (队列 limit 已满)
+    :丢弃 t 的信号;
+  else
+    :将 t 添加到 limit 队列;
+  endif
+repeat while (程序正在运行)
+stop
+
+@enduml
+

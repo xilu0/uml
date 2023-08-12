@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome false
+skinparam shadowing true
+
+class Go映射 {
+  +存储桶: 数组
+  +哈希函数: 函数
+  +负载因子: 浮点数
+}
+
+class 存储桶 {
+  +溢出桶: 存储桶
+  +条目: 数组[8]
+}
+
+class 条目 {
+  -键: 键
+  -值: 值
+}
+
+Go映射 o-right-> "1..*" 存储桶: 包含
+存储桶 o-down-> "0..1" 存储桶: 溢出
+存储桶 o-right-> "1..8" 条目: 包含
+@enduml
+
+@startuml
+skinparam monochrome false
+skinparam shadowing true
+
+participant "Go映射" as GoMap
+participant "存储桶" as Bucket
+participant "条目" as Entry
+
+GoMap -> Bucket: 通过哈希函数定位存储桶
+Bucket -> Entry: 在条目数组中查找键
+Bucket -> Bucket: 创建新的溢出桶（如果需要）
+Bucket -> Entry: 在新的溢出桶中插入键值对
+@enduml

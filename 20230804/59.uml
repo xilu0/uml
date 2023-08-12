@@ -1,0 +1,33 @@
+@startuml
+!define primary_color #E1F5FE
+!define secondary_color #B3E5FC
+
+skinparam classBackgroundColor primary_color
+skinparam classBorderColor secondary_color
+skinparam classArrowColor secondary_color
+
+interface "DBClientInterface" {
+  +GetUser(id: int): (User, error)
+  +Login(username: string, password: string): (bool, error)
+}
+
+class "DBClient" {
+  -Conn: *sql.DB
+  +GetUser(id: int): (User, error)
+  +Login(username: string, password: string): (bool, error)
+}
+
+class "MockDBClient" {
+  +GetUser(id: int): (User, error)
+  +Login(username: string, password: string): (bool, error)
+}
+
+class "UserService" {
+  -store: Datastore
+  +GetUser(id: int): (User, error)
+}
+
+DBClientInterface <|.. DBClient: 实现
+DBClientInterface <|.. MockDBClient: 模拟
+UserService ..> DBClientInterface: 使用
+@enduml

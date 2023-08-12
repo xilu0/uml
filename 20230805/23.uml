@@ -1,0 +1,53 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #EAF2F8
+  borderColor #000000
+  fontColor #000000
+}
+
+skinparam class {
+  backgroundColor #F7DC6F
+  borderColor #B7950B
+  fontColor #000000
+}
+
+package "基于问题的学习" {
+
+  class "实际问题" as RealProblem
+  class "小组探讨" as GroupDiscussion
+  class "自主研究" as IndependentResearch
+  class "解决方案" as Solution
+  class "评估&反思" as EvaluationAndReflection
+
+  RealProblem --> GroupDiscussion : "激发探讨"
+  GroupDiscussion --> IndependentResearch : "引导研究"
+  IndependentResearch --> Solution : "提出方案"
+  Solution --> EvaluationAndReflection : "结果评估"
+
+  note left of RealProblem
+    初始步骤，引发
+    学生的好奇心。
+  end note
+  
+  note top of GroupDiscussion
+    学生分组，进行
+    思考与交流。
+  end note
+  
+  note right of IndependentResearch
+    学生自行查找资料、
+    进行实验和分析。
+  end note
+  
+  note bottom of Solution
+    依据研究成果，
+    提出解决策略。
+  end note
+  
+  note left of EvaluationAndReflection
+    对解决过程和结果
+    进行评价与反思。
+  end note
+}
+@enduml

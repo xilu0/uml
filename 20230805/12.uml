@@ -1,0 +1,32 @@
+@startuml
+title 职业发展阶段理论模型
+
+start
+:开始;
+partition "1. 探索期(Exploration)" {
+:职业尝试;
+:知识积累;
+:定位寻找;
+}
+partition "2. 建立期(Establishment)" {
+:技能提升;
+:关系建立;
+:影响力形成;
+}
+partition "3. 维持期(Maintenance)" {
+:专业地位维护;
+:持续学习;
+:指导他人;
+}
+partition "4. 退缩期(Decline)" {
+:工作生活平衡;
+:财务安排;
+:可能的退休或兼职;
+}
+:结束;
+@enduml
+
+
+
+
+

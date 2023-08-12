@@ -1,0 +1,31 @@
+@startuml
+actor 用户
+用户 --> (购买商品)
+用户 --> (浏览商品)
+@enduml
+@startuml
+class 商品 {
+  -名称: String
+  +显示详情(): String
+}
+@enduml
+@startuml
+start
+:选择商品;
+:添加至购物车;
+:结算;
+stop
+@enduml
+@startuml
+用户->系统: 提交订单
+系统->支付平台: 请求支付
+支付平台-->系统: 支付确认
+系统-->用户: 发送收据
+@enduml
+@startuml
+[*] --> 待支付
+待支付 --> 已支付 : 支付成功
+已支付 --> 已发货 : 商品发货
+已发货 --> 已完成 : 确认收货
+已完成 --> [*]
+@enduml

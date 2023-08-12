@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam colorscheme #Earth
+
+title 延迟执行（Defer）
+start
+:定义 i = 5;
+:延迟打印 i;
+:i = 10;
+stop
+@enduml
+
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam colorscheme #Earth
+
+title 内存逃逸
+start
+:定义 a = 5;
+:返回 a 的引用;
+stop
+@enduml
+
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam colorscheme #Earth
+
+title 空接口和类型断言
+start
+:定义空接口 data = "hello, world";
+:尝试将 data 转换为 string 类型;
+if (data 是 string 类型) then (yes)
+  :打印 data;
+else (no)
+  :打印 "data 不是 string 类型";
+endif
+stop
+@enduml
+
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+skinparam colorscheme #Earth
+
+title 通道的关闭和范围循环
+start
+:创建通道 ch;
+:向 ch 发送值;
+:关闭 ch;
+while (ch 中还有值)
+  :从 ch 中读取值;
+endwhile
+stop
+@enduml

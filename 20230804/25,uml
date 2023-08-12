@@ -1,0 +1,20 @@
+@startuml
+
+title Go语言推广博文
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam backgroundColor white
+
+rectangle "Go语言介绍" as intro #ADD8E6
+rectangle "博客内容" as blogContent #90EE90
+rectangle "读者期待" as expectation #FFB6C1
+rectangle "博客更新" as update #FFD700
+rectangle "订阅邀请" as subscribe #B0C4DE
+
+intro -down-> blogContent
+blogContent -down-> expectation
+expectation -down-> update
+update -down-> subscribe
+
+@enduml

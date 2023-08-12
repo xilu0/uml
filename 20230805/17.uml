@@ -1,0 +1,43 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #AED6F1
+  borderColor #000000
+  fontColor #000000
+}
+
+skinparam class {
+  backgroundColor #F5B7B1
+  borderColor #D35400
+  fontColor #000000
+}
+
+package "社会文化理论" {
+
+  class "社会交往" as SocialInteraction
+  class "近进发展区" as ZPD
+  class "文化工具与符号" as ToolsSymbols
+  class "个体认知发展" as CognitiveDevelopment
+
+  SocialInteraction --> CognitiveDevelopment : "影响"
+  ZPD ..> CognitiveDevelopment : "定义边界"
+  ToolsSymbols --> CognitiveDevelopment : "工具支持"
+  
+  note left of SocialInteraction
+    个体首先在社会层面与他人交往，
+    然后这些交往内部化为个体认知。
+  end note
+  
+  note right of ZPD
+    描述了学习者独立完成的任务与
+    在有帮助的情况下能完成的任务
+    之间的差异。
+  end note
+
+  note bottom of ToolsSymbols
+    文化提供了如语言、书写、
+    计算方法等工具来帮助个体
+    思考和解决问题。
+  end note
+}
+@enduml

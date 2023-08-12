@@ -1,0 +1,22 @@
+@startuml
+
+start
+
+:程序开始运行（Run Program）;
+
+:进行垃圾回收（Perform GC）;
+
+:分解为小任务（Break Down into Small Tasks）;
+
+if (内存压力大？) then (是)
+    :暂停标记工作（Pause Marking Work）;
+    note right: 当内存压力大时，暂停垃圾回收标记工作，\n让出CPU资源供程序使用。
+    :继续程序运行（Continue Program Execution）;
+else (否)
+    :执行小任务（Execute Small Tasks）;
+    note right: 当内存压力小或程序空闲时，\n执行垃圾回收的小任务。
+endif
+
+stop
+
+@enduml

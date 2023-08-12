@@ -1,0 +1,28 @@
+@startuml
+
+title "哈希表优化"
+
+skinparam package {
+    BorderColor Black
+    BackgroundColor LightBlue
+}
+
+class "哈希函数" as HashFunc {
+    + 计算哈希值(key: Key) : uint64
+}
+
+class "哈希表" as HashTable {
+    - table: []Entry
+    + Put(key: Key, value: Value)
+    + Get(key: Key) : Value
+    + Delete(key: Key)
+}
+
+class "哈希冲突解决策略" as CollisionStrategy {
+    + 解决冲突(key: Key, hash: uint64, table: []Entry) : Entry
+}
+
+HashTable --> HashFunc : 使用
+HashTable --> CollisionStrategy : 使用
+
+@enduml

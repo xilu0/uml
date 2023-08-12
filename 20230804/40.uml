@@ -1,0 +1,39 @@
+@startuml
+title 领域驱动设计的发展史
+skinparam style strict
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+skinparam monochrome false
+skinparam usecase {
+BackgroundColor<<图书>> Yellow
+FontColor<<图书>> Black
+BorderColor<<图书>> Black
+BackgroundColor<<概念>> DodgerBlue
+FontColor<<概念>> White
+BorderColor<<概念>> Black
+BackgroundColor<<实践>> MediumSeaGreen
+FontColor<<实践>> White
+BorderColor<<实践>> Black
+}
+actor Eric_Evans as "埃里克·埃文斯"
+actor Jimmy_Nilsson as "Jimmy Nilsson"
+actor Greg_Young as "Greg Young"
+actor Vaughn_Vernon as "Vaughn Vernon"
+
+usecase DDD as "DDD" <<概念>>
+usecase Book1 as "《领域驱动设计：软件核心复杂性应对之策》" <<图书>>
+usecase Book2 as "《Applying Domain-Driven Design and Patterns: With Examples in C# and .NET》" <<图书>>
+usecase CQRS as "CQRS" <<概念>>
+usecase Book3 as "《Implementing Domain-Driven Design》" <<图书>>
+usecase Aggregates as "聚合设计" <<概念>>
+
+Eric_Evans -- DDD : "提出"
+Eric_Evans -- Book1 : "撰写"
+DDD -- Jimmy_Nilsson : "影响"
+Jimmy_Nilsson -- Book2 : "撰写"
+DDD -- Greg_Young : "影响"
+Greg_Young -- CQRS : "提出"
+DDD -- Vaughn_Vernon : "影响"
+Vaughn_Vernon -- Book3 : "撰写"
+Vaughn_Vernon -- Aggregates : "提出"
+@enduml

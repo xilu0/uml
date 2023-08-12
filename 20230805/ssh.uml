@@ -1,0 +1,14 @@
+@startuml
+!define AWESOME
+participant "本地计算机" as Local #red
+participant "SSH 客户端" as SSHClient #green
+participant "远程服务器" as RemoteServer #blue
+
+Local -> SSHClient : 执行SSH命令
+SSHClient -> RemoteServer : 创建5672端口映射
+RemoteServer -> SSHClient : 确认端口映射
+SSHClient -> Local : 返回映射成功
+note right #yellow
+  现在可以通过localhost:5672访问远程服务器的5672端口
+end note
+@enduml

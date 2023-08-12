@@ -1,0 +1,28 @@
+@startuml
+actor "企业" as Author
+
+Author --> (介绍企业架构师)
+Author --> (介绍业务架构师)
+Author --> (分析区别)
+Author --> (做对比)
+Author --> (展示应用案例)
+Author --> (总结和反思)
+
+@enduml
+@startuml
+class 企业架构师 {
+  +职责
+  +技能要求
+  +工作领域
+}
+
+class 业务架构师 {
+  +职责
+  +技能要求
+  +工作领域
+}
+
+企业架构师 --|> 业务架构师 : 对比
+企业架构师 -- 业务架构师 : 区别
+
+@enduml

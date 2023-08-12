@@ -1,0 +1,35 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam class {
+    BackgroundColor PaleGreen
+    ArrowColor DarkGreen
+    BorderColor DarkGreen
+}
+
+class 通道Channel {
+    +NotifyClose(closer chan *Error) chan *Error
+}
+
+class 连接Connection {
+    +Channel() *通道Channel
+}
+
+class 错误Error {
+    -Code int
+    -Reason string
+}
+
+class 重连策略ReconnectStrategy {
+}
+
+通道Channel "1" -- "1" 连接Connection : 创建
+通道Channel "1" -- "0..1" 错误Error : 触发通知
+通道Channel "1" -- "0..1" 重连策略ReconnectStrategy : 使用
+
+note "错误Error类存储了通道关闭的原因\n和错误代码，被用于通知关闭事件。" as N1
+错误Error .. N1
+
+note "重连策略ReconnectStrategy类提供了\n重新连接的逻辑，可以在通道关闭时被调用。" as N2
+重连策略ReconnectStrategy .. N2
+
+@enduml

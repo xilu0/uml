@@ -1,0 +1,38 @@
+@startuml
+
+skinparam class {
+    BackgroundColor Yellow
+    BorderColor Black
+    ArrowColor Black
+}
+
+class Main {
+    + main()
+}
+
+class Config {
+    + ReadConfig(filename: string): Error
+    - Database: DatabaseConfig
+    - Server: ServerConfig
+}
+
+class DatabaseConfig {
+    - Host: string
+    - Username: string
+    - Password: string
+}
+
+class ServerConfig {
+    - Host: string
+    - Port: int
+}
+
+class "fsnotify.Watcher" as Watcher {
+}
+
+Main -- Config: reads >
+Main -- Watcher: uses >
+Config o-- DatabaseConfig: has >
+Config o-- ServerConfig: has >
+
+@enduml

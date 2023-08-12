@@ -1,0 +1,14 @@
+@startuml
+class 团队 {
+}
+class 工程师 {
+}
+团队 o-- 工程师 : 由...组成
+@enduml
+@startuml
+class 人 {
+}
+class 心脏 {
+}
+人 *-- 心脏 : 由...组成
+@enduml

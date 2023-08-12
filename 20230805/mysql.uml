@@ -1,0 +1,44 @@
+@startuml
+!define LIGHTORANGE #FFD580
+!define ORANGE #FFA05A
+!define GREEN #99CC99
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam usecase {
+  BackgroundColor LIGHTORANGE
+  BorderColor ORANGE
+}
+
+actor 开发者
+
+usecase u1 as "3.23\n全文搜索\n事务处理"
+usecase u2 as "4.0\n查询缓存\nInnoDB引擎"
+usecase u3 as "4.1\n预处理\n字符集支持"
+usecase u4 as "5.0\n存储过程\n触发器\n视图"
+usecase u5 as "5.1\n插件API\n分区表支持"
+usecase u6 as "5.5\n默认InnoDB\n性能提升"
+usecase u7 as "5.6\n全文搜索索引\n优化器"
+usecase u8 as "5.7\nJSON支持\n复制性能"
+usecase u9 as "8.0\n窗口函数\nCTE\n安全性"
+
+开发者 --> u1
+开发者 --> u2
+开发者 --> u3
+开发者 --> u4
+开发者 --> u5
+开发者 --> u6
+开发者 --> u7
+开发者 --> u8
+开发者 --> u9
+
+u1 --> u2
+u2 --> u3
+u3 --> u4
+u4 --> u5
+u5 --> u6
+u6 --> u7
+u7 --> u8
+u8 --> u9
+
+@enduml

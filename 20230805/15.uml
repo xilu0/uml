@@ -1,0 +1,41 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #FFDAA5
+  borderColor #000000
+  fontColor #000000
+}
+
+package "构建型学习理论" {
+  rectangle "主动参与" as A
+  rectangle "知识构建" as B
+  rectangle "真实世界情境" as C
+  rectangle "社交互动" as D
+  
+  A -down-> B : "驱动"
+  B -left-> C : "连接"
+  C -up-> D : "促进"
+  D -right-> A : "增强"
+  
+  note top of A
+    学习者需要积极参与学习过程，
+    而不是被动地接收信息。
+  end note
+  
+  note right of B
+    学习者基于已有的知识和经验
+    来构建新知识。
+  end note
+  
+  note bottom of C
+    学习最好发生在与真实生活相关的
+    情境中，这样可以促进知识的
+    应用和传递。
+  end note
+  
+  note left of D
+    与他人的互动可以促进知识的
+    深入理解和应用。
+  end note
+}
+@enduml

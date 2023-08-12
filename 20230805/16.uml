@@ -1,0 +1,44 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #AED6F1
+  borderColor #000000
+  fontColor #000000
+}
+
+skinparam class {
+  backgroundColor #F5B7B1
+  borderColor #D35400
+  fontColor #000000
+}
+
+package "深度加工理论" {
+  class "浅层加工" as Shallow
+  class "深度加工" as Deep
+  class "短暂记忆" as ShortTerm
+  class "持久记忆" as LongTerm
+
+  Shallow --> ShortTerm : "导致"
+  Deep --> LongTerm : "导致"
+  
+  note left of Shallow
+    对信息的表面特性进行
+    简单处理，如拼写或声音。
+  end note
+  
+  note right of Deep
+    对信息的语义特性进行
+    深入分析，如理解、关联。
+  end note
+
+  note bottom of ShortTerm
+    记忆持续时间短暂，
+    容易忘记。
+  end note
+
+  note bottom of LongTerm
+    记忆持续时间长久，
+    不易忘记。
+  end note
+}
+@enduml

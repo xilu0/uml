@@ -1,0 +1,60 @@
+@startuml
+skinparam backgroundColor #FFFFFF
+skinparam package {
+  backgroundColor #FDEDEC
+  borderColor #000000
+  fontColor #000000
+}
+
+skinparam class {
+  backgroundColor #F7DC6F
+  borderColor #B7950B
+  fontColor #000000
+}
+
+package "项目制学习策略" {
+
+  class "选择项目主题" as ChooseTheme
+  class "提供资源与指导" as ProvideResources
+  class "设定目标与评估" as SetGoals
+  class "执行与实践" as Execution
+  class "团队协作" as Teamwork
+  class "项目反思与总结" as Reflection
+
+  ChooseTheme --> ProvideResources : "基于选择"
+  ProvideResources --> SetGoals : "明确方向"
+  SetGoals --> Execution : "按目标进行"
+  Execution --> Reflection : "项目结束后"
+  Execution -down-> Teamwork : "涉及团队合作"
+  
+  note right of ChooseTheme
+    结合学科内容和学生兴趣
+    选择合适的项目主题。
+  end note
+  
+  note right of ProvideResources
+    为学生提供所需的
+    工具、资料和指导。
+  end note
+  
+  note right of SetGoals
+    明确项目目标和
+    成果的评估标准。
+  end note
+  
+  note left of Execution
+    学生主动参与、
+    实践和解决问题。
+  end note
+  
+  note bottom of Teamwork
+    培养学生的沟通、
+    协调和合作能力。
+  end note
+  
+  note right of Reflection
+    学生反思项目过程，
+    总结学习与经验。
+  end note
+}
+@enduml

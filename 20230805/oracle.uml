@@ -1,0 +1,51 @@
+@startuml
+skinparam monochrome true
+skinparam backgroundColor #EEEEFF
+
+class "Oracle V2" as V2 {
+    + 基本SQL查询功能
+}
+class "Oracle7" as O7 {
+    + PL/SQL存储过程
+    + 集群支持
+    + 表分区
+}
+class "Oracle8" as O8 {
+    + 大型对象支持
+    + 分布式事务处理
+}
+class "Oracle 8i" as O8i {
+    + Internet集成
+    + JVM
+}
+class "Oracle 9i" as O9i {
+    + 实时查询功能
+    + 自动撤销段
+}
+class "Oracle 10g" as O10g {
+    + 网格计算
+    + XML支持
+}
+class "Oracle 11g" as O11g {
+    + 新的安全选项
+    + 数据压缩
+}
+class "Oracle 12c" as O12c {
+    + 云计算
+    + 多租户架构
+}
+class "Oracle 18c/19c" as O18c19c {
+    + 自动化
+    + 人工智能
+}
+
+V2 -down-> O7 : 发展
+O7 -down-> O8 : 发展
+O8 -down-> O8i : 发展
+O8i -down-> O9i : 发展
+O9i -down-> O10g : 发展
+O10g -down-> O11g : 发展
+O11g -down-> O12c : 发展
+O12c -down-> O18c19c : 发展
+
+@enduml

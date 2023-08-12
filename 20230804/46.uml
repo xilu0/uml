@@ -1,0 +1,547 @@
+@startuml
+namespace app {
+    class App << (S,Aquamarine) >> {
+        - basename string
+        - name string
+        - description string
+        - options CliOptions
+        - runFunc RunFunc
+        - silence bool
+        - noVersion bool
+        - noConfig bool
+        - commands []*Command
+        - args cobra.PositionalArgs
+        - cmd *cobra.Command
+
+        - buildCommand() 
+        - runCommand(cmd *cobra.Command, args []string) error
+        - applyOptionRules() error
+
+        + Run() 
+        + Command() *cobra.Command
+        + AddCommand(cmd *Command) 
+        + AddCommands(cmds ...*Command) 
+
+    }
+    interface CliOptions  {
+        + Flags() flag.NamedFlagSets
+        + Validate() []error
+
+    }
+    class Command << (S,Aquamarine) >> {
+        - usage string
+        - desc string
+        - options CliOptions
+        - commands []*Command
+        - runFunc RunCommandFunc
+
+        - cobraCommand() *cobra.Command
+        - runCommand(cmd *cobra.Command, args []string) 
+
+        + AddCommand(cmd *Command) 
+        + AddCommands(cmds ...*Command) 
+
+    }
+    interface CompleteableOptions  {
+        + Complete() error
+
+    }
+    interface ConfigurableOptions  {
+        + ApplyFlags() []error
+
+    }
+    interface PrintableOptions  {
+        + String() string
+
+    }
+    class app.CommandOption << (T, #FF7700) >>  {
+    }
+    class app.Option << (T, #FF7700) >>  {
+    }
+    class app.RunCommandFunc << (T, #FF7700) >>  {
+    }
+    class app.RunFunc << (T, #FF7700) >>  {
+    }
+}
+
+
+namespace cronlog {
+    class logger << (S,Aquamarine) >> {
+        - zapLogger *zap.SugaredLogger
+
+        + Info(msg string, args ...<font color=blue>interface</font>{}) 
+        + Error(err error, msg string, args ...<font color=blue>interface</font>{}) 
+        + Flush() 
+
+    }
+}
+
+
+namespace db {
+    class Options << (S,Aquamarine) >> {
+        + Host string
+        + Username string
+        + Password string
+        + Database string
+        + MaxIdleConnections int
+        + MaxOpenConnections int
+        + MaxConnectionLifeTime time.Duration
+        + LogLevel int
+        + Logger logger.Interface
+
+    }
+    class TracePlugin << (S,Aquamarine) >> {
+        + Name() string
+        + Initialize(db *gorm.DB) error
+
+    }
+}
+
+
+namespace distribution {
+    class Logger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+        - logrusLogger *logrus.Logger
+
+        + Print(args ...<font color=blue>interface</font>{}) 
+        + Println(args ...<font color=blue>interface</font>{}) 
+        + Printf(format string, args ...<font color=blue>interface</font>{}) 
+        + Trace(args ...<font color=blue>interface</font>{}) 
+        + Traceln(args ...<font color=blue>interface</font>{}) 
+        + Tracef(format string, args ...<font color=blue>interface</font>{}) 
+        + Debug(args ...<font color=blue>interface</font>{}) 
+        + Debugln(args ...<font color=blue>interface</font>{}) 
+        + Debugf(format string, args ...<font color=blue>interface</font>{}) 
+        + Info(args ...<font color=blue>interface</font>{}) 
+        + Infoln(args ...<font color=blue>interface</font>{}) 
+        + Infof(format string, args ...<font color=blue>interface</font>{}) 
+        + Warn(args ...<font color=blue>interface</font>{}) 
+        + Warnln(args ...<font color=blue>interface</font>{}) 
+        + Warnf(format string, args ...<font color=blue>interface</font>{}) 
+        + Warning(args ...<font color=blue>interface</font>{}) 
+        + Warningln(args ...<font color=blue>interface</font>{}) 
+        + Warningf(format string, args ...<font color=blue>interface</font>{}) 
+        + Error(args ...<font color=blue>interface</font>{}) 
+        + Errorln(args ...<font color=blue>interface</font>{}) 
+        + Errorf(format string, args ...<font color=blue>interface</font>{}) 
+        + Fatal(args ...<font color=blue>interface</font>{}) 
+        + Fatalln(args ...<font color=blue>interface</font>{}) 
+        + Fatalf(format string, args ...<font color=blue>interface</font>{}) 
+        + Panic(args ...<font color=blue>interface</font>{}) 
+        + Panicln(args ...<font color=blue>interface</font>{}) 
+        + Panicf(format string, args ...<font color=blue>interface</font>{}) 
+        + WithError(err error) *logrus.Entry
+
+    }
+}
+
+
+namespace genericclioptions {
+    class ConfigFlags << (S,Aquamarine) >> {
+        - clientConfig clientcmd.ClientConfig
+        - lock sync.Mutex
+        - usePersistentConfig bool
+
+        + IAMConfig *string
+        + BearerToken *string
+        + Username *string
+        + Password *string
+        + SecretID *string
+        + SecretKey *string
+        + Insecure *bool
+        + TLSServerName *string
+        + CertFile *string
+        + KeyFile *string
+        + CAFile *string
+        + APIServer *string
+        + Timeout *time.Duration
+        + MaxRetries *int
+        + RetryInterval *time.Duration
+
+        - toRawIAMConfigLoader() clientcmd.ClientConfig
+        - toRawIAMPersistentConfigLoader() clientcmd.ClientConfig
+
+        + ToRESTConfig() (*rest.Config, error)
+        + ToRawIAMConfigLoader() clientcmd.ClientConfig
+        + AddFlags(flags *pflag.FlagSet) 
+        + WithDeprecatedPasswordFlag() *ConfigFlags
+        + WithDeprecatedSecretFlag() *ConfigFlags
+
+    }
+    class IOStreams << (S,Aquamarine) >> {
+        + In io.Reader
+        + Out io.Writer
+        + ErrOut io.Writer
+
+    }
+    interface RESTClientGetter  {
+        + ToRESTConfig() (*rest.Config, error)
+        + ToRawIAMConfigLoader() clientcmd.ClientConfig
+
+    }
+}
+
+"genericclioptions.RESTClientGetter" <|-- "genericclioptions.ConfigFlags"
+
+namespace klog {
+    class errorLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+    class fatalLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+    class infoLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+    class warnLogger << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Write(p []byte) (int, error)
+
+    }
+}
+
+
+namespace log {
+    interface InfoLogger  {
+        + Info(msg string, fields ...Field) 
+        + Infof(format string, v ...<font color=blue>interface</font>{}) 
+        + Infow(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Enabled() bool
+
+    }
+    interface Logger  {
+        + Debug(msg string, fields ...Field) 
+        + Debugf(format string, v ...<font color=blue>interface</font>{}) 
+        + Debugw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Warn(msg string, fields ...Field) 
+        + Warnf(format string, v ...<font color=blue>interface</font>{}) 
+        + Warnw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Error(msg string, fields ...Field) 
+        + Errorf(format string, v ...<font color=blue>interface</font>{}) 
+        + Errorw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Panic(msg string, fields ...Field) 
+        + Panicf(format string, v ...<font color=blue>interface</font>{}) 
+        + Panicw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Fatal(msg string, fields ...Field) 
+        + Fatalf(format string, v ...<font color=blue>interface</font>{}) 
+        + Fatalw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + V(level Level) InfoLogger
+        + Write(p []byte) (int, error)
+        + WithValues(keysAndValues ...<font color=blue>interface</font>{}) Logger
+        + WithName(name string) Logger
+        + WithContext(ctx context.Context) context.Context
+        + Flush() 
+
+    }
+    class Options << (S,Aquamarine) >> {
+        + OutputPaths []string
+        + ErrorOutputPaths []string
+        + Level string
+        + Format string
+        + DisableCaller bool
+        + DisableStacktrace bool
+        + EnableColor bool
+        + Development bool
+        + Name string
+
+        + Validate() []error
+        + AddFlags(fs *pflag.FlagSet) 
+        + String() string
+        + Build() error
+
+    }
+    class infoLogger << (S,Aquamarine) >> {
+        - level zapcore.Level
+        - log *zap.Logger
+
+        + Enabled() bool
+        + Info(msg string, fields ...Field) 
+        + Infof(format string, args ...<font color=blue>interface</font>{}) 
+        + Infow(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+
+    }
+    class log.Field << (T, #FF7700) >>  {
+    }
+    class log.Level << (T, #FF7700) >>  {
+    }
+    class log.key << (T, #FF7700) >>  {
+    }
+    class noopInfoLogger << (S,Aquamarine) >> {
+        + Enabled() bool
+        + Info(_ string, _ ...Field) 
+        + Infof(_ string, _ ...<font color=blue>interface</font>{}) 
+        + Infow(_ string, _ ...<font color=blue>interface</font>{}) 
+
+    }
+    class zapLogger << (S,Aquamarine) >> {
+        - zapLogger *zap.Logger
+
+        - clone() *zapLogger
+
+        + WithContext(ctx context.Context) context.Context
+        + V(level Level) InfoLogger
+        + Write(p []byte) (int, error)
+        + WithValues(keysAndValues ...<font color=blue>interface</font>{}) Logger
+        + WithName(name string) Logger
+        + Flush() 
+        + Debug(msg string, fields ...Field) 
+        + Debugf(format string, v ...<font color=blue>interface</font>{}) 
+        + Debugw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Info(msg string, fields ...Field) 
+        + Infof(format string, v ...<font color=blue>interface</font>{}) 
+        + Infow(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Warn(msg string, fields ...Field) 
+        + Warnf(format string, v ...<font color=blue>interface</font>{}) 
+        + Warnw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Error(msg string, fields ...Field) 
+        + Errorf(format string, v ...<font color=blue>interface</font>{}) 
+        + Errorw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Panic(msg string, fields ...Field) 
+        + Panicf(format string, v ...<font color=blue>interface</font>{}) 
+        + Panicw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + Fatal(msg string, fields ...Field) 
+        + Fatalf(format string, v ...<font color=blue>interface</font>{}) 
+        + Fatalw(msg string, keysAndValues ...<font color=blue>interface</font>{}) 
+        + L(ctx context.Context) *zapLogger
+
+    }
+    class "zapcore.Field" as zapcoreField {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+    class "zapcore.Level" as zapcoreLevel {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+"log.InfoLogger" *-- "log.Logger"
+"log.infoLogger" *-- "log.zapLogger"
+
+"app.PrintableOptions" <|-- "log.Options"
+"log.InfoLogger" <|-- "log.infoLogger"
+"log.InfoLogger" <|-- "log.noopInfoLogger"
+"log.Logger" <|-- "log.zapLogger"
+
+namespace logrus {
+    class hook << (S,Aquamarine) >> {
+        - logger *zap.Logger
+
+        + Levels() []logrus.Level
+        + Fire(entry *logrus.Entry) error
+        + Write(lvl zapcore.Level, msg string, fields []zap.Field, caller *runtime.Frame) 
+
+    }
+}
+
+
+namespace posixsignal {
+    class PosixSignalManager << (S,Aquamarine) >> {
+        - signals []os.Signal
+
+        + GetName() string
+        + Start(gs shutdown.GSInterface) error
+        + ShutdownStart() error
+        + ShutdownFinish() error
+
+    }
+}
+
+"shutdown.ShutdownManager" <|-- "posixsignal.PosixSignalManager"
+
+namespace shutdown {
+    class ErrorFunc << (S,Aquamarine) >> {
+        + OnError(err error) 
+
+    }
+    interface ErrorHandler  {
+        + OnError(err error) 
+
+    }
+    interface GSInterface  {
+        + StartShutdown(sm ShutdownManager) 
+        + ReportError(err error) 
+        + AddShutdownCallback(shutdownCallback ShutdownCallback) 
+
+    }
+    class GracefulShutdown << (S,Aquamarine) >> {
+        - callbacks []ShutdownCallback
+        - managers []ShutdownManager
+        - errorHandler ErrorHandler
+
+        + Start() error
+        + AddShutdownManager(manager ShutdownManager) 
+        + AddShutdownCallback(shutdownCallback ShutdownCallback) 
+        + SetErrorHandler(errorHandler ErrorHandler) 
+        + StartShutdown(sm ShutdownManager) 
+        + ReportError(err error) 
+
+    }
+    interface ShutdownCallback  {
+        + OnShutdown( string) error
+
+    }
+    class ShutdownFunc << (S,Aquamarine) >> {
+        + OnShutdown(shutdownManager string) error
+
+    }
+    interface ShutdownManager  {
+        + GetName() string
+        + Start(gs GSInterface) error
+        + ShutdownStart() error
+        + ShutdownFinish() error
+
+    }
+    class shutdown.ErrorFunc << (T, #FF7700) >>  {
+    }
+    class shutdown.ShutdownFunc << (T, #FF7700) >>  {
+    }
+}
+
+"shutdown.ErrorHandler" <|-- "shutdown.ErrorFunc"
+"shutdown.GSInterface" <|-- "shutdown.GracefulShutdown"
+"shutdown.ShutdownCallback" <|-- "shutdown.ShutdownFunc"
+
+namespace storage {
+    interface AnalyticsHandler  {
+        + Connect() bool
+        + AppendToSetPipelined( string,  [][]byte) 
+        + GetAndDeleteSet( string) []<font color=blue>interface</font>{}
+        + SetExp( string,  time.Duration) error
+        + GetExp( string) (int64, error)
+
+    }
+    class Config << (S,Aquamarine) >> {
+        + Host string
+        + Port int
+        + Addrs []string
+        + MasterName string
+        + Username string
+        + Password string
+        + Database int
+        + MaxIdle int
+        + MaxActive int
+        + Timeout int
+        + EnableCluster bool
+        + UseSSL bool
+        + SSLInsecureSkipVerify bool
+
+    }
+    interface Handler  {
+        + GetKey( string) (string, error)
+        + GetMultiKey( []string) ([]string, error)
+        + GetRawKey( string) (string, error)
+        + SetKey( string,  string,  int64) error
+        + SetRawKey( string,  string,  int64) error
+        + SetExp( string,  int64) error
+        + GetExp( string) (int64, error)
+        + GetKeys( string) []string
+        + DeleteKey( string) bool
+        + DeleteAllKeys() bool
+        + DeleteRawKey( string) bool
+        + Connect() bool
+        + GetKeysAndValues() <font color=blue>map</font>[string]string
+        + GetKeysAndValuesWithFilter( string) <font color=blue>map</font>[string]string
+        + DeleteKeys( []string) bool
+        + Decrement( string) 
+        + IncrememntWithExpire( string,  int64) int64
+        + SetRollingWindow(key string, per int64, val string, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetRollingWindow(key string, per int64, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetSet( string) (<font color=blue>map</font>[string]string, error)
+        + AddToSet( string,  string) 
+        + GetAndDeleteSet( string) []<font color=blue>interface</font>{}
+        + RemoveFromSet( string,  string) 
+        + DeleteScanMatch( string) bool
+        + GetKeyPrefix() string
+        + AddToSortedSet( string,  string,  float64) 
+        + GetSortedSetRange( string,  string,  string) ([]string, []float64, error)
+        + RemoveSortedSetRange( string,  string,  string) error
+        + GetListRange( string,  int64,  int64) ([]string, error)
+        + RemoveFromList( string,  string) error
+        + AppendToSet( string,  string) 
+        + Exists( string) (bool, error)
+
+    }
+    class RedisCluster << (S,Aquamarine) >> {
+        + KeyPrefix string
+        + HashKeys bool
+        + IsCache bool
+
+        - singleton() v7.UniversalClient
+        - hashKey(in string) string
+        - fixKey(keyName string) string
+        - cleanKey(keyName string) string
+        - up() error
+
+        + Connect() bool
+        + GetKey(keyName string) (string, error)
+        + GetMultiKey(keys []string) ([]string, error)
+        + GetKeyTTL(keyName string) (int64, error)
+        + GetRawKey(keyName string) (string, error)
+        + GetExp(keyName string) (int64, error)
+        + SetExp(keyName string, timeout time.Duration) error
+        + SetKey(keyName string, session string, timeout time.Duration) error
+        + SetRawKey(keyName string, session string, timeout time.Duration) error
+        + Decrement(keyName string) 
+        + IncrememntWithExpire(keyName string, expire int64) int64
+        + GetKeys(filter string) []string
+        + GetKeysAndValuesWithFilter(filter string) <font color=blue>map</font>[string]string
+        + GetKeysAndValues() <font color=blue>map</font>[string]string
+        + DeleteKey(keyName string) bool
+        + DeleteAllKeys() bool
+        + DeleteRawKey(keyName string) bool
+        + DeleteScanMatch(pattern string) bool
+        + DeleteKeys(keys []string) bool
+        + StartPubSubHandler(channel string, callback <font color=blue>func</font>(<font color=blue>interface</font>{}) ) error
+        + Publish(channel string, message string) error
+        + GetAndDeleteSet(keyName string) []<font color=blue>interface</font>{}
+        + AppendToSet(keyName string, value string) 
+        + Exists(keyName string) (bool, error)
+        + RemoveFromList(keyName string, value string) error
+        + GetListRange(keyName string, from int64, to int64) ([]string, error)
+        + AppendToSetPipelined(key string, values [][]byte) 
+        + GetSet(keyName string) (<font color=blue>map</font>[string]string, error)
+        + AddToSet(keyName string, value string) 
+        + RemoveFromSet(keyName string, value string) 
+        + IsMemberOfSet(keyName string, value string) bool
+        + SetRollingWindow(keyName string, per int64, valueOverride string, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetRollingWindow(keyName string, per int64, pipeline bool) (int, []<font color=blue>interface</font>{})
+        + GetKeyPrefix() string
+        + AddToSortedSet(keyName string, value string, score float64) 
+        + GetSortedSetRange(keyName string, scoreFrom string, scoreTo string) ([]string, []float64, error)
+        + RemoveSortedSetRange(keyName string, scoreFrom string, scoreTo string) error
+
+    }
+    class RedisOpts << (S,Aquamarine) >> {
+        - cluster() *v7.ClusterOptions
+        - simple() *v7.Options
+        - failover() *v7.FailoverOptions
+
+    }
+    class storage.RedisOpts << (T, #FF7700) >>  {
+    }
+    class "v7.UniversalOptions" as v7UniversalOptions {
+        'This class was created so that we can correctly have an alias pointing to this name. Since it contains dots that can break namespaces
+    }
+}
+
+"storage.AnalyticsHandler" <|-- "storage.RedisCluster"
+
+"__builtin__.int" #.. "log.key"
+"app.<font color=blue>func</font>(*App) " #.. "app.Option"
+"app.<font color=blue>func</font>(*Command) " #.. "app.CommandOption"
+"app.<font color=blue>func</font>([]string) error" #.. "app.RunCommandFunc"
+"app.<font color=blue>func</font>(string) error" #.. "app.RunFunc"
+"log.zapcoreField" #.. "log.Field"
+"log.zapcoreLevel" #.. "log.Level"
+"shutdown.<font color=blue>func</font>(error) " #.. "shutdown.ErrorFunc"
+"shutdown.<font color=blue>func</font>(string) error" #.. "shutdown.ShutdownFunc"
+"storage.v7UniversalOptions" #.. "storage.RedisOpts"
+@enduml

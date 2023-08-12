@@ -1,0 +1,29 @@
+@startuml
+title 如何应对职业发展中的未来不确定性：从未知中找寻确定性
+
+rectangle "未来的不确定性" as future_uncertainty {
+    rectangle "未知" as unknown
+    rectangle "未掌控" as uncontrollable
+}
+
+rectangle "应对策略" as strategies {
+    rectangle "明确长远目标" as clear_goals
+    rectangle "积累知识和技能" as accumulate_knowledge_skills
+    rectangle "拓展人际网络" as expand_network
+    rectangle "心态调整" as mindset_adjustment
+}
+
+unknown -down-> clear_goals: 指引方向
+unknown -down-> accumulate_knowledge_skills: 应对挑战
+unknown -down-> expand_network: 获取支持
+uncontrollable -down-> mindset_adjustment: 接受并应对
+
+note right of future_uncertainty
+面对未来，我们可能会遇到许多未知的因素，我们无法掌控所有的事情，这就导致了未来的不确定性。
+end note
+
+note right of strategies
+面对未来的不确定性，我们可以采取一系列的策略来找寻确定性，包括明确长远的目标、积累知识和技能、拓展人际网络以及调整心态。
+end note
+
+@enduml

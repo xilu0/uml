@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam ArrowColor SeaGreen
+skinparam ClassBorderColor SeaGreen
+skinparam ClassBackgroundColor Orange
+
+class "浮点数" as Float {
+  - 符号位 : bit
+  - 指数 : bit[]
+  - 尾数 : bit[]
+  + 加法(Float) : Float
+  + 减法(Float) : Float
+  + 乘法(Float) : Float
+  + 除法(Float) : Float
+}
+
+note right of Float
+    符号位: 1位，表示正负
+    指数: 8位（单精度）或11位（双精度）
+    尾数: 23位（单精度）或52位（双精度）
+end note
+
+@enduml
+
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam ArrowColor SeaGreen
+skinparam ActorBorderColor SeaGreen
+skinparam ParticipantBackgroundColor Orange
+
+actor "计算器" as calculator
+
+participant "浮点数A" as floatA
+
+participant "浮点数B" as floatB
+
+calculator -> floatA : 加法(floatB)
+activate floatA
+floatA --> calculator : 返回结果
+deactivate floatA
+
+calculator -> floatA : 减法(floatB)
+activate floatA
+floatA --> calculator : 返回结果
+deactivate floatA
+
+calculator -> floatA : 乘法(floatB)
+activate floatA
+floatA --> calculator : 返回结果
+deactivate floatA
+
+calculator -> floatA : 除法(floatB)
+activate floatA
+floatA --> calculator : 返回结果
+deactivate floatA
+
+@enduml

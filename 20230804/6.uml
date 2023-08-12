@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome true
+skinparam defaultFontName Microsoft YaHei
+title "选择适合的哈希算法策略"
+
+class "哈希算法" as HashAlgorithm {
+  --
+  MD5
+  SHA-1
+  SHA-256
+  CRC32
+  MurmurHash
+}
+
+class "场景选择" as Scenario {
+  --
+  高效率，快速哈希
+  高安全性
+}
+
+class "策略选择" as Strategy {
+  --
+  优先考虑运算效率
+  优先考虑安全性
+}
+
+HashAlgorithm -- Scenario : "适用场景"
+Scenario -- Strategy : "依据场景\n选择策略"
+
+note left of HashAlgorithm : "具有不同特点\n的哈希算法"
+note top of Scenario : "不同的实际应用场景"
+note right of Strategy : "依据场景优先考虑\n的策略"
+
+@enduml

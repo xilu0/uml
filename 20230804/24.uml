@@ -1,0 +1,20 @@
+@startuml
+
+title 软件工程的发展史
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam backgroundColor white
+
+rectangle "初识软件工程（1940s-1960s)" as stage1 #ADD8E6
+rectangle "建立基础（1970s-1980s)" as stage2 #90EE90
+rectangle "形成规范（1990s-2000s)" as stage3 #FFB6C1
+rectangle "敏捷的革命（2000s-现在)" as stage4 #FFD700
+rectangle "未来的展望" as future #B0C4DE
+
+stage1 -down-> stage2
+stage2 -down-> stage3
+stage3 -down-> stage4
+stage4 -down-> future
+
+@enduml

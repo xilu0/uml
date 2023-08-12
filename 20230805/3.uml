@@ -1,0 +1,21 @@
+@startuml
+start
+:发现业务架构师、系统架构师、软件架构师混淆现象;
+if (是否混淆) then (是)
+  :分析混淆原因;
+  :探讨各职位间的关联和区别;
+  :深入研究现象背后的社会和文化因素;
+endif
+:总结混淆现象的影响;
+:提出防止混淆和误解的建议;
+stop
+@enduml
+@startuml
+actor "作者" as Author
+
+Author --> (识别混淆现象)
+Author --> (分析三种架构师角色)
+Author --> (探究混淆的原因)
+Author --> (研究社会文化背景)
+Author --> (总结和提出建议)
+@enduml

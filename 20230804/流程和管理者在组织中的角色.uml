@@ -1,0 +1,25 @@
+@startuml
+
+skinparam classBackgroundColor LightGreen
+skinparam classBorderColor DarkGreen
+
+class 组织 {
+  + 制定战略决策()
+}
+
+class 流程 {
+  + 处理标准任务()
+  + 确保效率()
+  + 保证公平()
+}
+
+class 管理者 {
+  + 处理复杂问题()
+  + 建立团队士气()
+  + 提供激励()
+}
+
+组织 -- 管理者 : 需要
+组织 -- 流程 : 使用
+
+@enduml

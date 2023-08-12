@@ -1,0 +1,24 @@
+@startuml
+class ChatGPT {
+  + OpenAI
+  + GPT 3.5
+}
+
+class Claude {
+  + Anthropic
+  + Claude 2
+}
+
+class Bard {
+  + Google
+  + LaMDA
+}
+
+ChatGPT --|> AIAssistant
+Claude --|> AIAssistant
+Bard --|> AIAssistant
+
+class AIAssistant {
+  + RespondToNaturalLanguage()
+}
+@enduml

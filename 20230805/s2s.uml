@@ -1,0 +1,30 @@
+@startuml
+actor "系统架构师" as SystemArchitect
+actor "软件架构师" as SoftwareArchitect
+
+SystemArchitect --> (创建系统模型)
+SoftwareArchitect --> (创建软件模型)
+(SystemArchitect) --> (转换至软件模型): <<extend>>
+@enduml
+@startuml
+start
+:定义系统模型;
+:分析系统模型;
+:识别软件模块;
+:定义软件模型;
+:验证软件模型;
+stop
+@enduml
+@startuml
+class "系统模型" as SystemModel {
+  +识别功能需求()
+  +定义组件关系()
+}
+
+class "软件模型" as SoftwareModel {
+  +定义软件结构()
+  +描述交互()
+}
+
+SystemModel "1" -- "1" SoftwareModel : 转换
+@enduml

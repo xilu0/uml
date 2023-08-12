@@ -1,0 +1,45 @@
+@startuml
+skinparam monochrome true
+skinparam componentStyle uml2
+skinparam component {
+  BorderColor DarkSlateGray
+  BackgroundColor PaleGreen
+  FontColor DarkSlateGray
+}
+
+component "构件A" as ComponentA {
+  [接口1]
+  [接口2]
+}
+
+component "构件B" as ComponentB {
+  [接口3]
+  [接口4]
+}
+
+ComponentA -down-> ComponentB : 通过接口互动
+@enduml
+
+
+@startuml
+skinparam monochrome true
+skinparam rectangle {
+  BorderColor DarkSlateGray
+  BackgroundColor PaleGreen
+  FontColor DarkSlateGray
+}
+
+rectangle "系统架构设计" {
+  rectangle "子系统A架构设计" {
+    rectangle "构件A1设计" as ComponentA1
+    rectangle "构件A2设计" as ComponentA2
+  }
+  rectangle "子系统B架构设计" {
+    rectangle "构件B1设计" as ComponentB1
+    rectangle "构件B2设计" as ComponentB2
+  }
+}
+
+ComponentA1 -down-> ComponentA2 : 通过接口互动
+ComponentB1 -down-> ComponentB2 : 通过接口互动
+@enduml

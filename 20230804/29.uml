@@ -1,0 +1,21 @@
+@startuml
+skinparam class {
+  ArrowColor #F2711C
+  BorderColor #F2711C
+}
+
+class "XML" as XML {
+  + 元数据支持
+  + 支持复杂的数据结构
+  - 解析较复杂
+  - 文档较长
+}
+
+class "JSON" as JSON {
+  + 简洁
+  + 解析速度快
+  + 网络传输更高效
+  - 不支持元数据
+}
+
+@enduml

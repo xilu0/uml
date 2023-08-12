@@ -1,0 +1,14 @@
+@startuml
+skinparam sequenceBackgroundColor #ABEBC6
+skinparam sequenceBorderColor #27AE60
+skinparam sequenceFontColor #145A32
+autonumber
+actor "团队成员" as team
+participant "用户故事" as userstory
+participant "测试" as tests
+participant "代码" as code
+team -> userstory : 定义行为
+team -> tests : 编写测试
+team -> code : 编写代码
+team -> code : 重构代码
+@enduml

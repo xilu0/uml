@@ -1,0 +1,36 @@
+@startuml
+
+class "Junior_Go_Engineer" {
+    Basic Go syntax
+    Understanding of goroutines and channels
+    Ability to use Go's standard library
+    Can write simple Go applications
+}
+
+class "Intermediate_Go_Engineer" {
+    Proficient in Go
+    Understanding of memory management, garbage collection, and Go's type system
+    Can handle concurrent programming
+    Familiar with Go's open-source libraries and frameworks
+    Can write and maintain production-level Go services
+}
+
+class "Senior_Go_Engineer" {
+    Master of Go, understanding of its underlying implementation
+    Can optimize Go code to improve efficiency
+    Contributes to open source projects
+    Can design and build complex Go systems
+}
+
+class "Expert_Go_Engineer" {
+    Deep knowledge of Go, familiar with the language specifications and implementation
+    Major contributor to Go language or ecosystem
+    High influence within the Go community
+    Drives company or industry technology strategy
+}
+
+Junior_Go_Engineer -down-> Intermediate_Go_Engineer : Evolves to
+Intermediate_Go_Engineer -down-> Senior_Go_Engineer : Evolves to
+Senior_Go_Engineer -down-> Expert_Go_Engineer : Evolves to
+
+@enduml

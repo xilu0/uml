@@ -1,0 +1,22 @@
+@startuml
+
+title "Go内置哈希函数实现"
+
+skinparam class {
+    BorderColor Black
+    BackgroundColor LightBlue
+}
+
+class "整数哈希函数" as IntHashFunc {
+    + 计算哈希值(i: int64) : uint64
+}
+
+class "浮点数哈希函数" as FloatHashFunc {
+    + 计算哈希值(f: float64) : uint64
+}
+
+class "字符串哈希函数" as StringHashFunc {
+    + 计算哈希值(s: string) : uint64
+}
+
+@enduml

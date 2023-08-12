@@ -1,0 +1,25 @@
+@startuml
+class Service {
+    -Database db
+    +Function1()
+}
+
+class Database {
+    +GetData()
+}
+
+Service --> Database : uses
+@enduml
+
+@startuml
+class Service {
+    -Database db
+    +Function1()
+}
+
+class MockDatabase {
+    +GetData()
+}
+
+Service --> MockDatabase : uses
+@enduml

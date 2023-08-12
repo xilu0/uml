@@ -1,0 +1,16 @@
+@startuml
+skinparam backgroundColor #F5F5F5
+!$color1 = "#ADD8E6"
+
+class "Heap-Only Tuples (HOT)" as HOT << (HOT, $color1) >> {
+  非索引列更新
+  空间重用
+  HOT链
+  提高性能
+  空间效率
+}
+
+note "适用于频繁\n更新操作的数据库" as N1
+
+HOT .. N1
+@enduml

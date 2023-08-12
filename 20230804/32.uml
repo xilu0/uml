@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome false
+skinparam shadowing false
+
+class "简单系统与复杂系统的概念" as Concept {
+    定义：简单系统
+    定义：复杂系统
+}
+
+class "技术：掌控简单系统的艺术" as Tech {
+    技术人员的工作
+    简单系统的挑战
+}
+
+class "管理：在复杂系统中导航" as Management {
+    管理人员的工作
+    复杂系统的挑战
+}
+
+class "技术与管理：一种高级的角度看法" as Perspective {
+    对管理与技术的看法
+    高级的角度
+}
+
+Concept <.. Tech : 关联
+Concept <.. Management : 关联
+
+Tech <.. Perspective : 关联
+Management <.. Perspective : 关联
+
+@enduml

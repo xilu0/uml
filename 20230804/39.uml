@@ -1,0 +1,39 @@
+@startuml
+
+skinparam monochrome false
+skinparam shadowing false
+skinparam class {
+  BackgroundColor<<influence>> Yellow
+  BorderColor Gray
+  ArrowColor SeaGreen
+}
+
+class "结构化过程式编程" as S {
+  ..
+  -- 结构化过程式编程理念 --
+  ..
+}
+
+class "创新的基石" as IS <<influence>> {
+  ..
+  -- 为后续编程语言提供范本 --
+  ..
+}
+
+class "引领编程风格" as LS <<influence>> {
+  ..
+  -- 代码模块化、可读性和可维护性 --
+  ..
+}
+
+class "形塑编程教育" as ES <<influence>> {
+  ..
+  -- 初级编程教学工具 --
+  ..
+}
+
+S --> IS : 影响
+S --> LS : 影响
+S --> ES : 影响
+
+@enduml

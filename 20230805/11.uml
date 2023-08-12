@@ -1,0 +1,31 @@
+@startuml
+title "提升价值：高级工程师的价值增长探索之路"
+
+skinparam {
+BackgroundColor FloralWhite
+ArrowColor DeepSkyBlue
+ActorBorderColor Black
+ActorFontColor Black
+ActorFontSize 17
+ActorBackgroundColor FloralWhite
+UseCaseBorderColor DeepSkyBlue
+UseCaseFontColor Black
+UseCaseFontSize 16
+UseCaseBackgroundColor FloralWhite
+}
+
+actor "高级工程师" as engineer
+
+rectangle "提升价值" as valueIncrease {
+usecase "寻找深度：成为真正的专家" as depth
+usecase "拓展广度：增加技能的多样性" as breadth
+usecase "争取领导职务：从技术到管理" as leadership
+usecase "扩大人脉网络：建立影响力" as networking
+}
+
+engineer --> valueIncrease
+valueIncrease --> depth
+valueIncrease --> breadth
+valueIncrease --> leadership
+valueIncrease --> networking
+@enduml

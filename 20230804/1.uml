@@ -1,0 +1,31 @@
+@startuml
+
+class "Junior Engineer" {
+    Skills and Knowledge: Basic programming knowledge
+    Work Experience: 0-2 years
+    Responsibilities: Executes given tasks, requires guidance
+}
+
+class "Intermediate Engineer" {
+    Skills and Knowledge: In-depth understanding of the software development process
+    Work Experience: 3-5 years
+    Responsibilities: Handles tasks independently, participates in software design discussions
+}
+
+class "Senior Engineer" {
+    Skills and Knowledge: Proficient in multiple programming languages and technologies
+    Work Experience: 5-10 years
+    Responsibilities: Leads projects or teams, makes technical decisions
+}
+
+class "Expert Engineer" {
+    Skills and Knowledge: Extensive technical knowledge and specialization
+    Work Experience: 10+ years
+    Responsibilities: Shapes company's technical strategy, guides other engineers
+}
+
+Junior_Engineer -down-> Intermediate_Engineer : Evolves to
+Intermediate_Engineer -down-> Senior_Engineer : Evolves to
+Senior_Engineer -down-> Expert_Engineer : Evolves to
+
+@enduml

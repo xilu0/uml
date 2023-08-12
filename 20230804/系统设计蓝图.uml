@@ -1,0 +1,36 @@
+@startuml
+skinparam component {
+    BackgroundColor #AED6F1
+    BorderColor #1A5276
+    FontColor #1A5276
+}
+
+skinparam package {
+    BackgroundColor #F9E79F
+    BorderColor #784212
+    FontColor #784212
+}
+
+package "第三方服务" {
+    [支付服务]
+    [邮件服务]
+}
+
+actor 用户 as "用户"
+
+component 前端 as "前端" {
+    [UI层]
+}
+
+component 后端 as "后端" {
+    [业务逻辑]
+    [数据访问]
+}
+
+database 数据库 as "数据库"
+
+用户 --> 前端
+前端 --> 后端 : 请求数据
+后端 --> 数据库 : 查询/更新数据
+后端 --> "第三方服务" : 调用接口
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+skinparam classBackgroundColor PaleGreen
+skinparam classBorderColor DarkGreen
+skinparam classFontColor Black
+skinparam classArrowColor DarkGreen
+
+class "软件开发者" as SD {
+  - 编程技能
+  - 解决问题能力
+}
+
+class "自我价值认知" as SR {
+  - 理解自身价值
+  - 角色超越执行者
+}
+
+class "技术商业化" as TC {
+  - 商业知识
+  - 市场洞察力
+}
+
+class "领导力" as L {
+  - 管理能力
+  - 沟通技巧
+}
+
+class "持续学习和进步" as CL {
+  - 保持对新技术的关注
+  - 自我提升
+}
+
+SD -- SR : 需要具备 >
+SD -- TC : 需要具备 >
+SD -- L : 需要具备 >
+SD -- CL : 需要具备 >
+@enduml

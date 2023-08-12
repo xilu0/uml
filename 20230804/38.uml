@@ -1,0 +1,16 @@
+@startuml
+
+skinparam class {
+    BorderColor Black
+    BorderThickness 2
+    BackgroundColor AliceBlue
+}
+
+class "银行账户(BankAccount)" as BA {
+    - 账号(accountNumber)
+    - 余额(balance)
+    + 存款(deposit)
+    + 取款(withdraw)
+}
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+
+class "Sorter" as sorter {
+  -strategy : Strategy
+  +SetStrategy(strategy : Strategy)
+  +Sort(data : []int) : []int
+}
+interface "Strategy" as strategy {
+  +Sort(data : []int) : []int
+}
+class "BubbleSort" as bubbleSort {
+  +Sort(data : []int) : []int
+}
+class "QuickSort" as quickSort {
+  +Sort(data : []int) : []int
+}
+
+sorter --> strategy : uses >-
+bubbleSort ..|> strategy
+quickSort ..|> strategy
+@enduml

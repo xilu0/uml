@@ -1,0 +1,28 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+class "Circle" as C
+interface "Drawable" as D
+C -() D : 实现
+@enduml
+
+@startuml
+skinparam defaultFontName Microsoft YaHei
+class "SubClass" as S
+class "SuperClass" as Sup
+interface "Interface" as I
+class "DependentClass" as D
+class "DependClass" as Dp
+S -|> Sup : 继承
+S .up.|> I : 实现
+Dp .left.> D : 依赖
+@enduml
+
+@startuml
+skinparam defaultFontName Microsoft YaHei
+class "WholeClass" as W
+class "PartClass" as P
+class "WholeClass_Com" as Wc
+class "PartClass_Com" as Pc
+W "1" *- "1..*" P : 聚合
+Wc "1" *- "1..*" Pc : 组合
+@enduml

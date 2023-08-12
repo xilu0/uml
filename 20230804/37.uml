@@ -1,0 +1,38 @@
+@startuml
+
+skinparam {
+  DefaultFontName Aapex
+  arrowColor RoyalBlue
+  actorBorderColor RoyalBlue
+  usecaseBorderColor RoyalBlue
+
+  actorBackgroundColor FloralWhite
+  usecaseBackgroundColor LightYellow
+
+  usecaseFontColor RoyalBlue
+  actorFontColor RoyalBlue
+}
+
+actor "软件架构师" as architect
+actor "开发者" as developer
+
+rectangle "软件架构模式" as patterns {
+
+  usecase "分层模式" as layered
+  usecase "客户端-服务器模式" as client_server
+  usecase "主-从模式" as master_slave
+  usecase "点对点模式" as peer_to_peer
+  usecase "事件驱动模式" as event_driven
+  usecase "发布-订阅模式" as publish_subscribe
+  usecase "管道-过滤器模式" as pipe_filter
+  usecase "微服务模式" as microservices
+  usecase "服务定向架构模式" as soa
+  usecase "黑板模式" as blackboard
+  usecase "互联网模式" as internet
+
+}
+
+architect --> patterns : 设计和选择
+developer --> patterns : 学习和应用
+
+@enduml

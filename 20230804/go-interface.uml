@@ -1,0 +1,61 @@
+@startuml
+skinparam monochrome false
+skinparam shadowing true
+skinparam RankDir LeftToRight
+skinparam node {
+  BorderColor Black
+  BackgroundColor LightYellow
+  FontColor Black
+  ShadowColor gray
+  RoundCorner 20
+}
+
+node "接口值" as interfaceVal {
+  rectangle "类型指针\n(Type)" as typePtr
+  rectangle "数据指针\n(Value)" as dataPtr
+}
+
+node "接口方法集" as methods {
+  rectangle "方法A" as methodA
+  rectangle "方法B" as methodB
+  rectangle "方法C" as methodC
+}
+
+node "具体类型" as concreteType {
+  rectangle "字段A" as fieldA
+  rectangle "字段B" as fieldB
+  rectangle "方法A" as concreteMethodA
+  rectangle "方法B" as concreteMethodB
+  rectangle "方法C" as concreteMethodC
+}
+
+typePtr --> methods : 指向
+dataPtr --> concreteType : 指向
+methods --> methodA : 包含
+methods --> methodB : 包含
+methods --> methodC : 包含
+concreteType --> fieldA : 包含
+concreteType --> fieldB : 包含
+concreteType --> concreteMethodA : 包含
+concreteType --> concreteMethodB : 包含
+concreteType --> concreteMethodC : 包含
+@enduml
+
+@startuml
+skinparam monochrome false
+skinparam shadowing true
+
+participant "代码" as code
+participant "接口值\n（类型指针+数据指针）" as iface
+participant "接口方法集" as methodSet
+participant "具体类型" as concrete
+
+code -> iface: 调用方法
+iface -> methodSet: 通过类型指针查找方法
+methodSet -> methodSet: 在方法集中查找方法
+methodSet -> iface: 返回找到的方法
+iface -> concrete: 通过数据指针获取实际类型实例
+concrete -> concrete: 在实际类型实例上执行方法
+concrete -> code: 返回方法执行结果
+@enduml
+

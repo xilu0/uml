@@ -1,0 +1,51 @@
+@startuml
+skinparam style strictuml
+skinparam monochrome false
+skinparam shadowing true
+skinparam ClassBackgroundColor FloralWhite
+skinparam ClassBorderColor DarkSeaGreen
+skinparam ClassFontColor Black
+skinparam ClassAttributeFontColor DarkSlateGray
+skinparam ClassAttributeIconColor DarkCyan
+
+class "空接口" as EmptyInterface {
+}
+
+class "字符串" as String {
+}
+
+class "整数" as Integer {
+}
+
+EmptyInterface <|-down- String : 可以存储
+EmptyInterface <|-down- Integer : 可以存储
+@enduml
+
+@startuml
+skinparam style strictuml
+skinparam monochrome false
+skinparam shadowing true
+skinparam SequenceBackgroundColor FloralWhite
+skinparam SequenceDividerBorderColor DarkSeaGreen
+skinparam ParticipantBackgroundColor FloralWhite
+skinparam ParticipantBorderColor DarkSeaGreen
+skinparam ParticipantFontColor Black
+skinparam LifeLineBorderColor DarkCyan
+skinparam LifeLineBackgroundColor Wheat
+
+participant "函数" as Function
+participant "空接口" as EmptyInterface
+participant "字符串" as String
+participant "整数" as Integer
+
+Function -> EmptyInterface: 存储字符串
+note right: 空接口可以存储任何类型的值
+activate EmptyInterface
+EmptyInterface <-- String: 接收值
+deactivate EmptyInterface
+
+Function -> EmptyInterface: 存储整数
+activate EmptyInterface
+EmptyInterface <-- Integer: 接收值
+deactivate EmptyInterface
+@enduml

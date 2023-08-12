@@ -1,0 +1,20 @@
+@startuml
+skinparam backgroundColor #FAFAFA
+skinparam classBackgroundColor #D9EDF7
+skinparam classFontColor #333333
+skinparam classBorderColor #BCE8F1
+skinparam classArrowColor #5BC0DE
+
+class 存储过程 {
+    + 模块化
+    + 效率
+    + 安全
+}
+class 触发器 {
+    + 自动化
+    + 完整性维护
+    + 业务逻辑集成
+}
+
+存储过程 <|-- 触发器 : 是
+@enduml
