@@ -1,0 +1,43 @@
+@startuml
+
+!define LIGHTGREEN #DFF2BF
+!define LIGHTBLUE #CCE5FF
+!define LIGHTRED #FFCCCC
+
+skinparam component {
+  BackgroundColor LIGHTBLUE
+  BorderColor Black
+  ArrowColor Black
+}
+
+skinparam package {
+  BackgroundColor LIGHTRED
+  BorderColor Black
+}
+
+package "系统软件" {
+  component "操作系统" as OS
+  component "驱动程序" as Drivers
+}
+
+package "中间件" {
+  component "消息队列" as MQ
+  component "数据库中间件" as DBM
+  component "远程调用框架" as RPC
+}
+
+package "应用软件" {
+  component "文字处理软件" as Word
+  component "图像编辑软件" as Photoshop
+  component "商业软件" as ERP
+}
+
+OS -down-> Drivers
+OS -down-> MQ
+OS -down-> DBM
+OS -down-> RPC
+MQ -down-> Word
+DBM -down-> Photoshop
+RPC -down-> ERP
+
+@enduml

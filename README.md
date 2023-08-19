@@ -101,3 +101,6 @@ Manacher算法
 实现一个小型搜索引擎
 
 构建自己的数据结构库
+
+
+$env:GOOS = "linux"; $env:GOARCH = "amd64"; go build

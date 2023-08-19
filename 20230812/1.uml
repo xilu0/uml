@@ -1,0 +1,35 @@
+@startuml
+!define lightblue #ADD8E6
+!define lightcoral #F08080
+
+class "独立开发者" as IndependentDeveloper {
+  +灵活性
+  +专业技能
+  +自主创业
+  +项目选择
+}
+
+class "优势" as Advantages {
+  +创新能力
+  +效率高
+  +个性化服务
+}
+
+class "挑战" as Challenges {
+  +资源限制
+  +风险管理
+}
+
+IndependentDeveloper -up-> Advantages : 拥有
+IndependentDeveloper -down-> Challenges : 面临
+
+note left of IndependentDeveloper : 独立开发者\n自我驱动，灵活响应市场
+note right of Advantages : 强化开发者\n在市场中的竞争力
+note right of Challenges : 需要妥善管理\n和克服的问题
+
+skinparam class {
+  BackgroundColor lightblue
+  BorderColor lightcoral
+}
+
+@enduml

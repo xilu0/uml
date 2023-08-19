@@ -1,0 +1,41 @@
+@startuml
+
+!define SYSTEM_COLOR #FFCCCC
+!define MIDDLEWARE_COLOR #CCE5FF
+!define APPLICATION_COLOR #DFF2BF
+
+skinparam package {
+  BackgroundColor White
+  BorderColor Black
+}
+
+class "系统软件" as system {
+  + 技术挑战高
+  + 独特价值
+  - 复杂性高
+  - 市场竞争
+}
+
+class "中间件" as middleware {
+  + 市场需求
+  + 技术挑战适中
+  - 维护难度
+  - 市场竞争
+}
+
+class "应用软件" as application {
+  + 市场广阔
+  + 创新空间
+  + 上手容易
+  - 竞争激烈
+  - 收入不稳定
+}
+
+system -down-> middleware: "技术难度递减"
+middleware -down-> application
+
+system --> "适合底层技术爱好者"
+middleware --> "适合有企业级解决方案经验"
+application --> "适合追求快速实现产品的开发者"
+
+@enduml

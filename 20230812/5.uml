@@ -1,0 +1,26 @@
+@startuml
+!define primaryColor #E1F5FE
+!define secondaryColor #B3E5FC
+
+class 快速排序 {
+  +排序(数组: int[], 左: int, 右: int): void
+  -划分(数组: int[], 左: int, 右: int): int
+}
+
+class 主过程 {
+    递归调用
+}
+
+class 划分 {
+    选择基准
+    比较
+    交换
+}
+
+快速排序 -down- 主过程 : 使用
+快速排序 -down- 划分 : 使用
+
+note right of 快速排序 : 快速排序的主要部分\n包括主过程和划分操作。
+note right of 划分 : 划分操作包括选择基准、比较和交换。
+
+@enduml

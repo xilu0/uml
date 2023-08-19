@@ -1,0 +1,19 @@
+@startuml
+
+title 动态规划模型
+
+class "问题" as Problem {
+    +最优解: Solution
+    +子问题1: Problem
+    +子问题2: Problem
+    +...
+    +子问题N: Problem
+}
+
+note right of Problem : 主要属性\n1. 最优子结构\n2. 无后效性
+
+Problem -- Problem : 分解
+
+note bottom : 动态规划通过分解问题\n为更小、更容易管理的子问题\n并通过存储这些子问题的解\n来避免重复计算.
+
+@enduml
