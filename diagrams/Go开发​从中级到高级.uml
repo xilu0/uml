@@ -1,0 +1,12 @@
+@startuml
+:Go开发中级;
+switch (发展路线)
+case (专业度加强\n更多的工作机会)
+    :Go开发高级;
+case (通用性)
+    :设计模式中级;
+case (扩展性)
+    :算法中级;
+endswitch
+@enduml
+```

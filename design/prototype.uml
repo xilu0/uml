@@ -1,0 +1,19 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Prototype {
+  +Clone() : Prototype
+}
+
+RECTANGLE ConcretePrototype1 {
+  +Clone() : Prototype
+}
+
+RECTANGLE ConcretePrototype2 {
+  +Clone() : Prototype
+}
+
+Prototype <|-- ConcretePrototype1 : Implements
+Prototype <|-- ConcretePrototype2 : Implements
+
+@enduml

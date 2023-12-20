@@ -1,0 +1,69 @@
+@startuml
+!define RECTANGLE class
+!define ABSTRACT abstract
+!define DATABASE database
+!define ACTOR actor
+
+skinparam class {
+    BackgroundColor<<ABSTRACT>> PaleGreen
+    BorderColor<<ABSTRACT>> SpringGreen
+    BackgroundColor<<RECTANGLE>> White
+    BorderColor<<RECTANGLE>> Black
+    BackgroundColor<<DATABASE>> MistyRose
+    BorderColor<<DATABASE>> Red
+    BackgroundColor<<ACTOR>> Wheat
+    BorderColor<<ACTOR>> Tan
+}
+
+abstract class AbstractClass {
+    +TemplateMethod()
+    +PrimitiveOperation1()
+    +PrimitiveOperation2()
+}
+
+class ConcreteClass {
+    +PrimitiveOperation1()
+    +PrimitiveOperation2()
+}
+
+AbstractClass <|-- ConcreteClass
+
+@enduml
+
+
+@startuml
+!define RECTANGLE class
+!define ABSTRACT abstract
+!define DATABASE database
+!define ACTOR actor
+
+skinparam sequence {
+    ParticipantBackgroundColor<<ABSTRACT>> PaleGreen
+    ParticipantBorderColor<<ABSTRACT>> SpringGreen
+    ParticipantBackgroundColor<<RECTANGLE>> White
+    ParticipantBorderColor<<RECTANGLE>> Black
+    ParticipantBackgroundColor<<DATABASE>> MistyRose
+    ParticipantBorderColor<<DATABASE>> Red
+    ParticipantBackgroundColor<<ACTOR>> Wheat
+    ParticipantBorderColor<<ACTOR>> Tan
+}
+
+participant "Client" as C <<RECTANGLE>>
+participant "AbstractClass" as A <<ABSTRACT>>
+participant "ConcreteClass" as CC <<RECTANGLE>>
+
+C -> A: TemplateMethod()
+activate A
+A -> A: PrimitiveOperation1()
+A -> CC: PrimitiveOperation1()
+activate CC
+CC --> A: Implementation
+deactivate CC
+A -> A: PrimitiveOperation2()
+A -> CC: PrimitiveOperation2()
+activate CC
+CC --> A: Implementation
+deactivate CC
+A --> C: Return Result
+deactivate A
+@enduml

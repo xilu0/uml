@@ -1,0 +1,31 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+
+RECTANGLE "内向性格的特点与挑战" {
+  ACTOR "特点" as features
+  ACTOR "挑战" as challenges
+}
+RECTANGLE "应变能力的重要性" as importance
+RECTANGLE "提升应变能力的策略" as strategies
+
+features -down-> challenges : 包含
+challenges -right-> importance : 影响
+importance -down-> strategies : 导向
+@enduml
+
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+
+RECTANGLE "提升应变能力的策略" #lightblue {
+  ACTOR "自我认知与自我调整" as selfAwareness #yellow
+  ACTOR "提升沟通技巧" as communicationSkills #green
+  ACTOR "逐步扩大舒适区" as expandComfortZone #pink
+}
+
+selfAwareness -down-> communicationSkills : 连接
+communicationSkills -down-> expandComfortZone : 连接
+@enduml

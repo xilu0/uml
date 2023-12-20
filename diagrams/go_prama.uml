@@ -1,0 +1,53 @@
+@startuml
+
+class ServerConfig {
+  - Address: string
+  - Port: int
+  - Timeout: int
+}
+
+ServerConfig --> "1..*" ServerOption : Has
+
+interface ServerOption {
+  + apply(cfg: ServerConfig): void
+}
+
+ServerOption <|.. WithAddress : Implements
+ServerOption <|.. WithPort : Implements
+ServerOption <|.. WithTimeout : Implements
+
+class WithAddress {
+  + apply(cfg: ServerConfig): void
+}
+
+class WithPort {
+  + apply(cfg: ServerConfig): void
+}
+
+class WithTimeout {
+  + apply(cfg: ServerConfig): void
+}
+
+ServerConfig *--> ServerOption : "Applies"
+
+@enduml
+
+
+@startuml
+
+participant Client
+participant ServerConfig
+participant WithAddress
+participant WithPort
+participant WithTimeout
+
+Client -> ServerConfig : NewServer()
+Client -> WithAddress : WithAddress("example.com")
+Client -> WithPort : WithPort(8081)
+Client -> WithTimeout : WithTimeout(60)
+
+WithAddress --> ServerConfig : apply()
+WithPort --> ServerConfig : apply()
+WithTimeout --> ServerConfig : apply()
+
+@enduml

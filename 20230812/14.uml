@@ -1,0 +1,25 @@
+@startuml
+!define Stereotype <<$class>>
+!define lightBlue #ADD8E6
+!define lightGreen #90EE90
+
+class "Order" as order <<Entity>> {
+  +orderId: int
+  +amount: float
+}
+
+class "User" as user <<Controller>> {
+  +userId: int
+  +name: string
+}
+
+order -- user: <<create>>
+
+note "一个简单的电商系统\n<<Entity>>和<<Controller>>分别标识了\n实体和控制器角色" as N1
+
+skinparam class {
+  BackgroundColor lightBlue
+  StereotypeFontColor lightGreen
+}
+
+@enduml

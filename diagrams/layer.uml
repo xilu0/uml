@@ -1,0 +1,36 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor<<T1>> yellow
+    BackgroundColor<<T2>> pink
+    BackgroundColor<<T3>> orange
+    BackgroundColor<<T4>> green
+}
+
+RECTANGLE "表示层\nPresentation Layer" <<T1>> {
+  + User Interface
+  + Web API
+}
+
+RECTANGLE "应用层\nApplication Layer" <<T2>> {
+  + Coordinator
+  + Service
+}
+
+RECTANGLE "业务逻辑层\nDomain Layer" <<T3>> {
+  + Business Logic
+  + Entity
+  + Value Object
+}
+
+RECTANGLE "数据访问层\nData Access Layer" <<T4>> {
+  + Repository
+  + Data Mapper
+}
+
+"表示层\nPresentation Layer" --down-> "应用层\nApplication Layer" : 请求处理
+"应用层\nApplication Layer" --down-> "业务逻辑层\nDomain Layer" : 调用业务逻辑
+"业务逻辑层\nDomain Layer" --down-> "数据访问层\nData Access Layer" : 数据交互
+
+@enduml

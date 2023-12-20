@@ -1,0 +1,60 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+!define USECASE usecase
+!define PACKAGE package
+!define INTERFACE interface
+
+skinparam class {
+    BackgroundColor<<interface>> HoneyDew
+    BorderColor<<interface>> SpringGreen
+    ArrowColor<<interface>> SpringGreen
+}
+
+interface "AbstractProductA" as AbstractProductA {
+}
+
+interface "AbstractProductB" as AbstractProductB {
+}
+
+class "ConcreteProductA1" as ConcreteProductA1 {
+    +operationA(): void
+}
+class "ConcreteProductA2" as ConcreteProductA2 {
+    +operationA(): void
+}
+
+class "ConcreteProductB1" as ConcreteProductB1 {
+    +operationB(): void
+}
+class "ConcreteProductB2" as ConcreteProductB2 {
+    +operationB(): void
+}
+
+interface "AbstractFactory" as AbstractFactory {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+}
+
+class "ConcreteFactory1" as ConcreteFactory1 {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+}
+class "ConcreteFactory2" as ConcreteFactory2 {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+}
+
+AbstractProductA <|.. ConcreteProductA1
+AbstractProductA <|.. ConcreteProductA2
+AbstractProductB <|.. ConcreteProductB1
+AbstractProductB <|.. ConcreteProductB2
+AbstractFactory <|.. ConcreteFactory1
+AbstractFactory <|.. ConcreteFactory2
+ConcreteFactory1 ..> ConcreteProductA1 : Creates
+ConcreteFactory1 ..> ConcreteProductB1 : Creates
+ConcreteFactory2 ..> ConcreteProductA2 : Creates
+ConcreteFactory2 ..> ConcreteProductB2 : Creates
+
+@enduml

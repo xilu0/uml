@@ -1,0 +1,51 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+skinparam class {
+  BackgroundColor<<RECTANGLE>> YellowGreen
+  BackgroundColor<<DATABASE>> DarkOrange
+  BackgroundColor<<STATE>> LightBlue
+  BackgroundColor<<EVENT>> Red
+}
+
+[*] -down-> Off : Initialize
+Off : <<STATE>>
+On : <<STATE>>
+
+Off -right-> On : TurnOn
+On -left-> Off : TurnOff
+
+@enduml
+
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+skinparam class {
+  BackgroundColor<<RECTANGLE>> YellowGreen
+  BackgroundColor<<DATABASE>> DarkOrange
+  BackgroundColor<<STATE>> LightBlue
+}
+
+class "Context" as context <<RECTANGLE>> {
+  - state : State
+  + SetState(state: State)
+  + Request()
+}
+
+interface "State" as state <<STATE>> {
+  + Handle(context: *Context)
+}
+
+class "OffState" as off_state <<STATE>> {
+  + Handle(context: *Context)
+}
+
+class "OnState" as on_state <<STATE>> {
+  + Handle(context: *Context)
+}
+
+context -right-> state: <<uses>>
+off_state .up.|> state : <<implements>>
+on_state .up.|> state : <<implements>>
+
+@enduml

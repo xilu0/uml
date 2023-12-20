@@ -1,0 +1,67 @@
+@startuml
+(First usecase)
+(Another usecase) as (UC2)
+usecase UC3
+@enduml
+
+@startuml
+:First Actor:
+:Another actor: as Man2
+actor Woman3
+@enduml
+
+@startuml
+skinparam actorStyle awesome
+:User: --> (Use)
+@enduml
+
+@startuml
+usecase UC1 as "You can use
+several lines to define your usecase."
+@enduml
+
+@startuml
+package "Some Package" {
+  (UseCase1)
+  (UseCase2)
+}
+@enduml
+
+@startuml
+User -> (Start)
+User --> (Use the application)
+@enduml
+
+@startuml
+User <|-- Admin
+(Start) <|-- (Use)
+@enduml
+
+@startuml
+note right of (UseCase1) : this is a note
+@enduml
+
+@startuml
+User << Human >>
+(UseCase1) << Main >>
+@enduml
+
+@startuml
+actor foo
+foo --> (bar) : normal
+foo --> (bar1) #red : red
+@enduml
+
+
+
+@startuml
+skinparam actorStyle awesome
+actor wangyijie << (M,#FF7700) Master >>
+actor student
+student <|-- wangyijie
+usecase "learn PlantUml" as uc1
+wangyijie --> uc1: do
+wangyijie --> (Devlope software)
+student --> uc1: do
+note right of uc1 : this is a note.
+@enduml

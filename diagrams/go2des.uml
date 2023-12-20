@@ -1,0 +1,48 @@
+@startuml
+!define package class
+!define DATABASE entity
+!define ACTOR actor
+skinparam backgroundColor #EEEBDC
+skinparam package {
+  backgroundColor<<decision>> #FBEEE9
+}
+
+package "选择优先级路径" <<decision>> {
+  actor 你 as "你"
+  note right of 你: Go开发工程师
+
+  package(go, "Go开发：中级到高级") {
+    :优点1: 专业度加强;
+    :优点2: 更多工作机会;
+    :优点3: 性能优化;
+    :缺点1: 局限性;
+    :缺点2: 更新风险;
+  }
+
+  package (design_patterns, "设计模式：初级到中级") {
+    :优点1: 通用性;
+    :优点2: 问题解决能力;
+    :优点3: 系统扩展性;
+    :缺点1: 学习曲线;
+    :缺点2: 过度设计风险;
+  }
+
+  package(algorithms, "算法：初级到中级") {
+    :优点1: 通用性;
+    :优点2: 问题解决能力;
+    :缺点: 学习曲线;
+  }
+
+  你 --> go : 职业发展 &\n项目需求 &\n个人兴趣
+  你 --> design_patterns : 职业发展 &\n项目需求 &\n个人兴趣
+  你 --> algorithms : 职业发展 &\n项目需求 &\n个人兴趣
+
+  note bottom of 你
+    考虑因素:
+    1. 职业发展
+    2. 项目需求
+    3. 个人兴趣
+  end note
+}
+
+@enduml

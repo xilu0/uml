@@ -1,0 +1,47 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor<<T1>> Yellow
+    BackgroundColor<<T2>> Green
+    BackgroundColor<<T3>> Blue
+    BackgroundColor<<T4>> Red
+}
+
+RECTANGLE "自我" as Self <<T1>>
+RECTANGLE "同事" as Colleague <<T2>>
+RECTANGLE "上级" as Supervisor <<T3>>
+RECTANGLE "下属" as Subordinate <<T4>>
+
+Self -[hidden]-> Colleague
+Colleague -[hidden]-> Supervisor
+Supervisor -[hidden]-> Subordinate
+
+Self --> Colleague : "横向评价"
+Colleague --> Supervisor : "纵向评价"
+Supervisor --> Subordinate : "纵向评价"
+Subordinate --> Self : "纵向评价"
+
+@enduml
+
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor<<T1>> Yellow
+    BackgroundColor<<T2>> Green
+    BackgroundColor<<T3>> Blue
+}
+
+RECTANGLE "准备阶段" as Preparation <<T1>>
+RECTANGLE "实施阶段" as Implementation <<T2>>
+RECTANGLE "反思阶段" as Reflection <<T3>>
+
+Preparation -[hidden]-> Implementation
+Implementation -[hidden]-> Reflection
+
+Preparation --> Implementation : "开始评价"
+Implementation --> Reflection : "分析结果"
+Reflection --> Preparation : "新一轮反馈"
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+class ConfigManager {
+    -static instance: ConfigManager
+    -ConfigManager()
+    +static getInstance(): ConfigManager
+    +getConfiguration(): Configuration
+}
+@enduml
+
+@startuml
+class BookFactory {
+    +createBook(type: String): Book
+}
+
+abstract class Book {
+    +getTitle(): String
+    +getAuthor(): String
+    +getPrice(): double
+}
+
+class EBook extends Book {
+}
+class AudioBook extends Book {
+}
+class PrintBook extends Book {
+}
+@enduml
+
+
+@startuml
+class Book {
+    -observers: List<Observer>
+    +attach(observer: Observer): void
+    +detach(observer: Observer): void
+    +notifyObservers(): void
+}
+
+interface Observer {
+    +update(book: Book): void
+}
+
+class User implements Observer {
+    +update(book: Book): void
+}
+@enduml

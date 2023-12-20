@@ -1,0 +1,67 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+
+skinparam class {
+    BackgroundColor<<interface>> Cyan
+    BackgroundColor Khaki
+}
+
+RECTANGLE "Subject" <<interface>> {
+    + attach(Observer)
+    + detach(Observer)
+    + notify()
+}
+
+RECTANGLE "Observer" <<interface>> {
+    + update()
+}
+
+RECTANGLE "ConcreteSubject" {
+    + attach(Observer)
+    + detach(Observer)
+    + notify()
+    -- state: string
+}
+
+RECTANGLE "ConcreteObserver" {
+    + update()
+    -- state: string
+}
+
+"ConcreteSubject" -up-|> "Subject"
+"ConcreteObserver" -up-|> "Observer"
+"ConcreteSubject" -> "Observer" : notify > update
+"ConcreteObserver" --> "ConcreteSubject" : observe
+
+@enduml
+
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+
+skinparam activity {
+    BackgroundColor PaleGreen
+    BorderColor Black
+}
+
+start
+
+partition "ConcreteSubject" {
+    :状态改变;
+    :通知所有观察者;
+}
+
+partition "Observer1" {
+    :接收通知;
+    :更新状态;
+}
+
+partition "Observer2" {
+    :接收通知;
+    :更新状态;
+}
+
+stop
+
+@enduml

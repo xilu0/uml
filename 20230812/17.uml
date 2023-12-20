@@ -1,0 +1,26 @@
+@startuml
+!define lightBlue #ADD8E6
+!define lightGreen #90EE90
+
+abstract class "Animal" {
+  +Name: String
+  +Age: int
+  {abstract} +makeSound(): String
+}
+
+class "Dog" {
+  +makeSound(): String
+}
+
+class "Cat" {
+  +makeSound(): String
+}
+
+Dog --|> Animal
+Cat --|> Animal
+
+skinparam class {
+  BackgroundColor lightBlue
+}
+
+@enduml

@@ -1,0 +1,33 @@
+@startuml
+!define RECTANGLE class
+!define ABSTRACT abstract
+!define DATABASE database
+!define ACTOR actor
+
+skinparam class {
+    BackgroundColor<<ABSTRACT>> PaleGreen
+    BorderColor<<ABSTRACT>> SpringGreen
+    BackgroundColor<<RECTANGLE>> White
+    BorderColor<<RECTANGLE>> Black
+    BackgroundColor<<DATABASE>> MistyRose
+    BorderColor<<DATABASE>> Red
+    BackgroundColor<<ACTOR>> Wheat
+    BorderColor<<ACTOR>> Tan
+}
+
+abstract class Target {
+    +Request()
+}
+
+class Adapter {
+    +Request()
+}
+
+class Adaptee {
+    +SpecificRequest()
+}
+
+Target <|-- Adapter
+Adapter o-- Adaptee : adapts
+
+@enduml

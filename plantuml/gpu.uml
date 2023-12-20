@@ -1,0 +1,52 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+!define USECASE usecase
+!define COLOR1 #FFDD99
+!define COLOR2 #99FF99
+!define COLOR3 #99CCFF
+
+skinparam class {
+  BackgroundColor COLOR1
+  BorderColor Black
+  ArrowColor Black
+}
+
+skinparam usecase {
+  BackgroundColor COLOR2
+  BorderColor Black
+  ArrowColor Black
+}
+
+skinparam actor {
+  BackgroundColor COLOR3
+  BorderColor Black
+  ArrowColor Black
+}
+
+ACTOR "用户" as user
+package "图形显卡" as graphic_card {
+  USECASE "图形渲染" as graphic_render
+  USECASE "多媒体处理" as multimedia
+  USECASE "基础CUDA支持" as basic_cuda
+}
+
+package "专业级GPU\n（如H100）" as pro_gpu {
+  USECASE "并行计算" as parallel_computing
+  USECASE "大规模数据处理" as big_data
+  USECASE "全面CUDA支持" as full_cuda
+}
+
+user --> graphic_card : 选择
+user --> pro_gpu : 选择
+
+graphic_card --> graphic_render
+graphic_card --> multimedia
+graphic_card --> basic_cuda
+
+pro_gpu --> parallel_computing
+pro_gpu --> big_data
+pro_gpu --> full_cuda
+
+@enduml

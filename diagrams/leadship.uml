@@ -1,0 +1,39 @@
+@startuml
+skinparam BackgroundColor white
+skinparam Shadowing false
+
+skinparam class {
+BackgroundColor<<layer1>> #FFDDC7
+BackgroundColor<<layer2>> #FFCC9C
+BackgroundColor<<layer3>> #FFAA6E
+BackgroundColor<<layer4>> #FF7733
+BackgroundColor<<layer5>> #FF4D00
+BackgroundColor<<layer6>> #CC3D00
+BackgroundColor<<layer7>> #992D00
+BorderColor black
+ArrowColor black
+}
+
+class "1. 生存领导\nSurvival Leadership" as L1 <<layer1>> {
+}
+class "2. 关系领导\nRelationship Leadership" as L2 <<layer2>> {
+}
+class "3. 自我领导\nSelf Leadership" as L3 <<layer3>> {
+}
+class "4. 管理领导\nManagerial Leadership" as L4 <<layer4>> {
+}
+class "5. 动态领导\nMotivational Leadership" as L5 <<layer5>> {
+}
+class "6. 战略领导\nStrategic Leadership" as L6 <<layer6>> {
+}
+class "7. 全球领导\nGlobal Leadership" as L7 <<layer7>> {
+}
+
+L1 -[hidden]-> L2
+L2 -[hidden]-> L3
+L3 -[hidden]-> L4
+L4 -[hidden]-> L5
+L5 -[hidden]-> L6
+L6 -[hidden]-> L7
+
+@enduml

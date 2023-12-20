@@ -1,0 +1,33 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+!define USECASE usecase
+!define PACKAGE package
+!define INTERFACE interface
+
+skinparam class {
+    BackgroundColor<<interface>> HoneyDew
+    BorderColor<<interface>> SpringGreen
+    ArrowColor<<interface>> SpringGreen
+}
+
+interface "Product" as Product {
+}
+
+class "ConcreteProduct1" as ConcreteProduct1 {
+    +operation(): void
+}
+class "ConcreteProduct2" as ConcreteProduct2 {
+    +operation(): void
+}
+
+class "Factory" as Factory {
+    +createProduct(type: String): Product
+}
+
+Product <|.. ConcreteProduct1
+Product <|.. ConcreteProduct2
+Factory ..> Product : Creates
+
+@enduml

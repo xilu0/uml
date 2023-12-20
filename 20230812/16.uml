@@ -1,0 +1,28 @@
+@startuml
+!define lightBlue #ADD8E6
+!define lightGreen #90EE90
+
+class Student {
+  +studentID: String
+  +name: String
+  +courses: List<Course>
+}
+class Teacher {
+  +teacherID: String
+  +name: String
+  +subjects: List<String>
+}
+class Course {
+  +courseID: String
+  +name: String
+  +teacher: Teacher
+}
+
+Student -- Course : enroll
+Teacher -- Course : teach
+
+skinparam class {
+  BackgroundColor lightBlue
+}
+
+@enduml

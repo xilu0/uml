@@ -1,0 +1,21 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "Facade" {
+  +simplifiedOperation()
+}
+RECTANGLE "SubsystemA" {
+  +operationA()
+}
+RECTANGLE "SubsystemB" {
+  +operationB()
+}
+RECTANGLE "SubsystemC" {
+  +operationC()
+}
+
+Facade -> SubsystemA : Uses
+Facade -> SubsystemB : Uses
+Facade -> SubsystemC : Uses
+
+@enduml

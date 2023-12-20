@@ -1,0 +1,21 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+  BackgroundColor<<T1>> Yellow
+  BackgroundColor<<T2>> Green
+  BackgroundColor<<T3>> Blue
+}
+
+RECTANGLE "技能 Skill" as Skill <<T1>>
+RECTANGLE "特长 Strength" as Strength <<T2>>
+RECTANGLE "兴趣 Interest" as Interest <<T3>>
+
+Skill -[hidden]-> Strength
+Strength -[hidden]-> Interest
+
+Skill --> Strength : "补充"
+Strength --> Interest : "激活"
+Interest --> Skill : "推动"
+
+@enduml

@@ -1,0 +1,56 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Originator {
+    + setState(State)
+    + getState(): State
+    + saveStateToMemento(): Memento
+    + getStateFromMemento(Memento)
+}
+
+RECTANGLE Memento {
+    - state: State
+    + Memento(State)
+    + getState(): State
+}
+
+RECTANGLE Caretaker {
+    - mementoList: List<Memento>
+    + add(Memento)
+    + get(int): Memento
+}
+
+Originator --> Memento: Creates
+Caretaker --> Memento: Saves/Restores
+@enduml
+
+@startuml
+!define ACTOR actor
+!define RECTANGLE participant
+
+ACTOR Client
+RECTANGLE Originator
+RECTANGLE Memento
+RECTANGLE Caretaker
+
+Client -> Originator: SetState(State #1)
+Client -> Originator: SetState(State #2)
+Client -> Originator: SaveStateToMemento()
+Originator -> Memento: Create Memento(State #2)
+Originator -> Caretaker: Add Memento
+
+Client -> Originator: SetState(State #3)
+Client -> Originator: SaveStateToMemento()
+Originator -> Memento: Create Memento(State #3)
+Originator -> Caretaker: Add Memento
+
+Client -> Originator: SetState(State #4)
+Client -> Caretaker: Get Memento(0)
+Caretaker -> Memento: GetState()
+Client -> Originator: GetStateFromMemento(Memento)
+
+Client -> Caretaker: Get Memento(1)
+Caretaker -> Memento: GetState()
+Client -> Originator: GetStateFromMemento(Memento)
+
+@enduml

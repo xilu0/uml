@@ -1,0 +1,32 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+  BackgroundColor<<RECTANGLE>> Yellow
+  BorderColor Black
+  ArrowColor Black
+}
+
+class "上班的多维价值" as MultiDimensionalValue <<RECTANGLE>> {
+  + 个人成长和技能提升
+  + 社会联系和网络建设
+  + 价值实现和满足感
+}
+
+class "传统公司模式" as TraditionalCompanyModel <<RECTANGLE>> {
+  + 提供固定的工作环境
+  + 提供固定的收入
+  + 提供社交和合作的机会
+}
+
+class "新的工作模式" as NewWorkModel <<RECTANGLE>> {
+  + 自由职业
+  + 远程工作
+  + 个人品牌建设
+  + 社区和合作网络
+}
+
+MultiDimensionalValue -down-> TraditionalCompanyModel : 实现方式
+MultiDimensionalValue -down-> NewWorkModel : 实现方式
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor<<T>> Wheat
+    BorderColor Black
+    ArrowColor Crimson
+}
+
+skinparam package {
+    BackgroundColor PaleGreen
+}
+
+package "Iterator Pattern" {
+  RECTANGLE Iterator<<interface>> {
+    +Next() : Element
+    +HasNext() : bool
+  }
+
+  RECTANGLE ConcreteIterator {
+    +Next() : Element
+    +HasNext() : bool
+  }
+
+  RECTANGLE Aggregate<<interface>> {
+    +CreateIterator() : Iterator
+  }
+
+  RECTANGLE ConcreteAggregate {
+    +CreateIterator() : Iterator
+  }
+
+  RECTANGLE Client {
+  }
+
+  Iterator <|-- ConcreteIterator : implements
+  Aggregate <|-- ConcreteAggregate : implements
+  ConcreteAggregate -right-> ConcreteIterator : creates
+  Client -> Aggregate : uses
+  Client -> Iterator : uses
+
+}
+
+@enduml

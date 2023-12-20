@@ -1,0 +1,28 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor<<interface>> HoneyDew
+    BorderColor<<interface>> SpringGreen
+    BackgroundColor<<concrete>> LightSkyBlue
+    BorderColor<<concrete>> DodgerBlue
+}
+
+RECTANGLE Subject<<interface>> {
+  +Request()
+}
+
+RECTANGLE RealSubject<<concrete>> {
+  +Request()
+}
+
+RECTANGLE Proxy<<concrete>> {
+  -realSubject: RealSubject
+  +Request()
+}
+
+Proxy -> RealSubject : Uses
+Proxy .up.|> Subject
+RealSubject .up.|> Subject
+
+@enduml

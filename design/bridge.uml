@@ -1,0 +1,29 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "AbstractClass" {
+  +operation()
+}
+RECTANGLE "ConcreteClassA" {
+  +operation()
+}
+RECTANGLE "ConcreteClassB" {
+  +operation()
+}
+RECTANGLE "Implementor" {
+  +operationImp()
+}
+RECTANGLE "ConcreteImplementorA" {
+  +operationImp()
+}
+RECTANGLE "ConcreteImplementorB" {
+  +operationImp()
+}
+
+AbstractClass -right-> Implementor : -implementor
+ConcreteClassA --|> AbstractClass
+ConcreteClassB --|> AbstractClass
+ConcreteImplementorA --|> Implementor
+ConcreteImplementorB --|> Implementor
+
+@enduml

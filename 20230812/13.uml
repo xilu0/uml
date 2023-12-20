@@ -1,0 +1,25 @@
+@startuml
+!define RECTANGLE class
+RECTANGLE "反向案例分析" #lightpink {
+  RECTANGLE "无目标的工作" {
+    + "缺乏目标"
+    + "未产生学习或成长"
+  }
+  RECTANGLE "负面的社交互动" #orange {
+    + "影响力微弱或负面"
+    + "未产生学习或成长"
+  }
+}
+
+@enduml
+
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "如何避免‘无意义的经验’" #lightgreen {
+  + "设定明确目标" 
+  + "自我反思" 
+  + "选择有意义的任务和项目" 
+}
+
+@enduml

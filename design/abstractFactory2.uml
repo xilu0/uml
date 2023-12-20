@@ -1,0 +1,31 @@
+@startuml
+!define RECTANGLE class
+
+interface "AbstractFactory" as AbstractFactory {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+}
+
+class "ConcreteFactory1" as ConcreteFactory1 {
+    +createProductA(): AbstractProductA
+    +createProductB(): AbstractProductB
+}
+
+interface "AbstractProductA" as AbstractProductA {
+}
+
+interface "AbstractProductB" as AbstractProductB {
+}
+
+class "ConcreteProductA1" as ConcreteProductA1 {
+}
+class "ConcreteProductB1" as ConcreteProductB1 {
+}
+
+AbstractFactory <|.. ConcreteFactory1
+AbstractProductA <|.. ConcreteProductA1
+AbstractProductB <|.. ConcreteProductB1
+ConcreteFactory1 ..> ConcreteProductA1 : Creates
+ConcreteFactory1 ..> ConcreteProductB1 : Creates
+
+@enduml

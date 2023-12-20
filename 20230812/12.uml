@@ -1,0 +1,31 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "有意义的经验" {
+  + "产生深远影响"
+  + "带来个人或他人价值"
+  + "与个人目标相符"
+}
+
+@enduml
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "如何判断经验的意义性" #lightgreen {
+  + "达成目标"
+  + "学习与成长"
+  + "影响力"
+}
+
+@enduml
+
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "如何积累有意义的经验" #lightgreen {
+  + "明确目标" 
+  + "计划与行动" 
+  + "反思与总结"
+}
+
+@enduml

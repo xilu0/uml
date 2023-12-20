@@ -1,0 +1,67 @@
+@startuml
+
+class Visitor {
+  +visitConcreteElementA(ConcreteElementA)
+  +visitConcreteElementB(ConcreteElementB)
+}
+
+class ConcreteVisitor1 {
+  +visitConcreteElementA(ConcreteElementA)
+  +visitConcreteElementB(ConcreteElementB)
+}
+
+class ConcreteVisitor2 {
+  +visitConcreteElementA(ConcreteElementA)
+  +visitConcreteElementB(ConcreteElementB)
+}
+
+class Element {
+  +accept(Visitor)
+}
+
+class ConcreteElementA {
+  +accept(Visitor)
+}
+
+class ConcreteElementB {
+  +accept(Visitor)
+}
+
+class ObjectStructure {
+  +attach(Element)
+  +detach(Element)
+  +accept(Visitor)
+}
+
+Visitor <|.. ConcreteVisitor1
+Visitor <|.. ConcreteVisitor2
+Element <|.. ConcreteElementA
+Element <|.. ConcreteElementB
+ObjectStructure o-- Element
+
+@enduml
+
+@startuml
+
+autonumber
+actor Client
+participant ObjectStructure
+participant ConcreteElementA
+participant ConcreteElementB
+participant ConcreteVisitor1
+
+Client -> ObjectStructure : create
+Client -> ConcreteElementA : create
+Client -> ConcreteElementB : create
+Client -> ConcreteVisitor1 : create
+
+Client -> ObjectStructure : attach(ConcreteElementA)
+Client -> ObjectStructure : attach(ConcreteElementB)
+
+Client -> ObjectStructure : accept(ConcreteVisitor1)
+ObjectStructure -> ConcreteElementA : accept(ConcreteVisitor1)
+ConcreteElementA -> ConcreteVisitor1 : visitConcreteElementA(this)
+ObjectStructure -> ConcreteElementB : accept(ConcreteVisitor1)
+ConcreteElementB -> ConcreteVisitor1 : visitConcreteElementB(this)
+
+@enduml

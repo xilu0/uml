@@ -1,0 +1,67 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Mediator {
+  +Send(message: string, colleague: Colleague)
+}
+
+RECTANGLE ConcreteMediator {
+  -colleague1: Colleague1
+  -colleague2: Colleague2
+  +Send(message: string, colleague: Colleague)
+}
+
+RECTANGLE Colleague {
+  -mediator: Mediator
+  +Send(message: string)
+  +Receive(message: string)
+}
+
+RECTANGLE Colleague1 {
+  -mediator: Mediator
+  +Send(message: string)
+  +Receive(message: string)
+}
+
+RECTANGLE Colleague2 {
+  -mediator: Mediator
+  +Send(message: string)
+  +Receive(message: string)
+}
+
+Mediator <|-- ConcreteMediator
+Colleague <|-- Colleague1
+Colleague <|-- Colleague2
+
+ConcreteMediator o-- Colleague1 : contains
+ConcreteMediator o-- Colleague2 : contains
+
+@enduml
+
+@startuml
+participant Client
+participant ConcreteMediator
+participant Colleague1
+participant Colleague2
+
+Client -> Colleague1 : Send("Message to Colleague2")
+activate Colleague1
+Colleague1 -> ConcreteMediator : Send("Message to Colleague2", self)
+activate ConcreteMediator
+ConcreteMediator -> Colleague2 : Receive("Message to Colleague2")
+activate Colleague2
+deactivate ConcreteMediator
+deactivate Colleague2
+deactivate Colleague1
+
+Client -> Colleague2 : Send("Message to Colleague1")
+activate Colleague2
+Colleague2 -> ConcreteMediator : Send("Message to Colleague1", self)
+activate ConcreteMediator
+ConcreteMediator -> Colleague1 : Receive("Message to Colleague1")
+activate Colleague1
+deactivate ConcreteMediator
+deactivate Colleague1
+deactivate Colleague2
+
+@enduml

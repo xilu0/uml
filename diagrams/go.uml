@@ -1,0 +1,33 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define INTERFACE interface
+skinparam shadowing false
+skinparam RoundCorner 25
+skinparam BackgroundColor Transparent
+skinparam ClassBackgroundColor Lavender
+skinparam ClassBorderColor Black
+skinparam ClassFontName Helvetica
+
+title 如何连接先行者
+
+' Define nodes for the second article
+rectangle "确认目标与兴趣" as A2
+rectangle "进行深入研究" as B2
+rectangle "建立初步联系" as C2
+rectangle "保持持续交流" as D2
+rectangle "善用资源和机会" as E2
+
+' Relationships for the second article
+A2 -down-> B2 : 实施
+B2 -down-> C2 : 实施
+C2 -down-> D2 : 实施
+D2 -down-> E2 : 实施
+
+' Label for the article
+rectangle "如何连接先行者" as Article2
+
+' Relationship from the label to the nodes
+Article2 -right-> A2
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+!define RECTANGLE class
+skinparam class {
+    BackgroundColor Yellow
+    BorderColor Black
+    ArrowColor Black
+}
+
+state "正常运行" as normal {
+    [*] --> 运行中
+}
+
+state "运行中" as running
+
+state "故障" as failure {
+    state "硬件故障" as hardware_failure
+    state "软件故障" as software_failure
+}
+
+state "恢复中" as recovering
+
+RECTANGLE "极端用例处理" {
+    state "重启服务" as restart_service
+    state "切换备份" as switch_backup
+}
+
+normal -down-> failure : 故障发生
+failure -down-> recovering : 启动恢复
+recovering -down-> normal : 恢复完成
+
+hardware_failure --> restart_service : 重启硬件
+software_failure --> restart_service : 重启服务
+
+restart_service --> switch_backup : 失败
+switch_backup --> running : 成功
+
+@enduml

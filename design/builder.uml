@@ -1,0 +1,36 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Builder {
+  +BuildPart1()
+  +BuildPart2()
+  +GetResult() : Product
+}
+
+RECTANGLE ConcreteBuilder1 {
+  +BuildPart1()
+  +BuildPart2()
+  +GetResult() : Product
+}
+
+RECTANGLE ConcreteBuilder2 {
+  +BuildPart1()
+  +BuildPart2()
+  +GetResult() : Product
+}
+
+RECTANGLE Director {
+  +Construct()
+}
+
+RECTANGLE Product {
+  +Show()
+}
+
+Director -> Builder : Uses
+Builder <|-- ConcreteBuilder1 : Implements
+Builder <|-- ConcreteBuilder2 : Implements
+ConcreteBuilder1 --> Product : Creates
+ConcreteBuilder2 --> Product : Creates
+
+@enduml

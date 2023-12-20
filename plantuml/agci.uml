@@ -1,0 +1,37 @@
+@startuml
+!define ACTOR actor
+!define USECASE usecase
+!define COLOR1 #FFDD99
+!define COLOR2 #99FF99
+!define COLOR3 #99CCFF
+
+skinparam usecase {
+  BackgroundColor COLOR2
+  BorderColor Black
+  ArrowColor Black
+}
+
+skinparam actor {
+  BackgroundColor COLOR3
+  BorderColor Black
+  ArrowColor Black
+}
+
+ACTOR "发布平台" as platform
+ACTOR "作者" as author
+USECASE "AI助手创作" as ai_assisted
+USECASE "全人工创作" as manual
+USECASE "混合创作" as hybrid
+
+platform --> ai_assisted : 偏见
+platform --> manual : 偏好
+platform --> hybrid : 中立
+
+author --> ai_assisted : 使用AI助手
+author --> manual : 全人工创作
+author --> hybrid : 结合使用
+
+ai_assisted --> manual : 转向
+manual --> ai_assisted : 转向
+
+@enduml

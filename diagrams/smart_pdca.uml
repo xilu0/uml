@@ -1,0 +1,52 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE class
+!define CIRCLE class
+
+skinparam class {
+    BackgroundColor<<RECTANGLE>> LemonChiffon
+    BackgroundColor<<DATABASE>> LightGray
+    BackgroundColor<<CIRCLE>> LightPink
+    BorderColor Black
+    ArrowColor Black
+}
+
+class "设定\nSMART目标" as SMART <<RECTANGLE>> {
+    具体(Specific)
+    可衡量(Measurable)
+    可实现(Achievable)
+    相关(Relevant)
+    时限(Time-bound)
+}
+
+class "计划(Plan)" as Plan <<CIRCLE>> {
+    制定实施计划
+    分配资源
+    定义评估标准
+}
+
+class "执行(Do)" as Do <<CIRCLE>> {
+    按计划执行
+    记录数据
+    监控进度
+}
+
+class "检查(Check)" as Check <<CIRCLE>> {
+    分析结果
+    比较目标
+    识别差异
+}
+
+class "行动(Act)" as Act <<CIRCLE>> {
+    调整计划
+    优化流程
+    更新目标
+}
+
+SMART -down-> Plan : 转化为具体计划
+Plan -right-> Do : 开始执行
+Do -down-> Check : 进行评估
+Check -left-> Act : 根据评估调整
+Act -up-> Plan : 更新计划
+
+@enduml

@@ -1,0 +1,59 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Algorithm {
++sort()
++search()
++dynamicProgramming()
++graphAlgorithms()
++dataStructureAlgorithms()
++stringAlgorithms()
++unionFind()
+}
+
+class "Sort Algorithms" {
++quickSort()
++mergeSort()
+}
+
+class "Search Algorithms" {
++binarySearch()
++depthFirstSearch()
++breadthFirstSearch()
+}
+
+class "Dynamic Programming" {
++knapsackProblem()
++longestCommonSubsequence()
+}
+
+class "Graph Algorithms" {
++dijkstraAlgorithm()
++floydWarshallAlgorithm()
+}
+
+class "Data Structure Algorithms" {
++binarySearchTree()
++heapOperations()
++hashTableOperations()
+}
+
+class "String Algorithms" {
++kmpAlgorithm()
++regexProcessing()
+}
+
+class "Union-Find" {
++union()
++find()
+}
+
+Algorithm --> "Sort Algorithms" : includes >
+Algorithm --> "Search Algorithms" : includes >
+Algorithm --> "Dynamic Programming" : includes >
+Algorithm --> "Graph Algorithms" : includes >
+Algorithm --> "Data Structure Algorithms" : includes >
+Algorithm --> "String Algorithms" : includes >
+Algorithm --> "Union-Find" : includes >
+
+@enduml

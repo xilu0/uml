@@ -1,0 +1,39 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+!define USECASE usecase
+!define PACKAGE package
+!define INTERFACE interface
+
+skinparam class {
+    BackgroundColor PaleGreen
+    ArrowColor SeaGreen
+    BorderColor SpringGreen
+}
+
+skinparam usecase {
+    BackgroundColor PaleGreen
+    ArrowColor SeaGreen
+    BorderColor SpringGreen
+}
+
+actor 个体 as Individual
+
+package "技能习得流程" {
+    USECASE "自我评估与目标设定" as SelfAssessment
+    USECASE "选择场景与任务" as SceneTaskSelection
+    USECASE "实施磨练" as ImplementPractice
+    USECASE "自我管理与调整" as SelfManagement
+    USECASE "积累知识与经验" as KnowledgeExperience
+    
+    SelfAssessment -r-> SceneTaskSelection : 递进
+    SceneTaskSelection -r-> ImplementPractice : 递进
+    ImplementPractice --> SelfManagement : 递进
+    SelfManagement -l-> KnowledgeExperience : 递进
+}
+
+Individual --> SelfAssessment : 开始
+Individual --> KnowledgeExperience : 结束
+
+@enduml

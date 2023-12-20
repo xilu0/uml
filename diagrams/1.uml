@@ -1,0 +1,27 @@
+nodes2 = {
+    "CurrentStatus": "当前状况：Go 开发工程师",
+    "HighGoal": "问题：架构师目标是否过高？",
+    "RealisticGoal": "更合情理的目标：高级 Go 开发工程师",
+    "Advantages": "优势",
+    "AchieveGoal": "如何达成目标",
+    "Conclusion": "总结"
+}
+
+edges2 = [
+    ("CurrentStatus", "HighGoal", "思考长远发展"),
+    ("HighGoal", "RealisticGoal", "权衡可行性"),
+    ("RealisticGoal", "Advantages", "明确优势"),
+    ("RealisticGoal", "AchieveGoal", "规划路径"),
+    ("AchieveGoal", "Conclusion", "实施方案"),
+    ("Advantages", "Conclusion", "综合考量")
+]
+
+@startuml
+(*top) --> "当前状况：Go 开发工程师"
+--> "思考长远发展"
+-l-> "目标：成为软件架构师"
+--> "问题：架构师目标是否过高？"
+-r-> "权衡可行性"
+--> "更合情理的目标：高级 Go 开发工程师"
+--> (*)
+@enduml

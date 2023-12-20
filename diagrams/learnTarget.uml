@@ -1,0 +1,36 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor AntiqueWhite
+    BorderColor Black
+    FontName Arial
+}
+
+RECTANGLE "认识问题的重要性" as Introduction {
+  + 问题: 面对多种技术选择的困扰
+  + 解决方案: 通过明确目标来解决
+}
+
+RECTANGLE "明确目标: 成为软件架构师" as DefineGoal {
+  + 指导方针: 选取与目标一致的技术
+}
+
+RECTANGLE "技术选型: 选择PlantUML" as TechChoice {
+  + 原因1: 与目标一致
+  + 原因2: 多用途
+  + 原因3: 社群活跃
+}
+
+RECTANGLE "总结与建议: 展示专业精神" as Conclusion {
+  + 建议1: 明确目标
+  + 建议2: 合理选型
+  + 建议3: 持续学习
+  + 建议4: 分享经验
+}
+
+Introduction --> DefineGoal : 理解目标的重要性
+DefineGoal --> TechChoice : 根据目标进行选型
+TechChoice --> Conclusion : 为何是专业的选择
+
+@enduml

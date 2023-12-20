@@ -1,0 +1,26 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "Component" {
+  +operation()
+}
+RECTANGLE "ConcreteComponent" {
+  +operation()
+}
+RECTANGLE "Decorator" {
+  #component: Component
+  +operation()
+}
+RECTANGLE "ConcreteDecoratorA" {
+  +operation()
+}
+RECTANGLE "ConcreteDecoratorB" {
+  +operation()
+}
+
+Decorator -right-> Component : -component
+ConcreteComponent --|> Component
+ConcreteDecoratorA --|> Decorator
+ConcreteDecoratorB --|> Decorator
+
+@enduml

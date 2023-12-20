@@ -1,0 +1,38 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Context {
+  +executeStrategy()
+}
+interface Strategy {
+  +doOperation()
+}
+RECTANGLE ConcreteStrategyA {
+  +doOperation()
+}
+RECTANGLE ConcreteStrategyB {
+  +doOperation()
+}
+
+Context -right-> Strategy : uses >
+ConcreteStrategyA ..|> Strategy
+ConcreteStrategyB ..|> Strategy
+
+@enduml
+
+@startuml
+participant "Context" as C
+participant "Strategy" as S
+participant "ConcreteStrategyA" as CSA
+participant "ConcreteStrategyB" as CSB
+
+C -> S: doOperation()
+S -> CSA: doOperation()
+alt Strategy A
+  CSA --> C: Result A
+else Strategy B
+  S -> CSB: doOperation()
+  CSB --> C: Result B
+end
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+
+skinparam class {
+  BackgroundColor Yellow
+  ArrowColor SeaGreen
+  BorderColor Black
+}
+
+RECTANGLE "2015年\n市场规模" as year2015
+RECTANGLE "2022年\n市场规模" as year2022
+RECTANGLE "2025年\n预测市场规模" as year2025
+RECTANGLE "内容形式变迁" as contentChange
+RECTANGLE "超级IP与平民IP" as ipIssues
+RECTANGLE "全民皆师" as everyoneTeacher
+
+year2015 --> year2022 : 增长约70倍
+year2022 --> year2025 : 预计增长至2808.8亿元
+year2022 --> contentChange : 短视频、直播崛起
+year2022 --> ipIssues : 超级IP问题
+year2022 --> everyoneTeacher : 技术推动新趋势
+
+@enduml

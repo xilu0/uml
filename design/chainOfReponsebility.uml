@@ -1,0 +1,84 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+!define ACTOR actor
+!define USECASE usecase
+
+skinparam class {
+    BackgroundColor<<T>> Wheat
+    BorderColor Black
+    ArrowColor Crimson
+}
+
+skinparam package {
+    BackgroundColor PaleGreen
+}
+
+package "Chain of Responsibility" {
+  RECTANGLE Handler<<interface>> {
+    +HandleRequest()
+  }
+
+  RECTANGLE ConcreteHandler1 {
+    +HandleRequest()
+  }
+
+  RECTANGLE ConcreteHandler2 {
+    +HandleRequest()
+  }
+
+  RECTANGLE Client {
+  }
+
+  Handler <|-- ConcreteHandler1 : implements
+  Handler <|-- ConcreteHandler2 : implements
+  Client -right-> Handler : requests
+  ConcreteHandler1 -down-> ConcreteHandler2 : next
+}
+
+@enduml
+
+@startuml
+
+skinparam participant {
+    BorderColor Black
+    BackgroundColor Wheat
+    FontSize 16
+}
+
+actor Client
+participant Handler as H
+participant ConcreteHandler1 as CH1
+participant ConcreteHandler2 as CH2
+
+Client -> CH1 : HandleRequest("one")
+activate CH1
+CH1 -> CH1 : HandleRequest()
+CH1 -> CH2 : HandleRequest("one")
+deactivate CH1
+activate CH2
+CH2 -> CH2 : HandleRequest()
+note right : Request not handled, \nno next handler
+deactivate CH2
+
+Client -> CH1 : HandleRequest("two")
+activate CH1
+CH1 -> CH1 : HandleRequest()
+CH1 -> CH2 : HandleRequest("two")
+deactivate CH1
+activate CH2
+CH2 -> CH2 : HandleRequest()
+note right : Request handled
+deactivate CH2
+
+Client -> CH1 : HandleRequest("three")
+activate CH1
+CH1 -> CH1 : HandleRequest()
+CH1 -> CH2 : HandleRequest("three")
+deactivate CH1
+activate CH2
+CH2 -> CH2 : HandleRequest()
+note right : Request not handled, \nno next handler
+deactivate CH2
+
+@enduml

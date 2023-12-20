@@ -1,0 +1,22 @@
+@startuml
+!define RECTANGLE class
+
+interface "Creator" as Creator {
+    +factoryMethod(): Product
+}
+
+class "ConcreteCreator" as ConcreteCreator {
+    +factoryMethod(): Product
+}
+
+interface "Product" as Product {
+}
+
+class "ConcreteProduct" as ConcreteProduct {
+}
+
+Creator <|.. ConcreteCreator
+Product <|.. ConcreteProduct
+ConcreteCreator ..> ConcreteProduct : Creates
+
+@enduml

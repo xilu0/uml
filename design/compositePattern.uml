@@ -1,0 +1,77 @@
+@startuml
+!define RECTANGLE class
+!define ABSTRACT abstract
+!define DATABASE database
+!define ACTOR actor
+
+skinparam class {
+    BackgroundColor<<ABSTRACT>> PaleGreen
+    BorderColor<<ABSTRACT>> SpringGreen
+    BackgroundColor<<RECTANGLE>> White
+    BorderColor<<RECTANGLE>> Black
+    BackgroundColor<<DATABASE>> MistyRose
+    BorderColor<<DATABASE>> Red
+    BackgroundColor<<ACTOR>> Wheat
+    BorderColor<<ACTOR>> Tan
+}
+
+abstract class Component {
+    +Operation()
+    +Add(Component)
+    +Remove(Component)
+    +GetChild(int)
+}
+
+class Leaf {
+    +Operation()
+}
+
+class Composite {
+    +Operation()
+    +Add(Component)
+    +Remove(Component)
+    +GetChild(int)
+}
+
+Component <|-- Leaf
+Component <|-- Composite
+Composite o-- Component : contains
+
+@enduml
+
+@startuml
+!define RECTANGLE class
+!define ABSTRACT abstract
+!define DATABASE database
+!define ACTOR actor
+
+skinparam sequence {
+    ParticipantBackgroundColor<<ABSTRACT>> PaleGreen
+    ParticipantBorderColor<<ABSTRACT>> SpringGreen
+    ParticipantBackgroundColor<<RECTANGLE>> White
+    ParticipantBorderColor<<RECTANGLE>> Black
+    ParticipantBackgroundColor<<DATABASE>> MistyRose
+    ParticipantBorderColor<<DATABASE>> Red
+    ParticipantBackgroundColor<<ACTOR>> Wheat
+    ParticipantBorderColor<<ACTOR>> Tan
+}
+
+participant "Client" as C <<RECTANGLE>>
+participant "Component" as Co <<ABSTRACT>>
+participant "Leaf" as L <<RECTANGLE>>
+participant "Composite" as Com <<RECTANGLE>>
+
+C -> Co: Operation()
+activate Co
+Co -> L: Operation()
+activate L
+L --> Co: Operation performed
+deactivate L
+Co -> Com: Operation()
+activate Com
+Com -> Co: Operation()
+Co --> Com: Operation performed
+deactivate Com
+Co --> C: Return Result
+deactivate Co
+@enduml

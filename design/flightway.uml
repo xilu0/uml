@@ -1,0 +1,39 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor<<interface>> HoneyDew
+    BorderColor<<interface>> SpringGreen
+    BackgroundColor<<concrete>> LightSkyBlue
+    BorderColor<<concrete>> DodgerBlue
+}
+
+RECTANGLE Flyweight<<interface>> {
+  +Operation(extrinsicState: State)
+}
+
+RECTANGLE ConcreteFlyweight<<concrete>> {
+  -intrinsicState: State
+  +Operation(extrinsicState: State)
+}
+
+RECTANGLE UnsharedConcreteFlyweight<<concrete>> {
+  -allState: State
+  +Operation(extrinsicState: State)
+}
+
+RECTANGLE FlyweightFactory<<concrete>> {
+  -flyweights: Map
+  +getFlyweight(key: String): Flyweight
+}
+
+RECTANGLE Client {
+}
+
+FlyweightFactory ..> Flyweight : Creates
+Client -> FlyweightFactory : Uses
+Client -> Flyweight : Uses
+ConcreteFlyweight .up.|> Flyweight
+UnsharedConcreteFlyweight .up.|> Flyweight
+
+@enduml

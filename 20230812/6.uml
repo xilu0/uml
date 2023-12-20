@@ -1,0 +1,26 @@
+@startuml
+!define RECTANGLE class
+
+skinparam class {
+    BackgroundColor<<T1>> Yellow
+    BackgroundColor<<T2>> Green
+    BackgroundColor<<T3>> Blue
+    BackgroundColor<<T4>> Red
+}
+
+RECTANGLE "自我认知" as SelfAwareness <<T1>>
+RECTANGLE "360度反馈" as Feedback <<T2>>
+RECTANGLE "持续学习" as Learning <<T3>>
+RECTANGLE "SMART目标" as SMARTGoals <<T4>>
+
+SelfAwareness -[hidden]-> Feedback
+Feedback -[hidden]-> Learning
+Learning -[hidden]-> SMARTGoals
+SMARTGoals -[hidden]-> SelfAwareness
+
+SelfAwareness --> Feedback : "获取反馈"
+Feedback --> Learning : "调整与改进"
+Learning --> SMARTGoals : "设定目标"
+SMARTGoals --> SelfAwareness : "反馈调整"
+
+@enduml

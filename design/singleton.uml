@@ -1,0 +1,17 @@
+@startuml
+class Singleton {
+  -static instance: Singleton
+  -Singleton()
+  +static getInstance(): Singleton
+}
+@enduml
+
+@startuml
+actor Client
+Client -> Singleton: getInstance()
+activate Singleton
+Singleton -> Singleton: check if instance is null
+Singleton -> Singleton: create new instance if null
+Singleton -> Client: return instance
+deactivate Singleton
+@enduml

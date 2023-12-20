@@ -1,0 +1,24 @@
+@startuml
+!define RECTANGLE class
+!define COLOR1 #FFCC99
+!define COLOR2 #99CCFF
+!define COLOR3 #99FF99
+!define COLOR4 #FF9999
+
+skinparam class {
+BackgroundColor<<COLOR1>> COLOR1
+BackgroundColor<<COLOR2>> COLOR2
+BackgroundColor<<COLOR3>> COLOR3
+BackgroundColor<<COLOR4>> COLOR4
+}
+
+RECTANGLE "初级阶段\n- 内容质量\n- 粉丝基础\n- 收入：低或无" as Stage1 
+RECTANGLE "中级阶段\n- 内容多样性\n- 合作与推广\n- 收入：一定" as Stage2 
+RECTANGLE "高级阶段\n- 品牌建设\n- 多平台运营\n- 收入：稳定" as Stage3 
+RECTANGLE "顶级阶段\n- 行业合作\n- 多元收入\n- 收入：高" as Stage4 
+
+Stage1 -r-> Stage2 : 发展与扩大
+Stage2 -down-> Stage3 : 专业化
+Stage3 -l-> Stage4 : 影响力提升
+
+@enduml

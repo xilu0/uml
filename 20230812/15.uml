@@ -1,0 +1,25 @@
+@startuml
+!define MAIN_COLOR #B1DAAE
+!define SECOND_COLOR #A8A8A8
+
+package "用例图" {
+  [用例1] 
+  [用例2] 
+}
+
+package "类图" {
+  [类1] 
+  [类2] 
+}
+
+package "序列图" {
+  [对象1] 
+  [对象2] 
+}
+
+[用例1] --> [类1]
+[用例2] --> [类2]
+[类1] --> [对象1]
+[类2] --> [对象2]
+
+@enduml

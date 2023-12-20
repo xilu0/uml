@@ -1,0 +1,22 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "固守成规" #lightblue {
+  + "定义与表现"
+  + "弊端"
+}
+RECTANGLE "心无所定" #lightgreen {
+  + "定义与表现"
+  + "弊端"
+}
+@enduml
+
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "如何打破这两种陷阱？" #lightpink {
+  + "保持开放与好奇心" #yellow
+  + "平衡稳定与变化" #green
+}
+
+@enduml

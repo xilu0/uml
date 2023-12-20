@@ -1,0 +1,74 @@
+@startuml
+!define RECTANGLE class
+!define ABSTRACT abstract
+!define DATABASE database
+!define ACTOR actor
+
+skinparam class {
+    BackgroundColor<<ABSTRACT>> PaleGreen
+    BorderColor<<ABSTRACT>> SpringGreen
+    BackgroundColor<<RECTANGLE>> White
+    BorderColor<<RECTANGLE>> Black
+    BackgroundColor<<DATABASE>> MistyRose
+    BorderColor<<DATABASE>> Red
+    BackgroundColor<<ACTOR>> Wheat
+    BorderColor<<ACTOR>> Tan
+}
+
+abstract class Command {
+    +Execute()
+}
+
+class ConcreteCommand {
+    +Execute()
+}
+
+class Invoker {
+    +Call()
+}
+
+class Receiver {
+    +Action()
+}
+
+Command <|-- ConcreteCommand
+ConcreteCommand o-- Receiver : knows
+Invoker o-- Command : uses
+
+@enduml
+
+@startuml
+!define RECTANGLE class
+!define ABSTRACT abstract
+!define DATABASE database
+!define ACTOR actor
+
+skinparam sequence {
+    ParticipantBackgroundColor<<ABSTRACT>> PaleGreen
+    ParticipantBorderColor<<ABSTRACT>> SpringGreen
+    ParticipantBackgroundColor<<RECTANGLE>> White
+    ParticipantBorderColor<<RECTANGLE>> Black
+    ParticipantBackgroundColor<<DATABASE>> MistyRose
+    ParticipantBorderColor<<DATABASE>> Red
+    ParticipantBackgroundColor<<ACTOR>> Wheat
+    ParticipantBorderColor<<ACTOR>> Tan
+}
+
+participant "Invoker" as I <<RECTANGLE>>
+participant "Command" as C <<ABSTRACT>>
+participant "ConcreteCommand" as CC <<RECTANGLE>>
+participant "Receiver" as R <<RECTANGLE>>
+
+I -> C: Execute()
+activate C
+C -> CC: Execute()
+activate CC
+CC -> R: Action()
+activate R
+R --> CC: Action performed
+deactivate R
+CC --> C: Execution completed
+deactivate CC
+C --> I: Return Result
+deactivate C
+@enduml

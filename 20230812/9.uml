@@ -1,0 +1,26 @@
+@startuml
+!define RECTANGLE class
+!define DATABASE entity
+skinparam classBackgroundColor PaleGreen
+skinparam classFontColor Black
+skinparam classBorderColor Black
+skinparam classFontSize 16
+skinparam classAttributeFontSize 14
+
+RECTANGLE "软件开发人员" as Developer {
+  + 持续学习与更新
+  + 技能多元化
+}
+RECTANGLE "企业文化与战略" as CorporateCulture {
+  + 创新鼓励
+  + 人才培养
+}
+RECTANGLE "政策与环境" as Policy {
+  + 政府补贴
+  + 行业标准
+}
+
+Developer -down-> CorporateCulture : 影响
+CorporateCulture -down-> Policy : 影响
+Policy -right-> Developer : 支持
+@enduml
