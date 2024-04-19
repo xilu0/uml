@@ -1,0 +1,16 @@
+@startmindmap
++ Redis实践指南
+++ 消息队列的应用
++++ 发布/订阅模式
++++ 列表操作
+++++ LPOP/RPOP
+++++ BLPOP/BRPOP
++++ 流(Streams)
++++ 延时队列
++++ 可靠队列
+++ BRPOP命令深入
++++ 命令格式
++++ 阻塞行为
++++ 超时机制
++++ 使用场景
+@endmindmap

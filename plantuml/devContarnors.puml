@@ -1,0 +1,40 @@
+@startuml
+skinparam backgroundColor #EEF2F7
+skinparam shadowing false
+
+package "开发者环境" {
+    [IDE] #LightBlue
+    [代码编辑器] #LightBlue
+}
+
+package "容器平台" {
+    [Docker] #LightGreen
+}
+
+cloud "代码仓库" {
+    [Git] #Yellow
+}
+
+cloud "CI/CD工具" {
+    [GitHub Actions] #Pink
+    [Jenkins] #Pink
+}
+
+package "Development Container" {
+    [项目代码] #Orange
+    [开发工具] #Orange
+    [运行时环境] #Orange
+    [依赖] #Orange
+}
+
+[IDE] -down-> [Docker] : 使用
+[代码编辑器] -down-> [Docker] : 使用
+[Docker] -right-> [Development Container] : 构建和运行
+[项目代码] .up.> [Git] : 版本控制
+[开发工具] .up.> [Git] : 版本控制
+[Git] -right-> [GitHub Actions] : 触发CI/CD
+[Git] -right-> [Jenkins] : 触发CI/CD
+[GitHub Actions] .down.> [Docker] : 自动化部署
+[Jenkins] .down.> [Docker] : 自动化部署
+
+@enduml

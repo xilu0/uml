@@ -1,0 +1,36 @@
+@startuml
+hide footbox
+actor 用户
+participant "用户服务" as U
+participant "预订服务" as B
+participant "日历服务" as C
+participant "支付服务" as P
+participant "通知服务" as N
+
+用户 -> U : 登录
+activate U
+U -> 用户 : 验证响应
+deactivate U
+
+用户 -> B : 发起预订
+activate B
+B -> C : 检查可用性
+activate C
+C -> C : 确认可用性
+C -> B : 可用性响应
+deactivate C
+
+B -> P : 处理支付
+activate P
+P -> P : 确认支付
+P -> B : 支付响应
+deactivate P
+
+B -> N : 发送确认通知
+activate N
+N -> 用户 : 预订确认邮件/短信
+deactivate N
+
+B -> 用户 : 预订结果
+deactivate B
+@enduml

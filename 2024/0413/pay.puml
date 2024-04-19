@@ -1,0 +1,10 @@
+@startuml
+entity "支付记录" as Payment {
+    + id: int [PK]
+    + 预订id: int [FK]
+    + 金额: decimal
+    + 支付方式: varchar
+    + 支付状态: varchar
+    + 创建时间: datetime
+}
+@enduml

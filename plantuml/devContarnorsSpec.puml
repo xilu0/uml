@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundColor #EEF2F7
+skinparam shadowing false
+
+rectangle "容器开发环境规范" {
+    [容器运行时接口（CRI）] #LightBlue
+    [镜像格式和分发] #LightGreen
+    [开发环境配置] #Yellow
+    [卷管理和存储] #Orange
+    [网络配置] #Pink
+    [安全性和隔离] #Purple
+    [日志和监控] #Violet
+    [CI/CD集成] #SkyBlue
+    [工具链支持] #LightCoral
+}
+
+[容器运行时接口（CRI）] -[hidden]-> [镜像格式和分发]
+[镜像格式和分发] -[hidden]-> [开发环境配置]
+[开发环境配置] -[hidden]-> [卷管理和存储]
+[卷管理和存储] -[hidden]-> [网络配置]
+[网络配置] -[hidden]-> [安全性和隔离]
+[安全性和隔离] -[hidden]-> [日志和监控]
+[日志和监控] -[hidden]-> [CI/CD集成]
+[CI/CD集成] -[hidden]-> [工具链支持]
+
+@enduml

@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+actor 客户 as customer
+actor 管理员 as admin
+
+rectangle 预订系统 {
+    (注册 & 登录) as (reg_login)
+    (查看个人资料) as (view_profile)
+    (更新个人资料) as (update_profile)
+    (搜索可预订项) as (search_items)
+    (创建预订) as (create_booking)
+    (修改预订) as (modify_booking)
+    (取消预订) as (cancel_booking)
+    (支付) as (make_payment)
+    (查看报告) as (view_reports)
+
+    customer --> reg_login
+    customer --> view_profile
+    customer --> update_profile
+    customer --> search_items
+    customer --> create_booking
+    customer --> modify_booking
+    customer --> cancel_booking
+    customer --> make_payment
+
+    admin --> view_profile
+    admin --> update_profile
+    admin --> search_items
+    admin --> create_booking
+    admin --> modify_booking
+    admin --> cancel_booking
+    admin --> make_payment
+    admin --> view_reports
+}
+@enduml

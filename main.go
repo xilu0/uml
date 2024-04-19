@@ -1,20 +1,23 @@
+// main.go
 package main
 
 import (
 	"fmt"
-	"time"
+
+	"github.com/xilu0/uml/lib" // 导入自定义的lib包
 )
 
-func main() {
-	var i int
-	fmt.Println("Start...")
-	for i = 0; i < 5; i++ {
-		doSomething(i)
-		time.Sleep(time.Second)
-	}
-	fmt.Println("End...")
+var (
+	// 包级变量初始化
+	appName = "Go Application"
+)
+
+func init() {
+	// init函数
+	fmt.Println("main包初始化: ", appName)
 }
 
-func doSomething(n int) {
-	fmt.Println("Doing something with", n)
+func main() {
+	fmt.Println("main函数执行")
+	lib.PrintLibName()
 }

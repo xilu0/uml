@@ -1,0 +1,18 @@
+@startuml
+entity "预订" as Booking {
+    + id: int [PK]
+    + 用户id: int [FK]
+    + 服务id: int [FK]
+    + 预订时间: datetime
+    + 状态: varchar
+    + 创建时间: datetime
+}
+
+entity "服务" as Service {
+    + id: int [PK]
+    + 名称: varchar
+    + 描述: text
+    + 可用性: boolean
+}
+Booking ||--o{ Service : 提供
+@enduml

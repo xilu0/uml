@@ -1,0 +1,35 @@
+@startuml
+!theme plain
+
+class "Redis列表操作" {
+    LPUSH
+    RPUSH
+    LPOP
+    RPOP
+    BRPOPLPUSH
+    LPUSHX
+    RPUSHX
+}
+
+class "队列实现" {
+    基本队列实现
+    阻塞队列
+    可靠性传输
+}
+
+class "高级队列模式" {
+    优先队列
+    延时队列
+}
+
+class "实践建议" {
+    监控与优化
+    数据持久化
+    错误处理
+}
+
+"Redis列表操作" -- "队列实现" : 实现 >
+"队列实现" -- "高级队列模式" : 扩展 >
+"队列实现" -- "实践建议" : 遵循 >
+
+@enduml

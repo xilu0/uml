@@ -1,0 +1,20 @@
+@startuml
+class Logger {
+  - prefix: string
+  - flag: int
+  - out: io.Writer
+  + Print(v ...interface{})
+  + Printf(format string, v ...interface{})
+  + Println(v ...interface{})
+  + Fatal(v ...interface{})
+  + Fatalf(format string, v ...interface{})
+  + Panic(v ...interface{})
+  + Panicf(format string, v ...interface{})
+}
+
+interface io.Writer {
+  + Write(p []byte) (n int, err error)
+}
+
+Logger -right-> io.Writer : writes to
+@enduml
