@@ -1,0 +1,11 @@
+@startuml
+class "unsafe" {
+  +Pointer
+  +Sizeof()
+  +Offsetof()
+}
+
+"unsafe" : Pointer -> "可以指向任何类型"
+"unsafe" : Sizeof() -> "返回数据在内存中的大小"
+"unsafe" : Offsetof() -> "返回结构体成员的偏移量"
+@enduml

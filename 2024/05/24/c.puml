@@ -1,0 +1,11 @@
+@startuml
+hide footbox
+participant Goroutine1 as G1
+participant Scheduler as S
+participant Goroutine2 as G2
+
+G1 -> S: 请求调度
+S -> G2: 切换到G2
+G2 -> S: 请求调度
+S -> G1: 切换到G1
+@enduml

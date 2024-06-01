@@ -1,0 +1,54 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE "reflect.DeepEqual" {
+  + 基本类型比较
+  + 数组比较
+  + 切片比较
+  + 映射比较
+  + 结构体比较
+  + 指针比较
+  + 接口比较
+}
+
+RECTANGLE "基本类型" {
+  + 值比较
+}
+
+RECTANGLE "数组" {
+  + 长度比较
+  + 元素比较
+}
+
+RECTANGLE "切片" {
+  + 长度比较
+  + 元素比较
+}
+
+RECTANGLE "映射" {
+  + 键值对数量比较
+  + 键对应的值比较
+}
+
+RECTANGLE "结构体" {
+  + 字段比较
+}
+
+RECTANGLE "指针" {
+  + 指向值比较
+}
+
+RECTANGLE "接口" {
+  + 动态类型比较
+  + 值比较
+}
+
+"reflect.DeepEqual" -down-> "基本类型"
+"reflect.DeepEqual" -down-> "数组"
+"reflect.DeepEqual" -down-> "切片"
+"reflect.DeepEqual" -down-> "映射"
+"reflect.DeepEqual" -down-> "结构体"
+"reflect.DeepEqual" -down-> "指针"
+"reflect.DeepEqual" -down-> "接口"
+
+@enduml

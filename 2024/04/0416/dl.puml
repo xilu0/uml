@@ -1,0 +1,31 @@
+@startuml
+
+
+'定义参与者
+package "系统动力学" {
+    class "反馈回路" as Feedback {
+        +正反馈
+        +负反馈
+    }
+    class "系统存储" as Stocks {
+        +累积变量
+        +流量变量
+    }
+    class "流量" as Flows {
+        +增加
+        +减少
+    }
+    class "辅助变量" as Auxiliaries {
+        +参数
+        +中间变量
+    }
+    class "控制参数" as Parameters
+}
+
+'定义关系
+Feedback --> Stocks : 控制\n动态
+Flows -up-|> Stocks : 影响
+Auxiliaries ..> Flows : 定义\n变化
+Parameters ..> Auxiliaries : 设置\n边界
+
+@enduml

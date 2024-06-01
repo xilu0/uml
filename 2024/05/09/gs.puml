@@ -1,0 +1,11 @@
+@startuml
+hide footbox
+participant Go as GoLanguage
+participant Asm as Assembly
+GoLanguage -> Assembly: Call Assembly Function
+Assembly --> GoLanguage: Return Result
+note right of GoLanguage
+    Go invokes assembly functions
+    for optimized performance
+end note
+@enduml

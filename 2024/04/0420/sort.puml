@@ -1,0 +1,41 @@
+@startuml
+'left to right direction
+start
+:开始排序;
+if (数组长度 < 2) then (是)
+  :返回数组;
+  stop
+else (否)
+endif
+
+partition "选择中间元素为基准" {
+  :定义左右指针;
+  repeat
+    while (左指针元素 < 基准)
+      :左指针右移;
+    endwhile
+    while (右指针元素 > 基准)
+      :右指针左移;
+    endwhile
+    if (左指针 <= 右指针) then (是)
+      :交换左右指针元素;
+      :左指针右移;
+      :右指针左移;
+    endif
+  repeat while (左指针 <= 右指针)
+}
+
+:判断是否对左侧数组递归排序;
+if (左侧数组非空) then (是)
+  :对左侧数组递归执行快速排序;
+endif
+
+:判断是否对右侧数组递归排序;
+if (右侧数组非空) then (是)
+  :对右侧数组递归执行快速排序;
+endif
+
+:返回排序后的数组;
+stop
+
+@enduml

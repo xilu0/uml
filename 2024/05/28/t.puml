@@ -1,0 +1,30 @@
+@startuml
+hide empty members
+
+class Node {
+    +root
+}
+
+class c {
+    +a
+    +p
+}
+
+class b {
+    +a
+}
+
+class a {
+    +t
+    +r
+}
+
+Node <|-- c : "c"
+Node <|-- b : "b"
+c <|-- a : "a"
+b <|-- a : "a"
+a <|-- t : "t"
+a <|-- p : "p"
+a <|-- r : "r"
+
+@enduml

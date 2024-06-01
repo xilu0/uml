@@ -1,0 +1,14 @@
+@startuml
+class PCB {
+  - PID: int
+  - PPID: int
+  - ProgramCounter: int
+  - Registers: map[string]int
+  - BaseRegister: int
+  - LimitRegister: int
+  - PageTable: map[int, int]
+  - Priority: int
+  - State: string
+  - IOList: list[int]
+}
+@enduml

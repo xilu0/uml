@@ -1,0 +1,33 @@
+@startuml
+title Go 模块校验错误处理流程
+
+start
+:遇到 "checksum mismatch" 错误;
+:清理模块缓存;
+note right: 执行 `go clean -modcache`
+if (问题解决?) then (是)
+  :完成;
+  stop
+else (否)
+  :手动更新 `go.sum`;
+  note right: 删除相关校验和条目
+  :重新下载模块;
+  note right: 执行 `go mod tidy`
+  if (问题解决?) then (是)
+    :完成;
+    stop
+  else (否)
+    :禁用校验和数据库;
+    note right: 执行 `GOSUMDB=off go mod tidy`
+    if (问题解决?) then (是)
+      :完成;
+      stop
+    else (否)
+      :检查网络和依赖源;
+      :联系包维护者或在社区寻求帮助;
+      stop
+    endif
+  endif
+endif
+
+@enduml

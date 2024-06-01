@@ -1,0 +1,25 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+
+package "Thread A" {
+    [Task 1]
+    [Task 2]
+}
+
+package "Message Passing System" {
+    queue "Message Queue"
+}
+
+package "Thread B" {
+    [Task 3]
+    [Task 4]
+}
+
+[Task 1] -down-> "Message Queue" : Sends Data
+"Message Queue" -down-> [Task 3] : Delivers Data
+
+[Task 2] -right-> "Message Queue" : Sends Request
+"Message Queue" -right-> [Task 4] : Delivers Request
+
+note right of "Message Queue" : Central system \nfor handling messages
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+hide footbox
+actor User
+participant CPU
+participant Memory
+
+User -> CPU: 执行指令
+CPU -> Memory: 读取指令地址
+Memory -> CPU: 返回指令
+CPU -> CPU: 更新指令指针
+CPU -> User: 执行完成
+
+User -> CPU: 执行跳转指令
+CPU -> Memory: 读取跳转目标地址
+Memory -> CPU: 返回目标地址
+CPU -> CPU: 设置指令指针为目标地址
+CPU -> User: 跳转完成
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+hide footbox
+' 定义 Actor 样式
+skinparam actor {
+    BorderColor Black
+    BackgroundColor Wheat
+}
+
+' 定义 Actor
+actor UserActor
+control ServiceActor
+database DatabaseActor
+
+' Actor 之间的交互
+UserActor -> ServiceActor : 发送请求消息
+ServiceActor -> DatabaseActor : 查询数据请求
+
+' ' Actor 内部处理
+ServiceActor -> ServiceActor : 处理用户请求
+DatabaseActor -> DatabaseActor : 访问数据库
+
+' 异步消息处理
+ServiceActor -> UserActor : 返回处理结果
+DatabaseActor -> ServiceActor : 数据查询结果
+
+' 动态创建新的 Actor
+actor NewActor
+ServiceActor -> NewActor : 创建新 Actor
+NewActor -> ServiceActor : 状态更新
+
+' 结束
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Person {
+    +Skills
+    +Experience
+}
+
+RECTANGLE Opportunities {
+    +PromotionOpportunities
+}
+
+Person --> Opportunities : has > network
+note right of Person : Sufficient skills and experience but insufficient networking leads to missed opportunities
+@enduml

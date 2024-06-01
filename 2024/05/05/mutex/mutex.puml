@@ -1,0 +1,29 @@
+@startuml
+' 调整图表的缩放比例
+' scale 1.5
+
+start
+
+:启动程序;
+fork
+partition "Goroutine 1 (存款)" {
+    :请求互斥锁;
+    :余额增加;
+
+    :释放互斥锁;
+
+    :结束存款操作;
+}
+fork again
+partition "Goroutine 2 (取款)" {
+    :请求互斥锁;
+    :余额减少;
+
+    :释放互斥锁;
+    :结束取款操作;
+}
+end fork
+:打印最终余额;
+stop
+
+@enduml

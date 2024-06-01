@@ -1,0 +1,26 @@
+@startuml
+start
+
+:Initialize node to root;
+:Initialize maxMatchNode to nil;
+
+while (characters in path ?) is (not exhausted)
+    if (char exists in node.children) then (yes) 
+        :Move to the next node;
+        if (node.isEnd) then (yes) 
+            :Update maxMatchNode to current node;
+        endif
+     else (no) 
+        break;
+    endif
+endwhile
+
+if (maxMatchNode is not nil) then (yes) 
+    :Call hasRequiredPermissions;
+    :Return result;
+else (no)
+    :Return false;
+endif
+
+stop
+@enduml

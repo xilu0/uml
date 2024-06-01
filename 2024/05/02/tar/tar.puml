@@ -1,0 +1,17 @@
+@startuml
+skinparam monochrome true
+
+actor "Go Developer" as dev
+participant "Main Function" as main
+database "TAR File" as tar
+
+dev -> main : Execute Program
+main -> tar : Create TAR\n(example.tar)
+main -> tar : Add Files\n(readme.txt, gopher.txt, todo.txt)
+main <- tar : Close TAR
+
+dev -> main : Execute Program
+main -> tar : Open TAR\n(example.tar)
+main -> tar : Read Files
+main <- tar : Display Files
+@enduml

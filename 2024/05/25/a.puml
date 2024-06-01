@@ -1,0 +1,15 @@
+@startuml
+package "Controller Layer" {
+  class Handler {
+    +ServeHTTP(w http.ResponseWriter, r *http.Request)
+  }
+}
+
+package "Service Layer" {
+  class GreetingService {
+    +GetGreeting(name string) : string
+  }
+}
+
+Handler --> GreetingService : uses
+@enduml

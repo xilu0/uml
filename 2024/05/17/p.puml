@@ -1,0 +1,18 @@
+@startuml
+hide footbox
+participant Main
+participant "sync.Pool" as Pool
+participant "Object" as Obj
+
+Main -> Pool: Get()
+activate Pool
+Pool -> Obj: Create if none
+Obj --> Pool: Return created object
+deactivate Pool
+
+Main -> Obj: Use object
+Main -> Pool: Put(obj)
+activate Pool
+Pool -> Obj: Store for reuse
+deactivate Pool
+@enduml

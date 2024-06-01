@@ -1,0 +1,15 @@
+@startuml
+!define RECTANGLE class
+RECTANGLE Controller {
+    POST /user
+}
+RECTANGLE Validator {
+    CustomValidator
+}
+RECTANGLE Struct {
+    User
+}
+
+Controller --> Validator : Bind and Validate
+Validator -right-> Struct : Validate Fields
+@enduml

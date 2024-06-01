@@ -1,0 +1,21 @@
+@startuml
+object "对象" as Obj1
+object "指针" as Ptr1
+object "内存位置1" as Mem1
+object "内存位置2" as Mem2
+object "垃圾回收器" as GC
+
+Obj1 -down-> Mem1 : 初始内存位置
+Ptr1 -right-> Obj1 : 指向对象
+GC -down-> Mem2 : 对象移动后的位置
+
+note right of Ptr1
+指针不能从
+非指针类型生成
+end note
+
+note left of Mem1
+对象地址可能
+在运行时变化
+end note
+@enduml

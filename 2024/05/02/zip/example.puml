@@ -1,0 +1,19 @@
+@startuml
+hideFootbox
+skinparam monochrome true
+
+actor "Go Developer" as dev
+participant "Main Function" as main
+database "ZIP File" as zip
+
+dev -> main : Execute Program
+main -> zip : Create ZIP\n(example.zip)
+main -> zip : Add Files\n(readme.txt, hello.txt)
+main <- zip : Close ZIP
+
+dev -> main : Execute Program
+main -> zip : Open ZIP\n(example.zip)
+main -> zip : Extract Files
+main <- zip : Display Files
+@enduml
+```

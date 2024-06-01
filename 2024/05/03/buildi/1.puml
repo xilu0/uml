@@ -1,0 +1,30 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Basic_Types {
+    - bool
+    - int, uint, uintptr
+    - float32, float64
+    - complex64, complex128
+    - string
+    - error
+}
+
+RECTANGLE Functions {
+    + append(slice, elems...)
+    + cap(data_structure)
+    + close(channel)
+    + complex(real, imag)
+    + copy(dst, src)
+    + delete(map, key)
+    + len(data_structure)
+    + make(type, size)
+    + new(type)
+    + panic(v)
+    + recover()
+}
+
+note right of Basic_Types : 数据类型定义
+note right of Functions : 内置函数用于操作数据
+
+@enduml

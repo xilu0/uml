@@ -1,0 +1,20 @@
+@startuml
+start
+:Lock mutex;
+:Calculate now = time.Since(n.epoch).Nanoseconds() / 1000000;
+if (now == n.time) then (yes)
+    :Increment step;
+    if (step == 0) then (yes)
+        while (now <= n.time)
+            :Update now;
+        endwhile
+    endif
+else (no)
+    :Reset step;
+endif
+:update n.time;
+:Set r = (now << n.timeShift) | (n.node << n.nodeShift) | n.step;
+:Unlock mutex;
+:return r;
+stop
+@enduml

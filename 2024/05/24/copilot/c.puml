@@ -1,0 +1,13 @@
+@startuml
+hide footbox
+actor Developer
+participant Kubernetes
+participant ContainerRegistry
+participant Node
+
+Developer -> Kubernetes: 提交部署配置
+Kubernetes -> ContainerRegistry: 拉取容器镜像
+Kubernetes -> Node: 部署容器
+Node -> Kubernetes: 容器运行状态
+Kubernetes -> Developer: 部署成功通知
+@enduml

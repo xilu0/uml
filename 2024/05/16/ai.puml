@@ -1,0 +1,21 @@
+@startuml
+!define RECTANGLE participant
+RECTANGLE TextGeneration {
+  :Automated Writing;
+  :News Generation;
+  :Content Creation;
+}
+RECTANGLE ImageGeneration {
+  :Ad Design;
+  :Product Design;
+  :Creative Images;
+}
+RECTANGLE VideoGeneration {
+  :Virtual Anchors;
+  :Auto Video Editing;
+  :Virtual Idols;
+}
+
+TextGeneration -[hidden]--> ImageGeneration
+ImageGeneration -[hidden]--> VideoGeneration
+@enduml

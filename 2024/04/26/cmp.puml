@@ -1,0 +1,38 @@
+@startuml
+
+interface Ordered {
+    {abstract} +int
+    {abstract} +int8
+    {abstract} +int16
+    {abstract} +int32
+    {abstract} +int64
+    {abstract} +uint
+    {abstract} +uint8
+    {abstract} +uint16
+    {abstract} +uint32
+    {abstract} +uint64
+    {abstract} +uintptr
+    {abstract} +float32
+    {abstract} +float64
+    {abstract} +string
+}
+
+class Less {
+    +Less[T Ordered](x, y T) bool
+}
+
+class Compare {
+    +Compare[T Ordered](x, y T) int
+}
+
+class isNaN {
+    +isNaN[T Ordered](x T) bool
+}
+
+Less .down.> Ordered : uses
+Compare .down.> Ordered : uses
+isNaN .down.> Ordered : uses
+Less ..> isNaN : calls
+Compare ..> isNaN : calls
+
+@enduml

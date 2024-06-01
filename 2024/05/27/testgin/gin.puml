@@ -1,0 +1,28 @@
+@startuml
+namespace container {
+    class Container << (S,Aquamarine) >> {
+        + UserService service.UserService
+
+    }
+}
+
+
+namespace service {
+    class User << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+
+    }
+    interface UserService  {
+        + GetUser(id int) (User, error)
+
+    }
+    class UserServiceImpl << (S,Aquamarine) >> {
+        + GetUser(id int) (User, error)
+
+    }
+}
+
+"service.UserService" <|-- "service.UserServiceImpl"
+
+@enduml

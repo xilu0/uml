@@ -1,0 +1,23 @@
+@startuml
+class Slice {
+    - Data: uintptr
+    - Len: int
+    - Cap: int
+}
+
+class Map {
+    - keys: []string
+    - values: []int
+}
+
+object "底层数组" as Array
+object "切片1" as Slice1
+object "切片2" as Slice2
+object "映射" as MapObj
+
+Array -down-> Slice1 : 共享内存
+Array -down-> Slice2 : 共享内存
+Slice1 -right-> MapObj : 指针操作
+Slice2 -right-> MapObj : 指针操作
+
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+hide footbox
+participant "Main Goroutine" as main
+participant "Channel" as channel
+participant "Worker 1" as w1
+participant "Worker 2" as w2
+participant "Worker 3" as w3
+
+main -> w1 : start
+main -> w2 : start
+main -> w3 : start
+
+w1 -> channel : send true
+w2 -> channel : send true
+w3 -> channel : send true
+
+channel -> main : receive true
+channel -> main : receive true
+channel -> main : receive true
+
+main -> main : All workers completed.
+
+@enduml

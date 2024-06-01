@@ -1,0 +1,30 @@
+@startuml
+
+hide footbox
+' 定义参与者
+participant "Thread A" as A
+control "Semaphore" as S
+database "共享资源（打印机）" as Resource
+participant "Thread B" as B
+
+' 线程A试图访问资源
+A -> S : P()操作\n尝试进入
+note right: 如果信号量值 > 0\n信号量值减一\n允许访问资源
+S -> A : 允许访问
+
+' 线程A访问共享资源
+A -> Resource : 执行打印任务
+A -> S : V()操作\n释放资源
+note right: 信号量值加一
+
+' 线程B试图访问资源
+B -> S : P()操作\n尝试进入
+note right: 如果信号量值 > 0\n信号量值减一\n允许访问资源
+S -> B : 允许访问
+
+' 线程B访问共享资源
+B -> Resource : 执行打印任务
+B -> S : V()操作\n释放资源
+note right: 信号量值加一
+
+@enduml

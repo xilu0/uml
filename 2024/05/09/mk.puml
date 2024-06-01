@@ -1,0 +1,61 @@
+@startuml
+!define rect class
+
+rect Makefile {
+    + Targets
+    + Dependencies
+    + Commands
+    + Variables
+    + Pattern Rules
+    + Special Functions
+}
+
+rect Targets {
+    + all
+    + clean
+    + %.o
+}
+
+rect Dependencies {
+    + file1.c
+    + file2.c
+    + file3.c
+}
+
+rect Commands {
+    + gcc -c $< -o $@
+    + rm -f *.o
+}
+
+rect Variables {
+    + CC = gcc
+    + CFLAGS = -Wall -g
+    + FILES = file1.c,file2.c,file3.c
+    + FILES_LIST = $(subst ,, ,$(FILES))
+}
+
+rect PatternRules {
+    + %.o: %.c
+    + $(CC) $(CFLAGS) -c $< -o $@
+}
+
+rect SpecialFunctions {
+    + foreach
+    + eval
+    + patsubst
+    + subst
+}
+
+Makefile --> Targets
+Makefile --> Dependencies
+Makefile --> Commands
+Makefile --> Variables
+Makefile --> PatternRules
+Makefile --> SpecialFunctions
+
+Targets --> Commands : Contains
+Targets --> Dependencies : Depends on
+PatternRules --> Targets : Defines
+Variables --> Commands : Used in
+SpecialFunctions --> Variables : Processes
+@enduml

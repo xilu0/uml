@@ -1,0 +1,43 @@
+@startuml
+title Concept of Higher-Order Functions in Go
+
+actor User
+
+rectangle "Higher-Order Function" {
+  rectangle "Definition" {
+    note right
+      A function that can:
+      1. Take one or more functions as parameters
+      2. Return a function as its result
+    end note
+  }
+
+  rectangle "Features" {
+    note left
+      Features:
+      - Can take functions as arguments
+      - Can return functions
+      - Enables function composition
+    end note
+  }
+
+  rectangle "Examples" {
+    rectangle "mapFunc" {
+      note right
+        Applies a function to all elements in a collection
+      end note
+    }
+
+    rectangle "filterFunc" {
+      note right
+        Filters elements in a collection based on a function
+      end note
+    }
+  }
+}
+
+User -> "Higher-Order Function" : understand()
+
+"Examples" --> "Definition" : illustrate
+"Features" --> "Definition" : describe
+@enduml

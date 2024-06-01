@@ -1,0 +1,34 @@
+@startuml
+class DeepCopy {
+  - Interface Interface
+  - Iface(iface interface{}) interface{}
+  - Copy(src interface{}) interface{}
+  - copyRecursive(original, cpy reflect.Value)
+}
+
+interface Interface {
+  + DeepCopy() interface{}
+}
+
+DeepCopy -- Interface : implements
+
+class reflect {
+  + ValueOf()
+  + New()
+  + Elem()
+  + Type()
+  + Set()
+  + Interface()
+  + CanInterface()
+  + Kind()
+  + IsNil()
+  + IsValid()
+  + Field()
+  + MakeSlice()
+  + MapKeys()
+  + MapIndex()
+  + MakeMap()
+}
+
+DeepCopy .. reflect : uses
+@enduml

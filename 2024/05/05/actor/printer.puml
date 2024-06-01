@@ -1,0 +1,9 @@
+@startuml
+hide footbox
+actor "多个线程" as threads
+entity "信号量控制" as semaphore
+database "打印队列" as queue
+
+threads -> semaphore : 发送打印请求
+semaphore -> queue : 控制访问
+@enduml

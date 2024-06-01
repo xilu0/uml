@@ -1,0 +1,21 @@
+@startuml
+legend
+<u><b>Legend</b></u>
+Render Aggregations: false
+Render Fields: true
+Render Methods: true
+Private Aggregations: false
+end legend
+namespace main {
+    class Database << (S,Aquamarine) >> {
+        + DSN string
+
+    }
+    class Server << (S,Aquamarine) >> {
+        + DB *Database
+
+    }
+}
+
+
+@enduml

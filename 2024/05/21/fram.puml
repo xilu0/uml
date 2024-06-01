@@ -1,0 +1,16 @@
+@startuml
+hide footbox
+actor User
+participant "main" as Main
+participant "A" as FuncA
+participant "B" as FuncB
+participant "C" as FuncC
+
+User -> Main: Start Program
+Main -> FuncA: Call A()
+FuncA -> FuncB: Call B()
+FuncB -> FuncC: Call C()
+FuncC -> FuncB: Return
+FuncB -> FuncA: Return
+FuncA -> Main: Return
+@enduml

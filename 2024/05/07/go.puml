@@ -1,0 +1,20 @@
+@startuml
+hide footbox
+title Go 编译和执行过程
+
+participant "Go 源代码" as source
+participant "Go 编译器" as compiler
+participant "Plan 9 汇编代码" as p9asm
+participant "汇编器" as assembler
+participant "CPU 平台汇编代码" as cpuasm
+participant "机器码" as machinecode
+participant "CPU 执行" as cpu
+
+source -> compiler : 编译
+compiler -> p9asm : 生成 Plan 9 汇编
+p9asm -> assembler : 汇编
+assembler -> cpuasm : 转换为 CPU 特定汇编
+cpuasm -> machinecode : 转换为机器码
+machinecode -> cpu : 执行
+
+@enduml

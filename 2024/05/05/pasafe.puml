@@ -1,0 +1,25 @@
+@startuml
+skinparam backgroundColor #EEEBDC
+
+package "Concurrent Unit A" {
+    [Process 1]
+    [Process 2]
+}
+
+package "Message Queue System" {
+    queue "Central Message Queue"
+}
+
+package "Concurrent Unit B" {
+    [Process 3]
+    [Process 4]
+}
+
+[Process 1] -down-> "Central Message Queue" : Sends Message
+"Central Message Queue" -down-> [Process 3] : Delivers Message
+
+[Process 2] -right-> "Central Message Queue" : Sends Data
+"Central Message Queue" -right-> [Process 4] : Delivers Data
+
+note right of "Central Message Queue" : Handles all inter-process communications
+@enduml

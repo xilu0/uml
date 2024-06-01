@@ -1,0 +1,12 @@
+@startuml
+:Higher-Order Function;
+:Receives a Function;
+:Returns a Function;
+apply_function
+: apply_function(func, value);
+: return func(value);
+create_multiplier
+: create_multiplier(factor);
+: def multiplier(x);
+: return x * factor;
+@enduml

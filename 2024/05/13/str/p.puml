@@ -1,0 +1,12 @@
+@startuml
+hide footbox
+participant "用户" as User
+participant "strings.NewReplacer" as Replacer
+participant "Replacer" as ReplacerInstance
+
+User -> Replacer: 传入参数 ("a", "b", "c", "d")
+Replacer -> Replacer: 创建 Replacer 实例
+Replacer -> ReplacerInstance: 配置替换规则
+User -> ReplacerInstance: 调用 Replace("abc")
+ReplacerInstance -> User: 返回替换结果 ("bbc")
+@enduml

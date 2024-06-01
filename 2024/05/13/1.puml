@@ -1,0 +1,14 @@
+@startuml
+hide footbox
+actor User
+participant "JSON Patch Service" as Service
+participant "Original Document" as Original
+participant "Patched Document" as Patched
+
+User -> Service: Send Patch
+Service -> Original: Fetch Original JSON
+Original --> Service: Return Original JSON
+Service -> Patched: Apply Patch
+Patched --> Service: Return Patched JSON
+Service --> User: Send Patched JSON
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+hide footbox
+actor Developer
+participant OperatorController
+participant Resource as "K8s Resource"
+
+Developer -> OperatorController : Modify Resource
+OperatorController -> Resource : Fetch Current State
+OperatorController -> OperatorController : Compute Hash
+OperatorController -> Resource : Fetch Desired State
+OperatorController -> OperatorController : Compute Hash
+OperatorController -> Developer : Notify Changes Detected
+@enduml
+' @startuml
+' actor Developer
+' participant OperatorController
+' participant Resource as "K8s Resource"
+
+' Developer -> OperatorController : Modify Resource
+' OperatorController -> Resource : Fetch Current State
+' OperatorController -> OperatorController : Compute Hash (Handle Pointers)
+' OperatorController -> Resource : Fetch Desired State
+' OperatorController -> OperatorController : Compute Hash (Handle Pointers)
+' OperatorController -> Developer : Notify Changes Detected
+' @enduml

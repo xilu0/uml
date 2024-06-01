@@ -1,0 +1,26 @@
+@startuml
+class PRNG {
+  +Generate() : uint32
+}
+
+class TRNG {
+  +Generate() : uint32
+}
+
+class CSPRNG {
+  +Generate() : uint32
+}
+
+class LCG {
+  -state : uint32
+  +Generate() : uint32
+}
+
+PRNG <|-- LCG
+PRNG <|-- TRNG
+PRNG <|-- CSPRNG
+
+LCG --> PRNG : Inherits
+TRNG --> PRNG : Inherits
+CSPRNG --> PRNG : Inherits
+@enduml

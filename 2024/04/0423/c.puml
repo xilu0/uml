@@ -1,0 +1,17 @@
+@startuml
+hide footbox
+actor Main
+entity "Goroutine (process)" as Process
+
+Main -> Process : Start Goroutine
+Main -> Process : ch <- 0
+Main -> Process : ch <- 1
+Main -> Process : ch <- 2
+Main -> Process : done <- true
+
+Process -> Main : Processed 0
+Process -> Main : Processed 1
+Process -> Main : Processed 2
+Process -> Main : Done processing!
+
+@enduml

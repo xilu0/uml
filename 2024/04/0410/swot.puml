@@ -1,0 +1,31 @@
+@startuml
+!theme plain
+
+rectangle "个人职业发展的SWOT分析" {
+  package "优势 (Strengths)" {
+    [专业技能]
+    [人际网络]
+    [适应性]
+    [领导力]
+  }
+  package "劣势 (Weaknesses)" {
+    [技能缺口]
+    [时间管理]
+    [抗压能力]
+    [自我推广]
+  }
+  package "机会 (Opportunities)" {
+    [行业趋势]
+    [继续教育]
+    [网络拓展]
+    [跨界合作]
+  }
+  package "威胁 (Threats)" {
+    [技术更迭]
+    [经济波动]
+    [竞争激烈]
+    [健康问题]
+  }
+}
+
+@enduml

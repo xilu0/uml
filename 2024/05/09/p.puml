@@ -1,0 +1,11 @@
+@startuml
+class SerialId {
+    + ToString() : string
+}
+
+class SerialIdPointer {
+    + ToString() : string
+}
+
+SerialIdPointer --|> SerialId : implements
+@enduml

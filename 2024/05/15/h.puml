@@ -1,0 +1,29 @@
+@startuml
+start
+
+:合理使用Goroutine;
+note right: 控制Goroutine的数量和生命周期以减少调度开销和资源竞争
+
+:避免内存泄漏;
+note right: 使用pprof等工具识别和解决内存泄漏
+
+:优化数据结构和算法;
+note right: 选择适合的数据结构提高程序效率，如使用map进行快速查找
+
+if (并发程序?) then (yes)
+  :并发模式优化;
+  note right: 利用channel和select减少锁使用，提高并发效率
+else (no)
+endif
+
+:接口和反射的合理使用;
+note right: 确保代码灵活性的同时，避免过度使用降低性能
+
+:内存和CPU优化;
+note right: 使用sync.Pool重用对象减少GC压力；优化数据访问模式提高CPU缓存效率
+
+:性能分析与基准测试;
+note right: 使用go test -bench和go tool pprof等工具进行性能分析
+
+stop
+@enduml

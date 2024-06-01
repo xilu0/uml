@@ -1,0 +1,16 @@
+@startuml
+start
+
+:Initialize permSet to empty map;
+
+:Fill permSet with nodePermissions;
+
+while (each reqPerm in requiredPermissions) 
+    if (reqPerm not in permSet) then (yes) 
+        :Return false;
+    endif
+endwhile
+:Return true;
+
+stop
+@enduml

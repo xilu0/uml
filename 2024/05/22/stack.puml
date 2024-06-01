@@ -1,0 +1,21 @@
+@startuml
+hide footbox
+actor "Garbage Collector" as GC
+entity "Old Stack" as Old
+entity "New Stack" as New
+
+GC -> Old : Scan pointers
+Old --> GC : Pointers marked
+GC -> Old : Adjust pointers
+GC -> New : Allocate new stack
+GC -> Old : Copy contents
+GC -> New : Update pointers
+GC -> New : Validate pointers
+
+note right of GC
+Adjust stack pointers to ensure
+they point to the correct objects
+after stack growth or shrinkage.
+end note
+
+@enduml
