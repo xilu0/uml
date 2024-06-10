@@ -1,0 +1,26 @@
+@startuml
+hide footbox
+participant Proposer
+participant Acceptor1
+participant Acceptor2
+participant Acceptor3
+participant Learner
+
+Proposer -> Acceptor1 : Prepare(n)
+Proposer -> Acceptor2 : Prepare(n)
+Proposer -> Acceptor3 : Prepare(n)
+
+Acceptor1 -> Proposer : Promise(n)
+Acceptor2 -> Proposer : Promise(n)
+Acceptor3 -> Proposer : Promise(n)
+
+Proposer -> Acceptor1 : Accept(n, value)
+Proposer -> Acceptor2 : Accept(n, value)
+Proposer -> Acceptor3 : Accept(n, value)
+
+Acceptor1 -> Proposer : Accepted(n, value)
+Acceptor2 -> Proposer : Accepted(n, value)
+Acceptor3 -> Proposer : Accepted(n, value)
+
+Proposer -> Learner : Commit(value)
+@enduml

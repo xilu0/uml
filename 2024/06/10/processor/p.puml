@@ -1,0 +1,20 @@
+@startuml
+namespace processor {
+    class LowerCaseProcessor << (S,Aquamarine) >> {
+        + Process(data string) string
+
+    }
+    interface Processor  {
+        + Process(data string) string
+
+    }
+    class UpperCaseProcessor << (S,Aquamarine) >> {
+        + Process(data string) string
+
+    }
+}
+
+"processor.Processor" <|-- "processor.LowerCaseProcessor"
+"processor.Processor" <|-- "processor.UpperCaseProcessor"
+
+@enduml

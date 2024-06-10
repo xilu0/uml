@@ -1,0 +1,31 @@
+@startuml
+hide footbox
+participant Client
+participant Primary
+participant Backup1
+participant Backup2
+participant Backup3
+
+Client -> Primary : Request
+Primary -> Backup1 : Pre-prepare
+Primary -> Backup2 : Pre-prepare
+Primary -> Backup3 : Pre-prepare
+
+Backup1 -> Backup2 : Prepare
+Backup1 -> Backup3 : Prepare
+Backup2 -> Backup1 : Prepare
+Backup2 -> Backup3 : Prepare
+Backup3 -> Backup1 : Prepare
+Backup3 -> Backup2 : Prepare
+
+Backup1 -> Backup2 : Commit
+Backup1 -> Backup3 : Commit
+Backup2 -> Backup1 : Commit
+Backup2 -> Backup3 : Commit
+Backup3 -> Backup1 : Commit
+Backup3 -> Backup2 : Commit
+
+Backup1 -> Client : Reply
+Backup2 -> Client : Reply
+Backup3 -> Client : Reply
+@enduml

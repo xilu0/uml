@@ -1,0 +1,14 @@
+@startuml
+participant User
+participant Script
+participant Command
+
+User -> Script: run_command("ls /optdd")
+Script -> Command: ls /optdd 2>&1
+alt Command Succeeds
+    Command --> Script: output
+    Script -> User: Command succeeded
+else Command Fails
+    Command --> Script: error
+    Script -> User: Command failed
+@enduml

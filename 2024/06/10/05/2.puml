@@ -1,0 +1,19 @@
+@startuml
+hide footbox
+participant Client
+participant Leader
+participant Follower1
+participant Follower2
+participant Follower3
+
+Client -> Leader : Request
+Leader -> Follower1 : Append Entries
+Leader -> Follower2 : Append Entries
+Leader -> Follower3 : Append Entries
+
+Follower1 -> Leader : Acknowledge
+Follower2 -> Leader : Acknowledge
+Follower3 -> Leader : Acknowledge
+
+Leader -> Client : Response
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+hide footbox
+participant "节点A" as NodeA
+participant "节点B" as NodeB
+participant "网络" as Network
+
+NodeA -> NodeA: 计算哈希值
+alt 找到满足条件的哈希值
+    NodeA -> Network: 广播解决方案
+    Network -> NodeB: 验证解决方案
+    NodeB -> Network: 确认解决方案
+else 未找到
+    NodeA -> NodeA: 增加Nonce值
+end
+@enduml

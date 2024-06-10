@@ -1,0 +1,22 @@
+@startuml
+hide footbox
+participant "持币者A" as HolderA
+participant "持币者B" as HolderB
+participant "代表X" as DelegateX
+participant "网络" as Network
+
+HolderA -> Network: 投票给代表X
+HolderB -> Network: 投票给代表X
+alt 代表X当选
+    Network -> DelegateX: 成为代表
+    alt DelegateX轮值
+        DelegateX -> Network: 生成区块
+        Network -> HolderA: 分配奖励
+        Network -> HolderB: 分配奖励
+    else 等待轮值
+        DelegateX -> DelegateX: 等待下一轮
+    end
+else 代表X未当选
+    DelegateX -> DelegateX: 等待重新选举
+end
+@enduml

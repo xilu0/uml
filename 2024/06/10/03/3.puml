@@ -1,0 +1,19 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Consistency {
+  + Data is consistent across all nodes
+}
+
+RECTANGLE Availability {
+  + Every request receives a response
+}
+
+RECTANGLE PartitionTolerance {
+  + System continues to operate despite network partitions
+}
+
+Consistency -down-> PartitionTolerance : CP
+Availability -down-> PartitionTolerance : AP
+Consistency -left-> Availability : CA
+@enduml

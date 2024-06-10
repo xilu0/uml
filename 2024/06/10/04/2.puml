@@ -1,0 +1,15 @@
+@startuml
+hide footbox
+participant "节点A" as NodeA
+participant "节点B" as NodeB
+participant "网络" as Network
+
+NodeA -> Network: 提交质押
+alt 被选为验证者
+    Network -> NodeA: 选为验证者
+    NodeA -> Network: 验证并生成区块
+    Network -> NodeB: 广播新区块
+else 未被选为验证者
+    NodeA -> NodeA: 等待下一轮选择
+end
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+class Programmer {
+  +责任心
+  +学习能力
+  +问题解决能力
+  +沟通能力
+  +团队合作精神
+  +适应能力
+}
+
+Programmer --> Responsibility : "需要"
+Programmer --> LearningAbility : "需要"
+Programmer --> ProblemSolving : "需要"
+Programmer --> Communication : "需要"
+Programmer --> Teamwork : "需要"
+Programmer --> Adaptability : "需要"
+
+class Responsibility
+class LearningAbility
+class ProblemSolving
+class Communication
+class Teamwork
+class Adaptability
+
+@enduml

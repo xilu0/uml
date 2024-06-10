@@ -1,0 +1,29 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Leader {
+  + receiveClientRequest()
+  + appendLogEntry()
+  + replicateLogEntry()
+  + sendHeartbeat()
+}
+
+RECTANGLE Follower {
+  + receiveHeartbeat()
+  + appendLogEntry()
+  + grantVote()
+}
+
+RECTANGLE Candidate {
+  + requestVote()
+  + countVotes()
+  + becomeLeader()
+}
+
+Leader -down-> Follower : sendHeartbeat
+Follower -up-> Leader : receiveHeartbeat
+Leader -down-> Follower : appendLogEntry
+Follower -up-> Leader : grantVote
+Candidate -left-> Leader : requestVote
+Leader -right-> Candidate : countVotes
+@enduml

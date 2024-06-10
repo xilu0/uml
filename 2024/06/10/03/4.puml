@@ -1,0 +1,36 @@
+@startuml
+package "大数据生态系统" {
+  rectangle "数据源" {
+    [社交媒体]
+    [传感器]
+    [交易记录]
+  }
+
+  rectangle "数据存储" {
+    [HDFS]
+    [NoSQL]
+  }
+
+  rectangle "数据处理" {
+    [MapReduce]
+    [Spark Streaming]
+  }
+
+  rectangle "数据分析" {
+    [数据挖掘]
+    [机器学习]
+    [深度学习]
+  }
+
+  rectangle "数据可视化" {
+    [Tableau]
+    [D3.js]
+    [Google Charts]
+  }
+
+  "数据源" -down-> "数据存储" : 存储
+  "数据存储" -down-> "数据处理" : 处理
+  "数据处理" -down-> "数据分析" : 分析
+  "数据分析" -down-> "数据可视化" : 可视化
+}
+@enduml
