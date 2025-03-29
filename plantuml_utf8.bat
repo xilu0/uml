@@ -1,2 +1,2 @@
 @echo off
-java -jar D:\software\plantuml.jar -charset UTF-8 %*
+java -jar C:\ProgramData\chocolatey\lib\plantuml\tools\plantuml.jar -charset UTF-8 %*
