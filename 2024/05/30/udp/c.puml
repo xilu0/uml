@@ -1,7 +1,0 @@
-@startuml
-participant Client
-participant Server
-
-Client -> Server: Hello, UDP Server!
-Server -> Client: Message received
-@enduml
